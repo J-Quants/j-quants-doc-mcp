@@ -1,0 +1,43 @@
+[project]
+name = "j-quants-doc-mcp"
+version = "1.0.0"
+description = "MCP server providing J-Quants API documentation, endpoint search, sample code generation, and FAQ support for Claude Desktop"
+readme = "README.md"
+authors = [
+    { name = "JPX Market Innovation & Research, Inc." }
+]
+license = { text = "MIT" }
+requires-python = ">=3.10"
+
+dependencies = [
+    "fastmcp>=0.1.0",
+    "pydantic>=2.0.0",
+    "httpx>=0.25.0",
+    "Jinja2>=3.1.0",
+    "python-dotenv>=1.0.0",
+]
+
+[project.scripts]
+j-quants-doc-mcp = "j_quants_doc_mcp.cli:main"
+
+[project.optional-dependencies]
+dev = [
+    "pytest>=7.0.0",
+    "pytest-asyncio>=0.21.0",
+    "mcp>=1.16.0",
+    "ruff>=0.1.0",
+]
+
+[build-system]
+requires = ["hatchling"]
+build-backend = "hatchling.build"
+
+[tool.pytest.ini_options]
+asyncio_mode = "auto"
+
+[tool.mypy]
+python_version = "3.10"
+# patterns配下はサンプルコードを配置するため、厳格なlintは実施しない。
+exclude = [
+    "src/j_quants_doc_mcp/templates/patterns/",
+]

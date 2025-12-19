@@ -1,0 +1,18 @@
+{
+  "patterns": [
+    {
+      "name": "daily_data_fetch",
+      "title": "日次データ取得パターン",
+      "description": "日次の株価データを取得するパターン",
+      "steps": [
+        {
+          "order": 1,
+          "endpoint": "eq-bars-daily",
+          "description": "日次株価データを取得"
+        }
+      ],
+      "use_cases": ["株価データ取得", "バッチ処理"],
+      "related_endpoints": ["eq-bars-daily"]
+    }
+  ]
+}

@@ -1,0 +1,95 @@
+{
+  "patterns": [
+    {
+      "pattern_name": "認証フロー",
+      "description": "J-Quants APIへのアクセスに必要な認証フローの実装パターン。リフレッシュトークンとIDトークンを組み合わせて、継続的なAPI利用を可能にする。",
+      "related_endpoints": [],
+      "notes": [
+        "APIキーはJ-QuantsのHPのダッシュボードから取得可能",
+        "APIキーは環境変数や安全なストレージに保存すること",
+        "APIキーはx-api-keyヘッダーで送信"
+      ],
+      "sample_code_path": "patterns/auth_flow.py"
+    },
+    {
+      "pattern_name": "日次株価データの取得",
+      "description": "特定銘柄の日次株価データ(四本値)を取得するパターン。期間を指定して過去の株価データを効率的に取得する。",
+      "related_endpoints": [
+        "/equities/bars/daily"
+      ],
+      "notes": [
+        "codeまたはdateパラメータのいずれかが必須",
+        "fromとtoパラメータで期間を指定可能",
+        "大量データ取得時はページネーションが発生する可能性がある",
+        "pagination_keyを使用して次のページを取得",
+        "レスポンスには始値・高値・安値・終値・出来高が含まれる",
+        "AdjustmentFactorで株式分割・併合の調整が可能"
+      ],
+      "sample_code_path": "patterns/daily_quotes.py"
+    },
+    {
+      "pattern_name": "ページネーション対応",
+      "description": "大量データを取得する際のページネーション処理パターン。pagination_keyを使用して全データを段階的に取得する。",
+      "related_endpoints": [
+        "/equities/bars/daily",
+        "/fins/summary"
+      ],
+      "notes": [
+        "レスポンスにpagination_keyが含まれる場合、さらにデータが存在する",
+        "pagination_keyを次のリクエストに含めて継続取得",
+        "pagination_keyがnullまたは存在しない場合は最終ページ",
+        "ループ処理で全データを取得する実装が推奨される",
+        "各リクエスト間に適切な待機時間を設けること(レート制限対策)"
+      ],
+      "sample_code_path": "patterns/pagination.py"
+    },
+    {
+      "pattern_name": "レート制限対応",
+      "description": "API利用時のレート制限を考慮した実装パターン。適切な待機時間とリトライ処理で安定したAPI利用を実現する。",
+      "related_endpoints": [
+        "全エンドポイント"
+      ],
+      "notes": [
+        "J-Quants APIには利用制限がある(プランによって異なる)",
+        "連続リクエストの場合は適切な間隔を空ける",
+        "429 Too Many Requestsエラーが返された場合はリトライ",
+        "Retry-Afterヘッダーがある場合はその時間待機",
+        "指数バックオフ戦略の実装を推奨",
+        "大量データ取得時はバッチ処理を検討"
+      ],
+      "sample_code_path": "patterns/rate_limit.py"
+    },
+    {
+      "pattern_name": "財務情報の取得と分析",
+      "description": "企業の財務諸表データを取得し、時系列分析を行うパターン。複数期の財務データを取得して比較分析を実現する。",
+      "related_endpoints": [
+        "/fins/summary",
+        "/equities/master"
+      ],
+      "notes": [
+        "codeまたはdateパラメータのいずれかが必須",
+        "四半期決算データが取得可能",
+        "売上高・営業利益・当期純利益・EPSなどの主要指標を含む",
+        "時系列データの取得にはページネーション対応が必要",
+        "上場銘柄情報と組み合わせて業種別分析が可能"
+      ],
+      "sample_code_path": "patterns/financial_analysis.py"
+    },
+    {
+      "pattern_name": "市場全体の日次データ取得",
+      "description": "特定日の全銘柄株価データを取得するパターン。dateパラメータを使用して市場全体のスナップショットを取得する。",
+      "related_endpoints": [
+        "/equities/bars/daily",
+        "/equities/master"
+      ],
+      "notes": [
+        "dateパラメータで特定日のデータを指定",
+        "全銘柄データのため大量のレコードが返される",
+        "必ずページネーション処理が必要",
+        "上場銘柄情報と結合してセクター別分析が可能",
+        "処理時間とメモリ使用量に注意"
+      ],
+      "sample_code_path": "patterns/market_daily_data.py"
+    }
+  ]
+}
