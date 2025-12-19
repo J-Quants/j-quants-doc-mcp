@@ -1,0 +1,177 @@
+{
+  "endpoints": [
+    {
+      "name": "eq-master",
+      "name_ja": "上場銘柄一覧",
+      "name_en": "Listed Issue Information",
+      "path": "/equities/master",
+      "path_old": "/listed/info",
+      "method": "GET",
+      "description": "上場銘柄一覧を取得",
+      "parameters": [
+        {
+          "name": "code",
+          "type": "String",
+          "required": false,
+          "description": "銘柄コード",
+          "location": "query"
+        },
+        {
+          "name": "date",
+          "type": "String",
+          "required": false,
+          "description": "取得日",
+          "location": "query"
+        }
+      ],
+      "response": {
+        "description": "銘柄情報のリスト",
+        "fields": [
+          {
+            "name": "Date",
+            "type": "String",
+            "description": "情報適用日 (YYYY-MM-DD)"
+          },
+          {
+            "name": "Code",
+            "type": "String",
+            "description": "銘柄コード"
+          },
+          {
+            "name": "CoName",
+            "type": "String",
+            "description": "会社名"
+          },
+          {
+            "name": "CoNameEn",
+            "type": "String",
+            "description": "会社名(英語)"
+          },
+          {
+            "name": "S17",
+            "type": "String",
+            "description": "17業種コード"
+          },
+          {
+            "name": "S17Nm",
+            "type": "String",
+            "description": "17業種コード名"
+          },
+          {
+            "name": "S33",
+            "type": "String",
+            "description": "33業種コード"
+          },
+          {
+            "name": "S33Nm",
+            "type": "String",
+            "description": "33業種コード名"
+          },
+          {
+            "name": "ScaleCat",
+            "type": "String",
+            "description": "規模コード"
+          },
+          {
+            "name": "Mkt",
+            "type": "String",
+            "description": "市場コード"
+          },
+          {
+            "name": "MktNm",
+            "type": "String",
+            "description": "市場コード名"
+          },
+          {
+            "name": "Mrgn",
+            "type": "String",
+            "description": "信用コード"
+          },
+          {
+            "name": "MrgnNm",
+            "type": "String",
+            "description": "信用コード名"
+          }
+        ]
+      },
+      "auth_required": true,
+      "response_data_key": "data",
+      "plan": [
+        "Free",
+        "Light",
+        "Standard",
+        "Premium"
+      ],
+      "data_update": {
+        "frequency": "日次",
+        "time": "17:30頃 / 翌営業日8:00頃",
+        "notes": "翌営業日時点の銘柄情報については17:30以降に取得可能となります。"
+      },
+      "valid_request_patterns": [
+        {
+          "params": [],
+          "description": "全銘柄情報"
+        },
+        {
+          "params": [
+            "code"
+          ],
+          "description": "指定銘柄の情報"
+        }
+      ]
+    },
+    {
+      "name": "eq-bars-daily",
+      "name_ja": "株価四本値",
+      "name_en": "Stock Prices (OHLC)",
+      "path": "/equities/bars/daily",
+      "path_old": "/prices/daily_quotes",
+      "method": "GET",
+      "description": "株価四本値データを取得",
+      "parameters": [
+        {
+          "name": "code",
+          "type": "String",
+          "required": false,
+          "description": "銘柄コード",
+          "location": "query"
+        }
+      ],
+      "response": {
+        "description": "株価データのリスト",
+        "fields": [
+          {
+            "name": "Date",
+            "type": "String",
+            "description": "取引日"
+          },
+          {
+            "name": "Code",
+            "type": "String",
+            "description": "銘柄コード"
+          }
+        ]
+      },
+      "auth_required": true,
+      "response_data_key": "data",
+      "plan": [
+        "Free",
+        "Light",
+        "Standard",
+        "Premium"
+      ],
+      "data_update": {
+        "frequency": "日次",
+        "time": "16:30頃"
+      },
+      "valid_request_patterns": [
+        {
+          "params": [
+            "code"
+          ],
+          "description": "指定銘柄の株価データ"
+        }
+      ]
+    }
+  ]
+}

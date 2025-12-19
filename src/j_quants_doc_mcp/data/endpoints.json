@@ -1,0 +1,3760 @@
+{
+  "endpoints": [
+    {
+      "name": "eq-master",
+      "name_ja": "上場銘柄一覧",
+      "name_en": "Listed Issue Information",
+      "path": "/equities/master",
+      "path_old": "/listed/info",
+      "method": "GET",
+      "description": "上場銘柄一覧を取得するエンドポイント。銘柄コードや基準日を指定して上場銘柄の情報を取得できる。",
+      "parameters": [
+        {
+          "name": "code",
+          "type": "String",
+          "required": false,
+          "description": "5桁の銘柄コード (例: 27800)。4桁指定も可能だが、その場合は普通株式（5桁目=0）のみ取得。",
+          "location": "query"
+        },
+        {
+          "name": "date",
+          "type": "String",
+          "required": false,
+          "description": "基準となる日付 (YYYYMMDD or YYYY-MM-DD)",
+          "location": "query"
+        },
+        {
+          "name": "pagination_key",
+          "type": "String",
+          "required": false,
+          "description": "ページネーション発生時には常に付与可能、発生していない時は省略可能",
+          "location": "query"
+        }
+      ],
+      "response": {
+        "description": "上場銘柄の詳細情報を含むリストを返す。",
+        "fields": [
+          {
+            "name": "Date",
+            "type": "String",
+            "description": "情報適用日 (YYYY-MM-DD)"
+          },
+          {
+            "name": "Code",
+            "type": "String",
+            "description": "銘柄コード"
+          },
+          {
+            "name": "CoName",
+            "type": "String",
+            "description": "会社名"
+          },
+          {
+            "name": "CoNameEn",
+            "type": "String",
+            "description": "会社名(英語)"
+          },
+          {
+            "name": "S17",
+            "type": "String",
+            "description": "17業種コード"
+          },
+          {
+            "name": "S17Nm",
+            "type": "String",
+            "description": "17業種コード名"
+          },
+          {
+            "name": "S33",
+            "type": "String",
+            "description": "33業種コード"
+          },
+          {
+            "name": "S33Nm",
+            "type": "String",
+            "description": "33業種コード名"
+          },
+          {
+            "name": "ScaleCat",
+            "type": "String",
+            "description": "規模コード"
+          },
+          {
+            "name": "Mkt",
+            "type": "String",
+            "description": "市場コード"
+          },
+          {
+            "name": "MktNm",
+            "type": "String",
+            "description": "市場コード名"
+          },
+          {
+            "name": "Mrgn",
+            "type": "String",
+            "description": "信用コード"
+          },
+          {
+            "name": "MrgnNm",
+            "type": "String",
+            "description": "信用コード名"
+          }
+        ]
+      },
+      "auth_required": true,
+      "response_data_key": "data",
+      "plan": [
+        "Free",
+        "Light",
+        "Standard",
+        "Premium"
+      ],
+      "data_update": {
+        "frequency": "日次",
+        "time": "17:30頃 / 翌営業日8:00頃",
+        "notes": "翌営業日時点の銘柄情報については17:30以降に取得可能となります。データの最新化のために翌営業日8時にデータ更新が生じることがあります。"
+      },
+      "pagination": {
+        "supported": true,
+        "param": "pagination_key"
+      },
+      "valid_request_patterns": [
+        {
+          "params": [],
+          "description": "APIを実行した日付時点における全銘柄情報一覧 *休業日において日付を指定せずにクエリした場合、直近の翌営業日における銘柄情報一覧を返却します。"
+        },
+        {
+          "params": [
+            "code"
+          ],
+          "description": "APIを実行した日付時点における指定された銘柄情報 *休業日において日付を指定せずにクエリした場合、直近の翌営業日における銘柄情報一覧を返却します。"
+        },
+        {
+          "params": [
+            "date"
+          ],
+          "description": "指定日付時点における全銘柄情報の一覧 *未来日付の指定について、Lightプラン以上では翌営業日時点のデータが取得可能です。翌営業日より先の未来日付を指定した場合であっても、翌営業日時点の銘柄情報を返却します。"
+        },
+        {
+          "params": [
+            "code",
+            "date"
+          ],
+          "description": "指定日付時点における指定された銘柄情報 *未来日付の指定について、Lightプラン以上では翌営業日時点のデータが取得可能です。翌営業日より先の未来日付を指定した場合であっても、翌営業日時点の銘柄情報を返却します。"
+        }
+      ]
+    },
+    {
+      "name": "eq-bars-daily",
+      "name_ja": "株価四本値",
+      "name_en": "Stock Prices (OHLC)",
+      "path": "/equities/bars/daily",
+      "path_old": "/prices/daily_quotes",
+      "method": "GET",
+      "description": "株価四本値データを取得するエンドポイント。銘柄コードまたは日付を指定して株価データを取得できる。",
+      "parameters": [
+        {
+          "name": "code",
+          "type": "String",
+          "required": false,
+          "description": "5桁の銘柄コード (例: 27800)。4桁指定も可能だが、その場合は普通株式（5桁目=0）のみ取得。codeまたはdateのいずれかは必須。",
+          "location": "query"
+        },
+        {
+          "name": "date",
+          "type": "String",
+          "required": false,
+          "description": "日付 (YYYYMMDD or YYYY-MM-DD)。codeまたはdateのいずれかは必須。",
+          "location": "query"
+        },
+        {
+          "name": "from",
+          "type": "String",
+          "required": false,
+          "description": "期間指定の開始日",
+          "location": "query"
+        },
+        {
+          "name": "to",
+          "type": "String",
+          "required": false,
+          "description": "期間指定の終了日",
+          "location": "query"
+        },
+        {
+          "name": "pagination_key",
+          "type": "String",
+          "required": false,
+          "description": "ページネーション発生時には常に付与可能、発生していない時は省略可能",
+          "location": "query"
+        }
+      ],
+      "response": {
+        "description": "株価の四本値(始値・高値・安値・終値)と出来高などの取引データを返す。",
+        "fields": [
+          {
+            "name": "Date",
+            "type": "String",
+            "description": "取引日"
+          },
+          {
+            "name": "Code",
+            "type": "String",
+            "description": "銘柄コード"
+          },
+          {
+            "name": "O",
+            "type": "Number",
+            "description": "始値"
+          },
+          {
+            "name": "H",
+            "type": "Number",
+            "description": "高値"
+          },
+          {
+            "name": "L",
+            "type": "Number",
+            "description": "安値"
+          },
+          {
+            "name": "C",
+            "type": "Number",
+            "description": "終値"
+          },
+          {
+            "name": "UL",
+            "type": "Number",
+            "description": "上限値"
+          },
+          {
+            "name": "LL",
+            "type": "Number",
+            "description": "下限値"
+          },
+          {
+            "name": "Vo",
+            "type": "Number",
+            "description": "出来高"
+          },
+          {
+            "name": "Va",
+            "type": "Number",
+            "description": "売買代金"
+          },
+          {
+            "name": "AdjFactor",
+            "type": "Number",
+            "description": "株式分割・併合の調整係数"
+          },
+          {
+            "name": "AdjO",
+            "type": "Number",
+            "description": "株式分割・併合の調整後始値"
+          },
+          {
+            "name": "AdjH",
+            "type": "Number",
+            "description": "株式分割・併合の調整後高値"
+          },
+          {
+            "name": "AdjL",
+            "type": "Number",
+            "description": "株式分割・併合の調整後安値"
+          },
+          {
+            "name": "AdjC",
+            "type": "Number",
+            "description": "株式分割・併合の調整後終値"
+          },
+          {
+            "name": "AdjVo",
+            "type": "Number",
+            "description": "株式分割・併合の調整後出来高"
+          },
+          {
+            "name": "MO",
+            "type": "Number",
+            "description": "前場始値"
+          },
+          {
+            "name": "MH",
+            "type": "Number",
+            "description": "前場高値"
+          },
+          {
+            "name": "ML",
+            "type": "Number",
+            "description": "前場安値"
+          },
+          {
+            "name": "MC",
+            "type": "Number",
+            "description": "前場終値"
+          },
+          {
+            "name": "MUL",
+            "type": "Number",
+            "description": "前場上限値"
+          },
+          {
+            "name": "MLL",
+            "type": "Number",
+            "description": "前場下限値"
+          },
+          {
+            "name": "MVo",
+            "type": "Number",
+            "description": "前場出来高"
+          },
+          {
+            "name": "MVa",
+            "type": "Number",
+            "description": "前場売買代金"
+          },
+          {
+            "name": "MAdjO",
+            "type": "Number",
+            "description": "前場株式分割・併合の調整後始値"
+          },
+          {
+            "name": "MAdjH",
+            "type": "Number",
+            "description": "前場株式分割・併合の調整後高値"
+          },
+          {
+            "name": "MAdjL",
+            "type": "Number",
+            "description": "前場株式分割・併合の調整後安値"
+          },
+          {
+            "name": "MAdjC",
+            "type": "Number",
+            "description": "前場株式分割・併合の調整後終値"
+          },
+          {
+            "name": "MAdjVo",
+            "type": "Number",
+            "description": "前場株式分割・併合の調整後出来高"
+          },
+          {
+            "name": "AO",
+            "type": "Number",
+            "description": "後場始値"
+          },
+          {
+            "name": "AH",
+            "type": "Number",
+            "description": "後場高値"
+          },
+          {
+            "name": "AL",
+            "type": "Number",
+            "description": "後場安値"
+          },
+          {
+            "name": "AC",
+            "type": "Number",
+            "description": "後場終値"
+          },
+          {
+            "name": "AUL",
+            "type": "Number",
+            "description": "後場上限値"
+          },
+          {
+            "name": "ALL",
+            "type": "Number",
+            "description": "後場下限値"
+          },
+          {
+            "name": "AVo",
+            "type": "Number",
+            "description": "後場出来高"
+          },
+          {
+            "name": "AVa",
+            "type": "Number",
+            "description": "後場売買代金"
+          },
+          {
+            "name": "AAdjO",
+            "type": "Number",
+            "description": "後場株式分割・併合の調整後始値"
+          },
+          {
+            "name": "AAdjH",
+            "type": "Number",
+            "description": "後場株式分割・併合の調整後高値"
+          },
+          {
+            "name": "AAdjL",
+            "type": "Number",
+            "description": "後場株式分割・併合の調整後安値"
+          },
+          {
+            "name": "AAdjC",
+            "type": "Number",
+            "description": "後場株式分割・併合の調整後終値"
+          },
+          {
+            "name": "AAdjVo",
+            "type": "Number",
+            "description": "後場株式分割・併合の調整後出来高"
+          }
+        ]
+      },
+      "auth_required": true,
+      "response_data_key": "data",
+      "plan": [
+        "Free",
+        "Light",
+        "Standard",
+        "Premium"
+      ],
+      "data_update": {
+        "frequency": "日次",
+        "time": "16:30頃"
+      },
+      "pagination": {
+        "supported": true,
+        "param": "pagination_key"
+      },
+      "valid_request_patterns": [
+        {
+          "params": [
+            "code"
+          ],
+          "description": "指定された銘柄について全期間分のデータ"
+        },
+        {
+          "params": [
+            "code",
+            "date"
+          ],
+          "description": "指定された銘柄について指定された日付のデータ"
+        },
+        {
+          "params": [
+            "code",
+            "from",
+            "to"
+          ],
+          "description": "指定された銘柄について指定された期間分のデータ"
+        },
+        {
+          "params": [
+            "date"
+          ],
+          "description": "全上場銘柄について指定された日付のデータ"
+        }
+      ]
+    },
+    {
+      "name": "fin-summary",
+      "name_ja": "財務情報",
+      "name_en": "Financial Data",
+      "path": "/fins/summary",
+      "path_old": "/fins/statements",
+      "method": "GET",
+      "description": "財務情報を取得するエンドポイント。銘柄コードまたは日付を指定して四半期決算情報を取得できる。",
+      "parameters": [
+        {
+          "name": "code",
+          "type": "String",
+          "required": false,
+          "description": "5桁の銘柄コード (例: 27800)。4桁指定も可能だが、その場合は普通株式（5桁目=0）のみ取得。codeまたはdateのいずれかは必須。",
+          "location": "query"
+        },
+        {
+          "name": "date",
+          "type": "String",
+          "required": false,
+          "description": "日付 (YYYY-MM-DD or YYYYMMDD)。codeまたはdateのいずれかは必須。",
+          "location": "query"
+        },
+        {
+          "name": "pagination_key",
+          "type": "String",
+          "required": false,
+          "description": "ページネーション発生時には常に付与可能、発生していない時は省略可能",
+          "location": "query"
+        }
+      ],
+      "response": {
+        "description": "四半期決算の財務情報を返す。売上高、営業利益、当期純利益、EPSなどの情報を含む。",
+        "fields": [
+          {
+            "name": "DiscDate",
+            "type": "String",
+            "description": "開示日"
+          },
+          {
+            "name": "DiscTime",
+            "type": "String",
+            "description": "開示時間"
+          },
+          {
+            "name": "Code",
+            "type": "String",
+            "description": "5桁の銘柄コード"
+          },
+          {
+            "name": "DiscNo",
+            "type": "String",
+            "description": "開示番号"
+          },
+          {
+            "name": "DocType",
+            "type": "String",
+            "description": "開示書類の種類"
+          },
+          {
+            "name": "CurPerType",
+            "type": "String",
+            "description": "現在の期間"
+          },
+          {
+            "name": "CurPerSt",
+            "type": "String",
+            "description": "現在の期間の開始日"
+          },
+          {
+            "name": "CurPerEn",
+            "type": "String",
+            "description": "現在の期間の終了日"
+          },
+          {
+            "name": "CurFYSt",
+            "type": "String",
+            "description": "現在の会計年度の開始日"
+          },
+          {
+            "name": "CurFYEn",
+            "type": "String",
+            "description": "現在の会計年度の終了日"
+          },
+          {
+            "name": "NxtFYSt",
+            "type": "String",
+            "description": "次の会計年度の開始日"
+          },
+          {
+            "name": "NxtFYEn",
+            "type": "String",
+            "description": "次の会計年度の終了日"
+          },
+          {
+            "name": "Sales",
+            "type": "Number",
+            "description": "売上高"
+          },
+          {
+            "name": "OP",
+            "type": "Number",
+            "description": "営業利益"
+          },
+          {
+            "name": "OdP",
+            "type": "Number",
+            "description": "経常利益"
+          },
+          {
+            "name": "NP",
+            "type": "Number",
+            "description": "当期純利益"
+          },
+          {
+            "name": "EPS",
+            "type": "Number",
+            "description": "1株当たり利益(EPS)"
+          },
+          {
+            "name": "DEPS",
+            "type": "Number",
+            "description": "1株当たり利益(EPS)"
+          },
+          {
+            "name": "TA",
+            "type": "Number",
+            "description": "総資産"
+          },
+          {
+            "name": "Eq",
+            "type": "Number",
+            "description": "純資産"
+          },
+          {
+            "name": "EqAR",
+            "type": "Number",
+            "description": "純資産比率"
+          },
+          {
+            "name": "BPS",
+            "type": "Number",
+            "description": "1株当たり簿価"
+          },
+          {
+            "name": "CFO",
+            "type": "Number",
+            "description": "営業キャッシュフロー"
+          },
+          {
+            "name": "CFI",
+            "type": "Number",
+            "description": "投資キャッシュフロー"
+          },
+          {
+            "name": "CFF",
+            "type": "Number",
+            "description": "財政キャッシュフロー"
+          },
+          {
+            "name": "CashEq",
+            "type": "Number",
+            "description": "現金及び当座預金"
+          },
+          {
+            "name": "Div1Q",
+            "type": "Number",
+            "description": "第1四半期の配当金"
+          },
+          {
+            "name": "Div2Q",
+            "type": "Number",
+            "description": "第2四半期の配当金"
+          },
+          {
+            "name": "Div3Q",
+            "type": "Number",
+            "description": "第3四半期の配当金"
+          },
+          {
+            "name": "DivFY",
+            "type": "Number",
+            "description": "四半期末の配当金"
+          },
+          {
+            "name": "DivAnn",
+            "type": "Number",
+            "description": "年間の配当金"
+          },
+          {
+            "name": "DivUnit",
+            "type": "Number",
+            "description": "REITの配当金"
+          },
+          {
+            "name": "DivTotalAnn",
+            "type": "Number",
+            "description": "年間の配当金総額"
+          },
+          {
+            "name": "PayoutRatioAnn",
+            "type": "Number",
+            "description": "年間の配当性向"
+          },
+          {
+            "name": "FDiv1Q",
+            "type": "Number",
+            "description": "第1四半期の配当金"
+          },
+          {
+            "name": "FDiv2Q",
+            "type": "Number",
+            "description": "第2四半期の配当金"
+          },
+          {
+            "name": "FDiv3Q",
+            "type": "Number",
+            "description": "第3四半期の配当金"
+          },
+          {
+            "name": "FDivFY",
+            "type": "Number",
+            "description": "四半期末の配当金"
+          },
+          {
+            "name": "FDivAnn",
+            "type": "Number",
+            "description": "年間の配当金"
+          },
+          {
+            "name": "FDivUnit",
+            "type": "Number",
+            "description": "REITの配当金"
+          },
+          {
+            "name": "FDivTotalAnn",
+            "type": "Number",
+            "description": "年間の配当金総額"
+          },
+          {
+            "name": "FPayoutRatioAnn",
+            "type": "Number",
+            "description": "年間の配当性向"
+          },
+          {
+            "name": "NxFDiv1Q",
+            "type": "Number",
+            "description": "次年の第1四半期の配当金"
+          },
+          {
+            "name": "NxFDiv2Q",
+            "type": "Number",
+            "description": "次年の第2四半期の配当金"
+          },
+          {
+            "name": "NxFDiv3Q",
+            "type": "Number",
+            "description": "次年の第3四半期の配当金"
+          },
+          {
+            "name": "NxFDivFY",
+            "type": "Number",
+            "description": "次年の四半期末の配当金"
+          },
+          {
+            "name": "NxFDivAnn",
+            "type": "Number",
+            "description": "次年の年間の配当金"
+          },
+          {
+            "name": "NxFDivUnit",
+            "type": "Number",
+            "description": "次年のREITの配当金"
+          },
+          {
+            "name": "NxFPayoutRatioAnn",
+            "type": "Number",
+            "description": "次年の年間の配当性向"
+          },
+          {
+            "name": "FSales2Q",
+            "type": "Number",
+            "description": "第2四半期の売上高"
+          },
+          {
+            "name": "FOP2Q",
+            "type": "Number",
+            "description": "第2四半期の営業利益"
+          },
+          {
+            "name": "FOdP2Q",
+            "type": "Number",
+            "description": "第2四半期の経常利益"
+          },
+          {
+            "name": "FNP2Q",
+            "type": "Number",
+            "description": "第2四半期の当期純利益"
+          },
+          {
+            "name": "FEPS2Q",
+            "type": "Number",
+            "description": "第2四半期の1株当たり利益(EPS)"
+          },
+          {
+            "name": "NxFSales2Q",
+            "type": "Number",
+            "description": "次年の第2四半期の売上高"
+          },
+          {
+            "name": "NxFOP2Q",
+            "type": "Number",
+            "description": "次年の第2四半期の営業利益"
+          },
+          {
+            "name": "NxFOdP2Q",
+            "type": "Number",
+            "description": "次年の第2四半期の経常利益"
+          },
+          {
+            "name": "NxFNp2Q",
+            "type": "Number",
+            "description": "次年の第2四半期の当期純利益"
+          },
+          {
+            "name": "NxFEPS2Q",
+            "type": "Number",
+            "description": "次年の第2四半期の1株当たり利益(EPS)"
+          },
+          {
+            "name": "FSales",
+            "type": "Number",
+            "description": "第2四半期の売上高"
+          },
+          {
+            "name": "FOP",
+            "type": "Number",
+            "description": "第2四半期の営業利益"
+          },
+          {
+            "name": "FOdP",
+            "type": "Number",
+            "description": "第2四半期の経常利益"
+          },
+          {
+            "name": "FNP",
+            "type": "Number",
+            "description": "第2四半期の当期純利益"
+          },
+          {
+            "name": "FEPS",
+            "type": "Number",
+            "description": "第2四半期の1株当たり利益(EPS)"
+          },
+          {
+            "name": "NxFSales",
+            "type": "Number",
+            "description": "次年の第2四半期の売上高"
+          },
+          {
+            "name": "NxFOP",
+            "type": "Number",
+            "description": "次年の第2四半期の営業利益"
+          },
+          {
+            "name": "NxFOdP",
+            "type": "Number",
+            "description": "次年の第2四半期の経常利益"
+          },
+          {
+            "name": "NxFNp",
+            "type": "Number",
+            "description": "次年の第2四半期の当期純利益"
+          },
+          {
+            "name": "NxFEPS",
+            "type": "Number",
+            "description": "次年の第2四半期の1株当たり利益(EPS)"
+          },
+          {
+            "name": "MatChgSub",
+            "type": "Boolean",
+            "description": "子会社の重要な変更"
+          },
+          {
+            "name": "ChgByASRev",
+            "type": "Boolean",
+            "description": "会計基準の改訂に基づく変更"
+          },
+          {
+            "name": "ChgNoASRev",
+            "type": "Boolean",
+            "description": "会計基準の改訂に基づかない変更"
+          },
+          {
+            "name": "ChgAcEst",
+            "type": "Boolean",
+            "description": "会計見積もりの変更"
+          },
+          {
+            "name": "RetroRst",
+            "type": "Boolean",
+            "description": "遡及再表示"
+          },
+          {
+            "name": "ShOutFY",
+            "type": "Number",
+            "description": "四半期末の発行済株式数（保有株式を含む）"
+          },
+          {
+            "name": "TrShFY",
+            "type": "Number",
+            "description": "四半期末の保有株式数"
+          },
+          {
+            "name": "AvgSh",
+            "type": "Number",
+            "description": "四半期末の平均発行株式数"
+          },
+          {
+            "name": "NCSales",
+            "type": "Number",
+            "description": "非連結の売上高"
+          },
+          {
+            "name": "NCOP",
+            "type": "Number",
+            "description": "非連結の営業利益"
+          },
+          {
+            "name": "NCOdP",
+            "type": "Number",
+            "description": "非連結の経常利益"
+          },
+          {
+            "name": "NCNP",
+            "type": "Number",
+            "description": "非連結の当期純利益"
+          },
+          {
+            "name": "NCEPS",
+            "type": "Number",
+            "description": "非連結の1株当たり利益(EPS)"
+          },
+          {
+            "name": "NCTA",
+            "type": "Number",
+            "description": "非連結の総資産"
+          },
+          {
+            "name": "NCEq",
+            "type": "Number",
+            "description": "非連結の純資産"
+          },
+          {
+            "name": "NCEqAR",
+            "type": "Number",
+            "description": "非連結の純資産比率"
+          },
+          {
+            "name": "NCBPS",
+            "type": "Number",
+            "description": "非連結の1株当たり簿価"
+          },
+          {
+            "name": "FNCSales2Q",
+            "type": "Number",
+            "description": "第2四半期の非連結の売上高"
+          },
+          {
+            "name": "FNCOP2Q",
+            "type": "Number",
+            "description": "第2四半期の非連結の営業利益"
+          },
+          {
+            "name": "FNCOdP2Q",
+            "type": "Number",
+            "description": "第2四半期の非連結の経常利益"
+          },
+          {
+            "name": "FNCNP2Q",
+            "type": "Number",
+            "description": "第2四半期の非連結の当期純利益"
+          },
+          {
+            "name": "FNCEPS2Q",
+            "type": "Number",
+            "description": "第2四半期の非連結の1株当たり利益(EPS)"
+          },
+          {
+            "name": "NxFNCSales2Q",
+            "type": "Number",
+            "description": "次年の第2四半期の非連結の売上高"
+          },
+          {
+            "name": "NxFNCOP2Q",
+            "type": "Number",
+            "description": "次年の第2四半期の非連結の営業利益"
+          },
+          {
+            "name": "NxFNCOdP2Q",
+            "type": "Number",
+            "description": "次年の第2四半期の非連結の経常利益"
+          },
+          {
+            "name": "NxFNCNP2Q",
+            "type": "Number",
+            "description": "次年の第2四半期の非連結の当期純利益"
+          },
+          {
+            "name": "NxFNCEPS2Q",
+            "type": "Number",
+            "description": "次年の第2四半期の非連結の1株当たり利益(EPS)"
+          },
+          {
+            "name": "FNCSales",
+            "type": "Number",
+            "description": "第2四半期の非連結の売上高"
+          },
+          {
+            "name": "FNCOP",
+            "type": "Number",
+            "description": "第2四半期の非連結の営業利益"
+          },
+          {
+            "name": "FNCOdP",
+            "type": "Number",
+            "description": "第2四半期の非連結の経常利益"
+          },
+          {
+            "name": "FNCNP",
+            "type": "Number",
+            "description": "第2四半期の非連結の当期純利益"
+          },
+          {
+            "name": "FNCEPS",
+            "type": "Number",
+            "description": "第2四半期の非連結の1株当たり利益(EPS)"
+          },
+          {
+            "name": "NxFNCSales",
+            "type": "Number",
+            "description": "次年の第2四半期の非連結の売上高"
+          },
+          {
+            "name": "NxFNCOP",
+            "type": "Number",
+            "description": "次年の第2四半期の非連結の営業利益"
+          },
+          {
+            "name": "NxFNCOdP",
+            "type": "Number",
+            "description": "次年の第2四半期の非連結の経常利益"
+          },
+          {
+            "name": "NxFNCNP",
+            "type": "Number",
+            "description": "次年の第2四半期の非連結の当期純利益"
+          },
+          {
+            "name": "NxFNCEPS",
+            "type": "Number",
+            "description": "次年の第2四半期の非連結の1株当たり利益(EPS)"
+          }
+        ]
+      },
+      "auth_required": true,
+      "response_data_key": "data",
+      "plan": [
+        "Free",
+        "Light",
+        "Standard",
+        "Premium"
+      ],
+      "data_update": {
+        "frequency": "日次",
+        "time": "18:00頃(速報) / 24:30頃(確報)"
+      },
+      "pagination": {
+        "supported": true,
+        "param": "pagination_key"
+      },
+      "valid_request_patterns": [
+        {
+          "params": [
+            "code"
+          ],
+          "description": "指定された銘柄について全期間分の財務情報"
+        },
+        {
+          "params": [
+            "date"
+          ],
+          "description": "指定日付に開示された全銘柄の財務情報"
+        },
+        {
+          "params": [
+            "code",
+            "date"
+          ],
+          "description": "指定された銘柄について指定日付に開示された財務情報"
+        }
+      ]
+    },
+    {
+      "name": "eq-bars-daily-am",
+      "name_ja": "前場四本値",
+      "name_en": "Morning Session Stock Prices (OHLC)",
+      "path": "/equities/bars/daily/am",
+      "path_old": "/prices/prices_am",
+      "method": "GET",
+      "description": "前場の株価情報を取得するエンドポイント。当日の前場四本値（始値・高値・安値・終値）と出来高を取得できる。",
+      "parameters": [
+        {
+          "name": "code",
+          "type": "String",
+          "required": false,
+          "description": "5桁の銘柄コード (例: 27800)。4桁指定も可能だが、その場合は普通株式（5桁目=0）のみ取得。",
+          "location": "query"
+        },
+        {
+          "name": "pagination_key",
+          "type": "String",
+          "required": false,
+          "description": "ページネーション発生時には常に付与可能、発生していない時は省略可能",
+          "location": "query"
+        }
+      ],
+      "response": {
+        "description": "前場の株価四本値と出来高データを返す。翌日6:00頃までデータ取得可能。",
+        "fields": [
+          {
+            "name": "Date",
+            "type": "String",
+            "description": "取引日 (YYYY-MM-DD)"
+          },
+          {
+            "name": "Code",
+            "type": "String",
+            "description": "銘柄コード"
+          },
+          {
+            "name": "MO",
+            "type": "Number",
+            "description": "前場始値"
+          },
+          {
+            "name": "MH",
+            "type": "Number",
+            "description": "前場高値"
+          },
+          {
+            "name": "ML",
+            "type": "Number",
+            "description": "前場安値"
+          },
+          {
+            "name": "MC",
+            "type": "Number",
+            "description": "前場終値"
+          },
+          {
+            "name": "MVo",
+            "type": "Number",
+            "description": "前場出来高"
+          },
+          {
+            "name": "MVa",
+            "type": "Number",
+            "description": "前場売買代金"
+          }
+        ]
+      },
+      "auth_required": true,
+      "response_data_key": "data",
+      "plan": [
+        "Premium"
+      ],
+      "data_update": {
+        "frequency": "日次",
+        "time": "12:00頃",
+        "notes": "ヒストリカルの前場四本値については株価四本値をご利用ください（プレミアムプランのみ）"
+      },
+      "pagination": {
+        "supported": true,
+        "param": "pagination_key"
+      },
+      "valid_request_patterns": [
+        {
+          "params": [],
+          "description": "全銘柄のデータ"
+        },
+        {
+          "params": [
+            "code"
+          ],
+          "description": "指定された銘柄のデータ"
+        }
+      ]
+    },
+    {
+      "name": "eq-investor-types",
+      "name_ja": "投資部門別情報",
+      "name_en": "Trading by Type of Investors",
+      "path": "/equities/investor-types",
+      "path_old": "/markets/trades_spec",
+      "method": "GET",
+      "description": "投資部門別の売買情報を取得するエンドポイント。自己・委託・海外投資家などの投資部門別に売買代金を取得できる。",
+      "parameters": [
+        {
+          "name": "section",
+          "type": "String",
+          "required": false,
+          "description": "市場区分 (例: TSEPrime)",
+          "location": "query"
+        },
+        {
+          "name": "from",
+          "type": "String",
+          "required": false,
+          "description": "開始日 (YYYYMMDD or YYYY-MM-DD)",
+          "location": "query"
+        },
+        {
+          "name": "to",
+          "type": "String",
+          "required": false,
+          "description": "終了日 (YYYYMMDD or YYYY-MM-DD)",
+          "location": "query"
+        },
+        {
+          "name": "pagination_key",
+          "type": "String",
+          "required": false,
+          "description": "ページネーション発生時には常に付与可能、発生していない時は省略可能",
+          "location": "query"
+        }
+      ],
+      "response": {
+        "description": "投資部門別の売買代金データを返す。自己・委託・海外投資家などの部門別データを含む。",
+        "fields": [
+          {
+            "name": "PubDate",
+            "type": "String",
+            "description": "公表日 (YYYY-MM-DD)"
+          },
+          {
+            "name": "StDate",
+            "type": "String",
+            "description": "開始日 (YYYY-MM-DD)"
+          },
+          {
+            "name": "EnDate",
+            "type": "String",
+            "description": "終了日 (YYYY-MM-DD)"
+          },
+          {
+            "name": "Section",
+            "type": "String",
+            "description": "市場名"
+          },
+          {
+            "name": "PropSell",
+            "type": "Number",
+            "description": "自己売却額（千円）"
+          },
+          {
+            "name": "PropBuy",
+            "type": "Number",
+            "description": "自己買付額（千円）"
+          },
+          {
+            "name": "PropTot",
+            "type": "Number",
+            "description": "自己売買代金（千円）"
+          },
+          {
+            "name": "PropBal",
+            "type": "Number",
+            "description": "自己売買代金の残高（千円）"
+          },
+          {
+            "name": "BrkSell",
+            "type": "Number",
+            "description": "委託売却額（千円）"
+          },
+          {
+            "name": "BrkBuy",
+            "type": "Number",
+            "description": "委託買付額（千円）"
+          },
+          {
+            "name": "BrkTot",
+            "type": "Number",
+            "description": "委託売買代金（千円）"
+          },
+          {
+            "name": "BrkBal",
+            "type": "Number",
+            "description": "委託売買代金の残高（千円）"
+          },
+          {
+            "name": "TotSell",
+            "type": "Number",
+            "description": "売買代金（千円）"
+          },
+          {
+            "name": "TotBuy",
+            "type": "Number",
+            "description": "買買代金（千円）"
+          },
+          {
+            "name": "TotTot",
+            "type": "Number",
+            "description": "売買代金（千円）"
+          },
+          {
+            "name": "TotBal",
+            "type": "Number",
+            "description": "売買代金の残高（千円）"
+          },
+          {
+            "name": "IndSell",
+            "type": "Number",
+            "description": "個人売却額（千円）"
+          },
+          {
+            "name": "IndBuy",
+            "type": "Number",
+            "description": "個人買付額（千円）"
+          },
+          {
+            "name": "IndTot",
+            "type": "Number",
+            "description": "個人売買代金（千円）"
+          },
+          {
+            "name": "IndBal",
+            "type": "Number",
+            "description": "個人売買代金の残高（千円）"
+          },
+          {
+            "name": "FrgnSell",
+            "type": "Number",
+            "description": "外国人売却額（千円）"
+          },
+          {
+            "name": "FrgnBuy",
+            "type": "Number",
+            "description": "外国人買付額（千円）"
+          },
+          {
+            "name": "FrgnTot",
+            "type": "Number",
+            "description": "外国人売買代金（千円）"
+          },
+          {
+            "name": "FrgnBal",
+            "type": "Number",
+            "description": "外国人売買代金の残高（千円）"
+          },
+          {
+            "name": "SecCoSell",
+            "type": "Number",
+            "description": "証券会社売却額（千円）"
+          },
+          {
+            "name": "SecCoBuy",
+            "type": "Number",
+            "description": "証券会社買付額（千円）"
+          },
+          {
+            "name": "SecCoTot",
+            "type": "Number",
+            "description": "証券会社売買代金（千円）"
+          },
+          {
+            "name": "SecCoBal",
+            "type": "Number",
+            "description": "証券会社売買代金の残高（千円）"
+          },
+          {
+            "name": "InvTrSell",
+            "type": "Number",
+            "description": "投資信託売却額（千円）"
+          },
+          {
+            "name": "InvTrBuy",
+            "type": "Number",
+            "description": "投資信託買付額（千円）"
+          },
+          {
+            "name": "InvTrTot",
+            "type": "Number",
+            "description": "投資信託売買代金（千円）"
+          },
+          {
+            "name": "InvTrBal",
+            "type": "Number",
+            "description": "投資信託売買代金の残高（千円）"
+          },
+          {
+            "name": "BusCoSell",
+            "type": "Number",
+            "description": "商業銀行売却額（千円）"
+          },
+          {
+            "name": "BusCoBuy",
+            "type": "Number",
+            "description": "商業銀行買付額（千円）"
+          },
+          {
+            "name": "BusCoTot",
+            "type": "Number",
+            "description": "商業銀行売買代金（千円）"
+          },
+          {
+            "name": "BusCoBal",
+            "type": "Number",
+            "description": "商業銀行売買代金の残高（千円）"
+          },
+          {
+            "name": "OthCoSell",
+            "type": "Number",
+            "description": "その他売却額（千円）"
+          },
+          {
+            "name": "OthCoBuy",
+            "type": "Number",
+            "description": "その他買付額（千円）"
+          },
+          {
+            "name": "OthCoTot",
+            "type": "Number",
+            "description": "その他売買代金（千円）"
+          },
+          {
+            "name": "OthCoBal",
+            "type": "Number",
+            "description": "その他売買代金の残高（千円）"
+          },
+          {
+            "name": "InsCoSell",
+            "type": "Number",
+            "description": "保険会社売却額（千円）"
+          },
+          {
+            "name": "InsCoBuy",
+            "type": "Number",
+            "description": "保険会社買付額（千円）"
+          },
+          {
+            "name": "InsCoTot",
+            "type": "Number",
+            "description": "保陽銀行売買代金（千円）"
+          },
+          {
+            "name": "InsCoBal",
+            "type": "Number",
+            "description": "保陽銀行売買代金の残高（千円）"
+          },
+          {
+            "name": "BankSell",
+            "type": "Number",
+            "description": "地方銀行・地域銀行・その他売却額（千円）"
+          },
+          {
+            "name": "BankBuy",
+            "type": "Number",
+            "description": "地方銀行・地域銀行・その他買付額（千円）"
+          },
+          {
+            "name": "BankTot",
+            "type": "Number",
+            "description": "地方銀行・地域銀行・その他売買代金（千円）"
+          },
+          {
+            "name": "BankBal",
+            "type": "Number",
+            "description": "地方銀行・地域銀行・その他売買代金の残高（千円）"
+          },
+          {
+            "name": "TrstBnkSell",
+            "type": "Number",
+            "description": "信託銀行売却額（千円）"
+          },
+          {
+            "name": "TrstBnkBuy",
+            "type": "Number",
+            "description": "信託銀行買付額（千円）"
+          },
+          {
+            "name": "TrstBnkTot",
+            "type": "Number",
+            "description": "信託銀行売買代金（千円）"
+          },
+          {
+            "name": "TrstBnkBal",
+            "type": "Number",
+            "description": "信託銀行売買代金の残高（千円）"
+          },
+          {
+            "name": "OthFinSell",
+            "type": "Number",
+            "description": "その他金融機関売却額（千円）"
+          },
+          {
+            "name": "OthFinBuy",
+            "type": "Number",
+            "description": "その他金融機関買付額（千円）"
+          },
+          {
+            "name": "OthFinTot",
+            "type": "Number",
+            "description": "その他金融機関売買代金（千円）"
+          },
+          {
+            "name": "OthFinBal",
+            "type": "Number",
+            "description": "その他金融機関売買代金の残高（千円）"
+          }
+        ]
+      },
+      "auth_required": true,
+      "response_data_key": "data",
+      "plan": [
+        "Light",
+        "Standard",
+        "Premium"
+      ],
+      "data_update": {
+        "frequency": "週次(第4営業日)",
+        "time": "18:00頃",
+        "notes": "通常は木曜日、祝日等非営業日がある場合はその分後ろ倒し。連休等により通常と異なる公表スケジュールとなる場合があります。"
+      },
+      "pagination": {
+        "supported": true,
+        "param": "pagination_key"
+      },
+      "valid_request_patterns": [
+        {
+          "params": [],
+          "description": "すべてのセクションの全期間のデータ"
+        },
+        {
+          "params": [
+            "section"
+          ],
+          "description": "指定したセクションの全期間のデータ"
+        },
+        {
+          "params": [
+            "from",
+            "to"
+          ],
+          "description": "すべてのセクションの指定した期間のデータ"
+        },
+        {
+          "params": [
+            "section",
+            "from",
+            "to"
+          ],
+          "description": "指定したセクションの指定した期間のデータ"
+        }
+      ]
+    },
+    {
+      "name": "mkt-margin-int",
+      "name_ja": "信用取引週末残高",
+      "name_en": "Margin Trading Outstandings",
+      "path": "/markets/margin-interest",
+      "path_old": "/markets/weekly_margin_interest",
+      "method": "GET",
+      "description": "週末時点での各銘柄の信用取引残高（株数）を取得するエンドポイント。制度信用・一般信用の買残・売残を取得できる。",
+      "parameters": [
+        {
+          "name": "code",
+          "type": "String",
+          "required": false,
+          "description": "5桁の銘柄コード (例: 27800)。4桁指定も可能だが、その場合は普通株式（5桁目=0）のみ取得。",
+          "location": "query"
+        },
+        {
+          "name": "from",
+          "type": "String",
+          "required": false,
+          "description": "開始日 (YYYYMMDD or YYYY-MM-DD)",
+          "location": "query"
+        },
+        {
+          "name": "to",
+          "type": "String",
+          "required": false,
+          "description": "終了日 (YYYYMMDD or YYYY-MM-DD)",
+          "location": "query"
+        },
+        {
+          "name": "date",
+          "type": "String",
+          "required": false,
+          "description": "特定の日付 (YYYYMMDD or YYYY-MM-DD)",
+          "location": "query"
+        },
+        {
+          "name": "pagination_key",
+          "type": "String",
+          "required": false,
+          "description": "ページネーション発生時には常に付与可能、発生していない時は省略可能",
+          "location": "query"
+        }
+      ],
+      "response": {
+        "description": "信用取引の週末残高データを返す。制度信用・一般信用の買残・売残を含む。",
+        "fields": [
+          {
+            "name": "Date",
+            "type": "String",
+            "description": "申込日付 (YYYY-MM-DD)"
+          },
+          {
+            "name": "Code",
+            "type": "String",
+            "description": "銘柄コード"
+          },
+          {
+            "name": "ShrtVol",
+            "type": "Number",
+            "description": "売合計信用取引週末残高"
+          },
+          {
+            "name": "LongVol",
+            "type": "Number",
+            "description": "買合計信用取引週末残高"
+          },
+          {
+            "name": "ShrtNegVol",
+            "type": "Number",
+            "description": "売一般信用取引週末残高"
+          },
+          {
+            "name": "LongNegVol",
+            "type": "Number",
+            "description": "買一般信用取引週末残高"
+          },
+          {
+            "name": "ShrtStdVol",
+            "type": "Number",
+            "description": "売制度信用取引週末残高"
+          },
+          {
+            "name": "LongStdVol",
+            "type": "Number",
+            "description": "買制度信用取引週末残高"
+          },
+          {
+            "name": "IssType",
+            "type": "String",
+            "description": "銘柄区分 (1:信用銘柄, 2:貸借銘柄, 3:その他)"
+          }
+        ]
+      },
+      "auth_required": true,
+      "response_data_key": "data",
+      "plan": [
+        "Standard",
+        "Premium"
+      ],
+      "data_update": {
+        "frequency": "週次(第2営業日)",
+        "time": "16:30頃",
+        "notes": "通常は火曜日、祝日等非営業日がある場合はその分後ろ倒し。連休等により通常と異なる公表スケジュールとなる場合があります。"
+      },
+      "pagination": {
+        "supported": true,
+        "param": "pagination_key"
+      },
+      "valid_request_patterns": [
+        {
+          "params": [
+            "code"
+          ],
+          "description": "指定された銘柄について全期間分のデータ"
+        },
+        {
+          "params": [
+            "code",
+            "date"
+          ],
+          "description": "指定された銘柄について指定された日付のデータ"
+        },
+        {
+          "params": [
+            "code",
+            "from",
+            "to"
+          ],
+          "description": "指定された銘柄について指定された期間分のデータ"
+        },
+        {
+          "params": [
+            "date"
+          ],
+          "description": "全上場銘柄について指定された日付のデータ"
+        }
+      ]
+    },
+    {
+      "name": "mkt-short-ratio",
+      "name_ja": "業種別空売り比率",
+      "name_en": "Short Sale Value and Ratio by Sector",
+      "path": "/markets/short-ratio",
+      "path_old": "/markets/short_selling",
+      "method": "GET",
+      "description": "日々の業種（セクター）別の空売り比率に関する売買代金を取得するエンドポイント。33業種別の空売り情報を取得できる。",
+      "parameters": [
+        {
+          "name": "s33",
+          "type": "String",
+          "required": false,
+          "description": "33業種コード (例: 0050)",
+          "location": "query"
+        },
+        {
+          "name": "from",
+          "type": "String",
+          "required": false,
+          "description": "開始日 (YYYYMMDD or YYYY-MM-DD)",
+          "location": "query"
+        },
+        {
+          "name": "to",
+          "type": "String",
+          "required": false,
+          "description": "終了日 (YYYYMMDD or YYYY-MM-DD)",
+          "location": "query"
+        },
+        {
+          "name": "date",
+          "type": "String",
+          "required": false,
+          "description": "特定の日付 (YYYYMMDD or YYYY-MM-DD)",
+          "location": "query"
+        },
+        {
+          "name": "pagination_key",
+          "type": "String",
+          "required": false,
+          "description": "ページネーション発生時には常に付与可能、発生していない時は省略可能",
+          "location": "query"
+        }
+      ],
+      "response": {
+        "description": "業種別の空売り比率データを返す。通常売り・価格規制付き空売り・価格規制なし空売りの代金を含む。",
+        "fields": [
+          {
+            "name": "Date",
+            "type": "String",
+            "description": "取引日 (YYYY-MM-DD)"
+          },
+          {
+            "name": "S33",
+            "type": "String",
+            "description": "33業種コード"
+          },
+          {
+            "name": "SellExShortVa",
+            "type": "Number",
+            "description": "通常売り注文の売買代金"
+          },
+          {
+            "name": "ShrtWithResVa",
+            "type": "Number",
+            "description": "価格規制付き空売りの売買代金"
+          },
+          {
+            "name": "ShrtNoResVa",
+            "type": "Number",
+            "description": "価格規制なし空売りの売買代金"
+          }
+        ]
+      },
+      "auth_required": true,
+      "response_data_key": "data",
+      "plan": [
+        "Standard",
+        "Premium"
+      ],
+      "data_update": {
+        "frequency": "日次",
+        "time": "16:30頃"
+      },
+      "pagination": {
+        "supported": true,
+        "param": "pagination_key"
+      },
+      "valid_request_patterns": [
+        {
+          "params": [
+            "s33"
+          ],
+          "description": "指定された業種コードについて全期間分のデータ"
+        },
+        {
+          "params": [
+            "s33",
+            "date"
+          ],
+          "description": "指定された業種コードについて指定された日付のデータ"
+        },
+        {
+          "params": [
+            "s33",
+            "from",
+            "to"
+          ],
+          "description": "指定された業種コードについて指定された期間分のデータ"
+        },
+        {
+          "params": [
+            "date"
+          ],
+          "description": "全業種コードについて指定された日付のデータ"
+        }
+      ]
+    },
+    {
+      "name": "mkt-short-sale",
+      "name_ja": "空売り残高報告",
+      "name_en": "Outstanding Short Selling Positions Reported",
+      "path": "/markets/short-sale-report",
+      "path_old": "/markets/short_selling_positions",
+      "method": "GET",
+      "description": "空売り残高報告データを取得するエンドポイント。大量保有者の空売りポジション情報を取得できる。",
+      "parameters": [
+        {
+          "name": "code",
+          "type": "String",
+          "required": false,
+          "description": "5桁の銘柄コード (例: 27800)。4桁指定も可能だが、その場合は普通株式（5桁目=0）のみ取得。",
+          "location": "query"
+        },
+        {
+          "name": "disc_date",
+          "type": "String",
+          "required": false,
+          "description": "開示日 (YYYYMMDD or YYYY-MM-DD)",
+          "location": "query"
+        },
+        {
+          "name": "disc_date_from",
+          "type": "String",
+          "required": false,
+          "description": "開示日の開始日",
+          "location": "query"
+        },
+        {
+          "name": "disc_date_to",
+          "type": "String",
+          "required": false,
+          "description": "開示日の終了日",
+          "location": "query"
+        },
+        {
+          "name": "calc_date",
+          "type": "String",
+          "required": false,
+          "description": "算出日",
+          "location": "query"
+        },
+        {
+          "name": "pagination_key",
+          "type": "String",
+          "required": false,
+          "description": "ページネーション発生時には常に付与可能、発生していない時は省略可能",
+          "location": "query"
+        }
+      ],
+      "response": {
+        "description": "空売り残高報告データを返す。空売り者名・残高比率・株数などを含む。",
+        "fields": [
+          {
+            "name": "DiscDate",
+            "type": "String",
+            "description": "開示日 (YYYY-MM-DD)"
+          },
+          {
+            "name": "CalcDate",
+            "type": "String",
+            "description": "算出日 (YYYY-MM-DD)"
+          },
+          {
+            "name": "Code",
+            "type": "String",
+            "description": "銘柄コード（5桁）"
+          },
+          {
+            "name": "SSName",
+            "type": "String",
+            "description": "空売り者名"
+          },
+          {
+            "name": "SSAddr",
+            "type": "String",
+            "description": "空売り者住所"
+          },
+          {
+            "name": "DICName",
+            "type": "String",
+            "description": "裁量投資顧問名"
+          },
+          {
+            "name": "DICAddr",
+            "type": "String",
+            "description": "裁量投資顧問住所"
+          },
+          {
+            "name": "FundName",
+            "type": "String",
+            "description": "投資信託名"
+          },
+          {
+            "name": "ShrtPosToSO",
+            "type": "Number",
+            "description": "空売り残高の発行済株式総数に対する比率"
+          },
+          {
+            "name": "ShrtPosShares",
+            "type": "Number",
+            "description": "空売り残高の株数"
+          },
+          {
+            "name": "ShrtPosUnits",
+            "type": "Number",
+            "description": "空売り残高の単元株数"
+          },
+          {
+            "name": "PrevRptDate",
+            "type": "String",
+            "description": "前回開示日"
+          },
+          {
+            "name": "PrevRptRatio",
+            "type": "Number",
+            "description": "前回開示日の空売り残高の発行済株式総数に対する比率"
+          },
+          {
+            "name": "Notes",
+            "type": "String",
+            "description": "備考"
+          }
+        ]
+      },
+      "auth_required": true,
+      "response_data_key": "data",
+      "plan": [
+        "Standard",
+        "Premium"
+      ],
+      "data_update": {
+        "frequency": "日次",
+        "time": "17:30頃"
+      },
+      "pagination": {
+        "supported": true,
+        "param": "pagination_key"
+      },
+      "valid_request_patterns": [
+        {
+          "params": [
+            "code"
+          ],
+          "description": "指定された銘柄について全期間分のデータ"
+        },
+        {
+          "params": [
+            "code",
+            "disc_date"
+          ],
+          "description": "指定された銘柄について指定日（公表日）のデータ"
+        },
+        {
+          "params": [
+            "code",
+            "disc_date_from",
+            "disc_date_to"
+          ],
+          "description": "指定された銘柄について指定された期間のデータ"
+        },
+        {
+          "params": [
+            "code",
+            "calc_date"
+          ],
+          "description": "指定された銘柄について指定日（計算日）のデータ"
+        },
+        {
+          "params": [
+            "disc_date"
+          ],
+          "description": "指定日（公表日）の全ての銘柄のデータ"
+        },
+        {
+          "params": [
+            "calc_date"
+          ],
+          "description": "指定日（計算日）の全ての銘柄のデータ"
+        }
+      ]
+    },
+    {
+      "name": "mkt-margin-alert",
+      "name_ja": "日々公表信用取引残高",
+      "name_en": "Margin Trading Outstanding (Issues Subject to Daily Publication)",
+      "path": "/markets/margin-alert",
+      "path_old": "/markets/daily_margin_interest",
+      "method": "GET",
+      "description": "日々公表銘柄に指定された個別銘柄の日々の信用取引残高を取得するエンドポイント。日々の信用買残・売残の推移を取得できる。",
+      "parameters": [
+        {
+          "name": "code",
+          "type": "String",
+          "required": false,
+          "description": "5桁の銘柄コード (例: 27800)。4桁指定も可能だが、その場合は普通株式（5桁目=0）のみ取得。",
+          "location": "query"
+        },
+        {
+          "name": "from",
+          "type": "String",
+          "required": false,
+          "description": "開始日 (YYYYMMDD or YYYY-MM-DD)",
+          "location": "query"
+        },
+        {
+          "name": "to",
+          "type": "String",
+          "required": false,
+          "description": "終了日 (YYYYMMDD or YYYY-MM-DD)",
+          "location": "query"
+        },
+        {
+          "name": "date",
+          "type": "String",
+          "required": false,
+          "description": "特定の日付 (YYYYMMDD or YYYY-MM-DD)",
+          "location": "query"
+        },
+        {
+          "name": "pagination_key",
+          "type": "String",
+          "required": false,
+          "description": "ページネーション発生時には常に付与可能、発生していない時は省略可能",
+          "location": "query"
+        }
+      ],
+      "response": {
+        "description": "日々公表銘柄の信用取引残高データを返す。買残・売残・信用倍率などを含む。",
+        "fields": [
+          {
+            "name": "PubDate",
+            "type": "String",
+            "description": "公表日 (YYYY-MM-DD)"
+          },
+          {
+            "name": "Code",
+            "type": "String",
+            "description": "銘柄コード"
+          },
+          {
+            "name": "AppDate",
+            "type": "String",
+            "description": "申込日 (YYYY-MM-DD)"
+          },
+          {
+            "name": "PubReason",
+            "type": "Map",
+            "description": "公表理由"
+          },
+          {
+            "name": "ShrtOut",
+            "type": "Number",
+            "description": "信用売り残高合計"
+          },
+          {
+            "name": "ShrtOutChg",
+            "type": "Number",
+            "description": "信用売り残高合計の前日比"
+          },
+          {
+            "name": "ShrtOutRatio",
+            "type": "String",
+            "description": "信用売り残高合計の発行済株式総数に対する比率"
+          },
+          {
+            "name": "LongOut",
+            "type": "Number",
+            "description": "信用買い残高合計"
+          },
+          {
+            "name": "LongOutChg",
+            "type": "Number",
+            "description": "信用買い残高合計の前日比"
+          },
+          {
+            "name": "LongOutRatio",
+            "type": "String",
+            "description": "信用買い残高合計の発行済株式総数に対する比率"
+          },
+          {
+            "name": "SLRatio",
+            "type": "Number",
+            "description": "信用倍率（買残÷売残）"
+          },
+          {
+            "name": "ShrtNegOut",
+            "type": "Number",
+            "description": "一般信用取引売残高"
+          },
+          {
+            "name": "ShrtNegOutChg",
+            "type": "Number",
+            "description": "一般信用取引売残高の前日比"
+          },
+          {
+            "name": "ShrtStdOut",
+            "type": "Number",
+            "description": "制度信用取引売残高"
+          },
+          {
+            "name": "ShrtStdOutChg",
+            "type": "Number",
+            "description": "制度信用取引売残高の前日比"
+          },
+          {
+            "name": "LongNegOut",
+            "type": "Number",
+            "description": "一般信用取引買残高"
+          },
+          {
+            "name": "LongNegOutChg",
+            "type": "Number",
+            "description": "一般信用取引買残高の前日比"
+          },
+          {
+            "name": "LongStdOut",
+            "type": "Number",
+            "description": "制度信用取引買残高"
+          },
+          {
+            "name": "LongStdOutChg",
+            "type": "Number",
+            "description": "制度信用取引買残高の前日比"
+          },
+          {
+            "name": "TSEMrgnRegCls",
+            "type": "String",
+            "description": "東証信用貸借規制区分"
+          }
+        ]
+      },
+      "auth_required": true,
+      "response_data_key": "data",
+      "plan": [
+        "Standard",
+        "Premium"
+      ],
+      "data_update": {
+        "frequency": "日次",
+        "time": "16:30頃"
+      },
+      "pagination": {
+        "supported": true,
+        "param": "pagination_key"
+      },
+      "valid_request_patterns": [
+        {
+          "params": [
+            "code"
+          ],
+          "description": "指定された銘柄について全期間分のデータ"
+        },
+        {
+          "params": [
+            "code",
+            "date"
+          ],
+          "description": "指定された銘柄について指定された日付のデータ"
+        },
+        {
+          "params": [
+            "code",
+            "from",
+            "to"
+          ],
+          "description": "指定された銘柄について指定された期間分のデータ"
+        },
+        {
+          "params": [
+            "date"
+          ],
+          "description": "全上場銘柄について指定された日付のデータ"
+        }
+      ]
+    },
+    {
+      "name": "mkt-breakdown",
+      "name_ja": "売買内訳データ",
+      "name_en": "Breakdown Trading Data",
+      "path": "/markets/breakdown",
+      "path_old": "/markets/breakdown",
+      "method": "GET",
+      "description": "売買内訳データを取得するエンドポイント。現物売買・信用新規・信用返済などの内訳を取得できる。",
+      "parameters": [
+        {
+          "name": "code",
+          "type": "String",
+          "required": false,
+          "description": "5桁の銘柄コード (例: 27800)。4桁指定も可能だが、その場合は普通株式（5桁目=0）のみ取得。",
+          "location": "query"
+        },
+        {
+          "name": "from",
+          "type": "String",
+          "required": false,
+          "description": "開始日 (YYYYMMDD or YYYY-MM-DD)",
+          "location": "query"
+        },
+        {
+          "name": "to",
+          "type": "String",
+          "required": false,
+          "description": "終了日 (YYYYMMDD or YYYY-MM-DD)",
+          "location": "query"
+        },
+        {
+          "name": "date",
+          "type": "String",
+          "required": false,
+          "description": "特定の日付 (YYYYMMDD or YYYY-MM-DD)",
+          "location": "query"
+        },
+        {
+          "name": "pagination_key",
+          "type": "String",
+          "required": false,
+          "description": "ページネーション発生時には常に付与可能、発生していない時は省略可能",
+          "location": "query"
+        }
+      ],
+      "response": {
+        "description": "売買内訳データを返す。現物・信用・空売りなどの売買代金・出来高を含む。",
+        "fields": [
+          {
+            "name": "Date",
+            "type": "String",
+            "description": "取引日 (YYYY-MM-DD)"
+          },
+          {
+            "name": "Code",
+            "type": "String",
+            "description": "銘柄コード"
+          },
+          {
+            "name": "LongSellVa",
+            "type": "Number",
+            "description": "現物売り代金"
+          },
+          {
+            "name": "ShrtNoMrgnVa",
+            "type": "Number",
+            "description": "空売り代金"
+          },
+          {
+            "name": "MrgnSellNewVa",
+            "type": "Number",
+            "description": "信用新規売り代金"
+          },
+          {
+            "name": "MrgnSellCloseVa",
+            "type": "Number",
+            "description": "信用返済売り代金"
+          },
+          {
+            "name": "LongBuyVa",
+            "type": "Number",
+            "description": "現物買い代金"
+          },
+          {
+            "name": "MrgnBuyNewVa",
+            "type": "Number",
+            "description": "信用新規買い代金"
+          },
+          {
+            "name": "MrgnBuyCloseVa",
+            "type": "Number",
+            "description": "信用返済買い代金"
+          },
+          {
+            "name": "LongSellVo",
+            "type": "Number",
+            "description": "現物売り出来高"
+          },
+          {
+            "name": "ShrtNoMrgnVo",
+            "type": "Number",
+            "description": "空売り出来高"
+          },
+          {
+            "name": "MrgnSellNewVo",
+            "type": "Number",
+            "description": "信用新規売り出来高"
+          },
+          {
+            "name": "MrgnSellCloseVo",
+            "type": "Number",
+            "description": "信用返済売り出来高"
+          },
+          {
+            "name": "LongBuyVo",
+            "type": "Number",
+            "description": "現物買い出来高"
+          },
+          {
+            "name": "MrgnBuyNewVo",
+            "type": "Number",
+            "description": "信用新規買い出来高"
+          },
+          {
+            "name": "MrgnBuyCloseVo",
+            "type": "Number",
+            "description": "信用返済買い出来高"
+          }
+        ]
+      },
+      "auth_required": true,
+      "response_data_key": "data",
+      "plan": [
+        "Premium"
+      ],
+      "data_update": {
+        "frequency": "日次",
+        "time": "18:00頃"
+      },
+      "pagination": {
+        "supported": true,
+        "param": "pagination_key"
+      },
+      "valid_request_patterns": [
+        {
+          "params": [
+            "code"
+          ],
+          "description": "指定された銘柄について全期間分のデータ"
+        },
+        {
+          "params": [
+            "code",
+            "date"
+          ],
+          "description": "指定された銘柄について指定された日付のデータ"
+        },
+        {
+          "params": [
+            "code",
+            "from",
+            "to"
+          ],
+          "description": "指定された銘柄について指定された期間分のデータ"
+        },
+        {
+          "params": [
+            "date"
+          ],
+          "description": "全上場銘柄について指定された日付のデータ"
+        }
+      ]
+    },
+    {
+      "name": "mkt-cal",
+      "name_ja": "取引カレンダー",
+      "name_en": "Trading Calendar",
+      "path": "/markets/calendar",
+      "path_old": "/markets/trading_calendar",
+      "method": "GET",
+      "description": "東証およびOSEにおける営業日・休業日・祝日取引の有無の情報を取得するエンドポイント。取引カレンダー情報を取得できる。",
+      "parameters": [
+        {
+          "name": "hol_div",
+          "type": "String",
+          "required": false,
+          "description": "祝日区分コード",
+          "location": "query"
+        },
+        {
+          "name": "from",
+          "type": "String",
+          "required": false,
+          "description": "開始日 (YYYYMMDD or YYYY-MM-DD)",
+          "location": "query"
+        },
+        {
+          "name": "to",
+          "type": "String",
+          "required": false,
+          "description": "終了日 (YYYYMMDD or YYYY-MM-DD)",
+          "location": "query"
+        }
+      ],
+      "response": {
+        "description": "取引カレンダーデータを返す。営業日・休業日の情報を含む。",
+        "fields": [
+          {
+            "name": "Date",
+            "type": "String",
+            "description": "日付 (YYYY-MM-DD)"
+          },
+          {
+            "name": "HolDiv",
+            "type": "String",
+            "description": "祝日区分コード"
+          }
+        ]
+      },
+      "auth_required": true,
+      "response_data_key": "data",
+      "plan": [
+        "Free",
+        "Light",
+        "Standard",
+        "Premium"
+      ],
+      "data_update": {
+        "frequency": "不定期",
+        "time": "不定期",
+        "notes": "原則として、毎年3月末頃をめどに翌年1年間の営業日および祝日取引実施日（予定）を更新します。"
+      },
+      "valid_request_patterns": [
+        {
+          "params": [],
+          "description": "全期間分のデータ"
+        },
+        {
+          "params": [
+            "hol_div"
+          ],
+          "description": "指定された休日区分について全期間分のデータ"
+        },
+        {
+          "params": [
+            "from",
+            "to"
+          ],
+          "description": "指定された期間分のデータ"
+        },
+        {
+          "params": [
+            "hol_div",
+            "from",
+            "to"
+          ],
+          "description": "指定された休日区分について指定された期間分のデータ"
+        }
+      ]
+    },
+    {
+      "name": "idx-bars-daily",
+      "name_ja": "指数四本値",
+      "name_en": "Indices (OHLC)",
+      "path": "/indices/bars/daily",
+      "path_old": "/indices",
+      "method": "GET",
+      "description": "指数四本値データを取得するエンドポイント。TOPIX Core30・TOPIX Large70・東証グロース市場250指数などの指数データを取得できる。",
+      "parameters": [
+        {
+          "name": "code",
+          "type": "String",
+          "required": false,
+          "description": "指数コード",
+          "location": "query"
+        },
+        {
+          "name": "date",
+          "type": "String",
+          "required": false,
+          "description": "日付 (YYYYMMDD or YYYY-MM-DD)",
+          "location": "query"
+        },
+        {
+          "name": "from",
+          "type": "String",
+          "required": false,
+          "description": "開始日 (YYYYMMDD or YYYY-MM-DD)",
+          "location": "query"
+        },
+        {
+          "name": "to",
+          "type": "String",
+          "required": false,
+          "description": "終了日 (YYYYMMDD or YYYY-MM-DD)",
+          "location": "query"
+        },
+        {
+          "name": "pagination_key",
+          "type": "String",
+          "required": false,
+          "description": "ページネーション発生時には常に付与可能、発生していない時は省略可能",
+          "location": "query"
+        }
+      ],
+      "response": {
+        "description": "指数の四本値データを返す。各営業日の始値・高値・安値・終値を含む。",
+        "fields": [
+          {
+            "name": "Date",
+            "type": "String",
+            "description": "取引日 (YYYY-MM-DD)"
+          },
+          {
+            "name": "Code",
+            "type": "String",
+            "description": "指数コード"
+          },
+          {
+            "name": "O",
+            "type": "Number",
+            "description": "始値"
+          },
+          {
+            "name": "H",
+            "type": "Number",
+            "description": "高値"
+          },
+          {
+            "name": "L",
+            "type": "Number",
+            "description": "安値"
+          },
+          {
+            "name": "C",
+            "type": "Number",
+            "description": "終値"
+          }
+        ]
+      },
+      "auth_required": true,
+      "response_data_key": "data",
+      "plan": [
+        "Standard",
+        "Premium"
+      ],
+      "data_update": {
+        "frequency": "日次",
+        "time": "16:30頃"
+      },
+      "pagination": {
+        "supported": true,
+        "param": "pagination_key"
+      },
+      "valid_request_patterns": [
+        {
+          "params": [
+            "code"
+          ],
+          "description": "指定された銘柄について全期間分のデータ"
+        },
+        {
+          "params": [
+            "code",
+            "date"
+          ],
+          "description": "指定された銘柄について指定された日付のデータ"
+        },
+        {
+          "params": [
+            "code",
+            "from",
+            "to"
+          ],
+          "description": "指定された銘柄について指定された期間分のデータ"
+        },
+        {
+          "params": [
+            "date"
+          ],
+          "description": "全上場銘柄について指定された日付のデータ"
+        }
+      ]
+    },
+    {
+      "name": "idx-bars-daily-topix",
+      "name_ja": "TOPIX指数四本値",
+      "name_en": "TOPIX Prices (OHLC)",
+      "path": "/indices/bars/daily/topix",
+      "path_old": "/indices/topix",
+      "method": "GET",
+      "description": "TOPIX指数情報を取得するエンドポイント。TOPIX指数の四本値データを取得できる。",
+      "parameters": [
+        {
+          "name": "from",
+          "type": "String",
+          "required": false,
+          "description": "開始日 (YYYYMMDD or YYYY-MM-DD)",
+          "location": "query"
+        },
+        {
+          "name": "to",
+          "type": "String",
+          "required": false,
+          "description": "終了日 (YYYYMMDD or YYYY-MM-DD)",
+          "location": "query"
+        },
+        {
+          "name": "pagination_key",
+          "type": "String",
+          "required": false,
+          "description": "ページネーション発生時には常に付与可能、発生していない時は省略可能",
+          "location": "query"
+        }
+      ],
+      "response": {
+        "description": "TOPIX指数の四本値データを返す。日付範囲未指定の場合は全期間のデータを返す。",
+        "fields": [
+          {
+            "name": "Date",
+            "type": "String",
+            "description": "取引日 (YYYY-MM-DD)"
+          },
+          {
+            "name": "O",
+            "type": "Number",
+            "description": "始値"
+          },
+          {
+            "name": "H",
+            "type": "Number",
+            "description": "高値"
+          },
+          {
+            "name": "L",
+            "type": "Number",
+            "description": "安値"
+          },
+          {
+            "name": "C",
+            "type": "Number",
+            "description": "終値"
+          }
+        ]
+      },
+      "auth_required": true,
+      "response_data_key": "data",
+      "plan": [
+        "Light",
+        "Standard",
+        "Premium"
+      ],
+      "data_update": {
+        "frequency": "日次",
+        "time": "16:30頃"
+      },
+      "pagination": {
+        "supported": true,
+        "param": "pagination_key"
+      },
+      "valid_request_patterns": [
+        {
+          "params": [],
+          "description": "全期間分のデータ"
+        },
+        {
+          "params": [
+            "from"
+          ],
+          "description": "指定された日付から取得可能終了日までの期間分のデータ"
+        },
+        {
+          "params": [
+            "to"
+          ],
+          "description": "取得可能開始日から指定された日付までの期間分のデータ"
+        },
+        {
+          "params": [
+            "from",
+            "to"
+          ],
+          "description": "指定された期間分のデータ"
+        }
+      ]
+    },
+    {
+      "name": "fin-details",
+      "name_ja": "財務諸表(BS/PL/CF)",
+      "name_en": "Financial Statement Data (BS/PL/CF)",
+      "path": "/fins/details",
+      "path_old": "/fins/fs_details",
+      "method": "GET",
+      "description": "四半期の財務諸表情報を取得するエンドポイント。貸借対照表（BS）・損益計算書（PL）の詳細項目を取得できる。",
+      "parameters": [
+        {
+          "name": "code",
+          "type": "String",
+          "required": false,
+          "description": "5桁の銘柄コード (例: 27800)。4桁指定も可能だが、その場合は普通株式（5桁目=0）のみ取得。codeまたはdateのいずれかは必須。",
+          "location": "query"
+        },
+        {
+          "name": "date",
+          "type": "String",
+          "required": false,
+          "description": "日付 (YYYY-MM-DD)。codeまたはdateのいずれかは必須。",
+          "location": "query"
+        },
+        {
+          "name": "pagination_key",
+          "type": "String",
+          "required": false,
+          "description": "ページネーション発生時には常に付与可能、発生していない時は省略可能",
+          "location": "query"
+        }
+      ],
+      "response": {
+        "description": "財務諸表の詳細データを返す。日本基準・IFRSに対応し、BS・PLの各項目を含む。",
+        "fields": [
+          {
+            "name": "DiscDate",
+            "type": "String",
+            "description": "開示日 (YYYY-MM-DD)"
+          },
+          {
+            "name": "DiscTime",
+            "type": "String",
+            "description": "開示時刻"
+          },
+          {
+            "name": "Code",
+            "type": "String",
+            "description": "銘柄コード（5桁）"
+          },
+          {
+            "name": "DiscNo",
+            "type": "String",
+            "description": "開示番号"
+          },
+          {
+            "name": "DocType",
+            "type": "String",
+            "description": "開示書類の種類"
+          },
+          {
+            "name": "FS",
+            "type": "Map",
+            "description": "財務諸表の各項目データ（英語ラベル・値）"
+          }
+        ]
+      },
+      "auth_required": true,
+      "response_data_key": "data",
+      "plan": [
+        "Premium"
+      ],
+      "data_update": {
+        "frequency": "日次",
+        "time": "18:00頃(速報) / 24:30頃(確報)"
+      },
+      "pagination": {
+        "supported": true,
+        "param": "pagination_key"
+      },
+      "valid_request_patterns": [
+        {
+          "params": [
+            "code"
+          ],
+          "description": "指定された銘柄について全期間分の財務諸表"
+        },
+        {
+          "params": [
+            "date"
+          ],
+          "description": "指定日付に開示された全銘柄の財務諸表"
+        },
+        {
+          "params": [
+            "code",
+            "date"
+          ],
+          "description": "指定された銘柄について指定日付に開示された財務諸表"
+        }
+      ]
+    },
+    {
+      "name": "fin-dividend",
+      "name_ja": "配当金情報",
+      "name_en": "Cash Dividend Data",
+      "path": "/fins/dividend",
+      "path_old": "/fins/dividend",
+      "method": "GET",
+      "description": "配当金データを取得するエンドポイント。配当日・予想配当額・実績配当額などの配当情報を取得できる。",
+      "parameters": [
+        {
+          "name": "code",
+          "type": "String",
+          "required": false,
+          "description": "5桁の銘柄コード (例: 27800)。4桁指定も可能だが、その場合は普通株式（5桁目=0）のみ取得。",
+          "location": "query"
+        },
+        {
+          "name": "from",
+          "type": "String",
+          "required": false,
+          "description": "開始日 (YYYYMMDD or YYYY-MM-DD)",
+          "location": "query"
+        },
+        {
+          "name": "to",
+          "type": "String",
+          "required": false,
+          "description": "終了日 (YYYYMMDD or YYYY-MM-DD)",
+          "location": "query"
+        },
+        {
+          "name": "date",
+          "type": "String",
+          "required": false,
+          "description": "特定の日付 (YYYYMMDD or YYYY-MM-DD)",
+          "location": "query"
+        },
+        {
+          "name": "pagination_key",
+          "type": "String",
+          "required": false,
+          "description": "ページネーション発生時には常に付与可能、発生していない時は省略可能",
+          "location": "query"
+        }
+      ],
+      "response": {
+        "description": "配当金データを返す。権利確定日・配当落ち日・配当金額などを含む。",
+        "fields": [
+          {
+            "name": "PubDate",
+            "type": "String",
+            "description": "発表日 (YYYY-MM-DD)"
+          },
+          {
+            "name": "PubTime",
+            "type": "String",
+            "description": "発表時刻"
+          },
+          {
+            "name": "Code",
+            "type": "String",
+            "description": "銘柄コード"
+          },
+          {
+            "name": "RefNo",
+            "type": "String",
+            "description": "配当通知の一意な参照番号"
+          },
+          {
+            "name": "StatCode",
+            "type": "String",
+            "description": "更新区分 (1:新規, 2:訂正, 3:削除)"
+          },
+          {
+            "name": "BoardDate",
+            "type": "String",
+            "description": "取締役会決議日 (YYYY-MM-DD)"
+          },
+          {
+            "name": "IFCode",
+            "type": "String",
+            "description": "配当種類 (1:中間, 2:期末)"
+          },
+          {
+            "name": "FRCode",
+            "type": "String",
+            "description": "配当種類 (1:中間, 2:期末)"
+          },
+          {
+            "name": "IFTerm",
+            "type": "String",
+            "description": "中間・期末 (2014-03)"
+          },
+          {
+            "name": "DivRate",
+            "type": "Number",
+            "description": "1株当たり配当金額"
+          },
+          {
+            "name": "RecDate",
+            "type": "String",
+            "description": "権利確定日 (YYYY-MM-DD)"
+          },
+          {
+            "name": "ExDate",
+            "type": "String",
+            "description": "配当落ち日 (YYYY-MM-DD)"
+          },
+          {
+            "name": "ActRecDate",
+            "type": "String",
+            "description": "権利確定日 (YYYY-MM-DD)"
+          },
+          {
+            "name": "PayDate",
+            "type": "String",
+            "description": "配当金支払開始予定日 (YYYY-MM-DD)"
+          },
+          {
+            "name": "CARefNo",
+            "type": "String",
+            "description": "CA参照番号"
+          },
+          {
+            "name": "DistAmt",
+            "type": "String",
+            "description": "配当金額"
+          },
+          {
+            "name": "RetEarn",
+            "type": "String",
+            "description": "留保利益"
+          },
+          {
+            "name": "DeemDiv",
+            "type": "String",
+            "description": "見積もり配当金"
+          },
+          {
+            "name": "DeemCapGains",
+            "type": "String",
+            "description": "見積もり資本利得"
+          },
+          {
+            "name": "NetAssetDecRatio",
+            "type": "String",
+            "description": "資産減少率"
+          },
+          {
+            "name": "CommSpecCode",
+            "type": "String",
+            "description": "記念特別配当コード"
+          },
+          {
+            "name": "CommDivRate",
+            "type": "String",
+            "description": "記念特別配当率"
+          },
+          {
+            "name": "SpecDivRate",
+            "type": "String",
+            "description": "特別配当率"
+          }
+        ]
+      },
+      "auth_required": true,
+      "response_data_key": "data",
+      "plan": [
+        "Premium"
+      ],
+      "data_update": {
+        "frequency": "日次",
+        "time": "12〜19時(毎時00分頃)",
+        "notes": "データの内容に更新がない場合もあります。"
+      },
+      "pagination": {
+        "supported": true,
+        "param": "pagination_key"
+      },
+      "valid_request_patterns": [
+        {
+          "params": [
+            "code"
+          ],
+          "description": "指定された銘柄について全期間分のデータ"
+        },
+        {
+          "params": [
+            "code",
+            "date"
+          ],
+          "description": "指定された銘柄について指定された日付のデータ"
+        },
+        {
+          "params": [
+            "code",
+            "from",
+            "to"
+          ],
+          "description": "指定された銘柄について指定された期間分のデータ"
+        },
+        {
+          "params": [
+            "date"
+          ],
+          "description": "全上場銘柄について指定された日付のデータ"
+        }
+      ]
+    },
+    {
+      "name": "eq-earnings-cal",
+      "name_ja": "決算発表予定日",
+      "name_en": "Earnings Calendar",
+      "path": "/equities/earnings-calendar",
+      "path_old": "/fins/announcement",
+      "method": "GET",
+      "description": "翌日発表予定の決算情報を取得するエンドポイント。決算発表予定日・企業名・決算期などの情報を取得できる。",
+      "parameters": [
+        {
+          "name": "pagination_key",
+          "type": "String",
+          "required": false,
+          "description": "ページネーション発生時には常に付与可能、発生していない時は省略可能",
+          "location": "query"
+        }
+      ],
+      "response": {
+        "description": "翌日発表予定の決算情報を返す。3月期・9月期決算企業のみ対象。REIT除く。",
+        "fields": [
+          {
+            "name": "Date",
+            "type": "String",
+            "description": "発表予定日 (YYYY-MM-DD)。未定の場合は空文字列。"
+          },
+          {
+            "name": "Code",
+            "type": "String",
+            "description": "銘柄コード"
+          },
+          {
+            "name": "CoName",
+            "type": "String",
+            "description": "会社名"
+          },
+          {
+            "name": "FY",
+            "type": "String",
+            "description": "決算期末"
+          },
+          {
+            "name": "SectorNm",
+            "type": "String",
+            "description": "業種名"
+          },
+          {
+            "name": "FQ",
+            "type": "String",
+            "description": "決算種類"
+          },
+          {
+            "name": "Section",
+            "type": "String",
+            "description": "市場区分"
+          }
+        ]
+      },
+      "auth_required": true,
+      "response_data_key": "data",
+      "plan": [
+        "Free",
+        "Light",
+        "Standard",
+        "Premium"
+      ],
+      "data_update": {
+        "frequency": "不定期",
+        "time": "19:00頃",
+        "notes": "JPXのページに更新があった場合のみ更新されます。"
+      },
+      "pagination": {
+        "supported": true,
+        "param": "pagination_key"
+      },
+      "valid_request_patterns": []
+    },
+    {
+      "name": "drv-bars-daily-opt-225",
+      "name_ja": "日経225オプション四本値",
+      "name_en": "Index Option Prices (OHLC)",
+      "path": "/derivatives/bars/daily/options/225",
+      "path_old": "/option/index_option",
+      "method": "GET",
+      "description": "日経225オプションデータを取得するエンドポイント。四本値・清算値段・建玉などのオプション取引データを取得できる。",
+      "parameters": [
+        {
+          "name": "date",
+          "type": "String",
+          "required": true,
+          "description": "日付 (YYYYMMDD or YYYY-MM-DD)",
+          "location": "query"
+        },
+        {
+          "name": "pagination_key",
+          "type": "String",
+          "required": false,
+          "description": "ページネーション発生時には常に付与可能、発生していない時は省略可能",
+          "location": "query"
+        }
+      ],
+      "response": {
+        "description": "日経225オプションの取引データを返す。四本値・建玉・理論価格などを含む。",
+        "fields": [
+          {
+            "name": "Date",
+            "type": "String",
+            "description": "取引日 (YYYY-MM-DD)"
+          },
+          {
+            "name": "Code",
+            "type": "String",
+            "description": "証券コード"
+          },
+          {
+            "name": "O",
+            "type": "Number",
+            "description": "全日始値"
+          },
+          {
+            "name": "H",
+            "type": "Number",
+            "description": "全日高値"
+          },
+          {
+            "name": "L",
+            "type": "Number",
+            "description": "全日安値"
+          },
+          {
+            "name": "C",
+            "type": "Number",
+            "description": "全日終値"
+          },
+          {
+            "name": "EO",
+            "type": "Number",
+            "description": "夜間始値"
+          },
+          {
+            "name": "EH",
+            "type": "Number",
+            "description": "夜間高値"
+          },
+          {
+            "name": "EL",
+            "type": "Number",
+            "description": "夜間安値"
+          },
+          {
+            "name": "EC",
+            "type": "Number",
+            "description": "夜間終値"
+          },
+          {
+            "name": "AO",
+            "type": "Number",
+            "description": "日中始値"
+          },
+          {
+            "name": "AH",
+            "type": "Number",
+            "description": "日中高値"
+          },
+          {
+            "name": "AL",
+            "type": "Number",
+            "description": "日中安値"
+          },
+          {
+            "name": "AC",
+            "type": "Number",
+            "description": "日中終値"
+          },
+          {
+            "name": "Vo",
+            "type": "Number",
+            "description": "出来高"
+          },
+          {
+            "name": "OI",
+            "type": "Number",
+            "description": "建玉"
+          },
+          {
+            "name": "Va",
+            "type": "Number",
+            "description": "売買代金"
+          },
+          {
+            "name": "CM",
+            "type": "String",
+            "description": "限月 (YYYY-MM)"
+          },
+          {
+            "name": "Strike",
+            "type": "Number",
+            "description": "権利行使価格"
+          },
+          {
+            "name": "VoOA",
+            "type": "Number",
+            "description": "競り落札高の出来高"
+          },
+          {
+            "name": "EmMrgnTrgDiv",
+            "type": "String",
+            "description": "緊急信用取引開始区分"
+          },
+          {
+            "name": "PCDiv",
+            "type": "String",
+            "description": "プット/コール区分 (1:プット, 2:コール)"
+          },
+          {
+            "name": "LTD",
+            "type": "String",
+            "description": "最終取引日 (YYYY-MM-DD)"
+          },
+          {
+            "name": "SQD",
+            "type": "String",
+            "description": "特別清算日 (YYYY-MM-DD)"
+          },
+          {
+            "name": "Settle",
+            "type": "Number",
+            "description": "清算値段"
+          },
+          {
+            "name": "Theo",
+            "type": "Number",
+            "description": "理論価格"
+          },
+          {
+            "name": "BaseVol",
+            "type": "Number",
+            "description": "基準変動率"
+          },
+          {
+            "name": "UnderPx",
+            "type": "Number",
+            "description": "原資産価格"
+          },
+          {
+            "name": "IV",
+            "type": "Number",
+            "description": "暗示的変動率"
+          },
+          {
+            "name": "IR",
+            "type": "Number",
+            "description": "金利"
+          }
+        ]
+      },
+      "auth_required": true,
+      "response_data_key": "data",
+      "plan": [
+        "Standard",
+        "Premium"
+      ],
+      "data_update": {
+        "frequency": "日次",
+        "time": "27:00頃"
+      },
+      "pagination": {
+        "supported": true,
+        "param": "pagination_key"
+      },
+      "valid_request_patterns": [
+        {
+          "params": [
+            "date"
+          ],
+          "description": "指定した日付のデータ"
+        }
+      ]
+    },
+    {
+      "name": "drv-bars-daily-fut",
+      "name_ja": "先物四本値",
+      "name_en": "Futures (OHLC)",
+      "path": "/derivatives/bars/daily/futures",
+      "path_old": "/derivatives/futures",
+      "method": "GET",
+      "description": "先物データを取得するエンドポイント。四本値・清算値段・建玉などの先物取引データを取得できる。",
+      "parameters": [
+        {
+          "name": "category",
+          "type": "String",
+          "required": false,
+          "description": "商品区分を指定",
+          "location": "query"
+        },
+        {
+          "name": "date",
+          "type": "String",
+          "required": true,
+          "description": "日付 (YYYYMMDD or YYYY-MM-DD)",
+          "location": "query"
+        },
+        {
+          "name": "contract_flag",
+          "type": "String",
+          "required": false,
+          "description": "中心限月フラグを指定",
+          "location": "query"
+        },
+        {
+          "name": "pagination_key",
+          "type": "String",
+          "required": false,
+          "description": "ページネーション発生時には常に付与可能、発生していない時は省略可能",
+          "location": "query"
+        }
+      ],
+      "response": {
+        "description": "先物の取引データを返す。全日・夜間・日中セッション別の四本値・建玉などを含む。",
+        "fields": [
+          {
+            "name": "Code",
+            "type": "String",
+            "description": "銘柄コード"
+          },
+          {
+            "name": "ProdCat",
+            "type": "String",
+            "description": "先物商品区分"
+          },
+          {
+            "name": "Date",
+            "type": "String",
+            "description": "取引日 (YYYY-MM-DD)"
+          },
+          {
+            "name": "O",
+            "type": "Number",
+            "description": "全日始値"
+          },
+          {
+            "name": "H",
+            "type": "Number",
+            "description": "全日高値"
+          },
+          {
+            "name": "L",
+            "type": "Number",
+            "description": "全日安値"
+          },
+          {
+            "name": "C",
+            "type": "Number",
+            "description": "全日終値"
+          },
+          {
+            "name": "MO",
+            "type": "Number",
+            "description": "前場始値"
+          },
+          {
+            "name": "MH",
+            "type": "Number",
+            "description": "前場高値"
+          },
+          {
+            "name": "ML",
+            "type": "Number",
+            "description": "前場安値"
+          },
+          {
+            "name": "MC",
+            "type": "Number",
+            "description": "前場終値"
+          },
+          {
+            "name": "EO",
+            "type": "Number",
+            "description": "夜間始値"
+          },
+          {
+            "name": "EH",
+            "type": "Number",
+            "description": "夜間高値"
+          },
+          {
+            "name": "EL",
+            "type": "Number",
+            "description": "夜間安値"
+          },
+          {
+            "name": "EC",
+            "type": "Number",
+            "description": "夜間終値"
+          },
+          {
+            "name": "AO",
+            "type": "Number",
+            "description": "日中始値"
+          },
+          {
+            "name": "AH",
+            "type": "Number",
+            "description": "日中高値"
+          },
+          {
+            "name": "AL",
+            "type": "Number",
+            "description": "日中安値"
+          },
+          {
+            "name": "AC",
+            "type": "Number",
+            "description": "日中終値"
+          },
+          {
+            "name": "Vo",
+            "type": "Number",
+            "description": "出来高"
+          },
+          {
+            "name": "OI",
+            "type": "Number",
+            "description": "建玉"
+          },
+          {
+            "name": "Va",
+            "type": "Number",
+            "description": "売買代金"
+          },
+          {
+            "name": "CM",
+            "type": "String",
+            "description": "限月 (YYYY-MM)"
+          },
+          {
+            "name": "VoOA",
+            "type": "Number",
+            "description": "競り落札高の出来高"
+          },
+          {
+            "name": "EmMrgnTrgDiv",
+            "type": "String",
+            "description": "緊急信用取引開始区分"
+          },
+          {
+            "name": "LTD",
+            "type": "String",
+            "description": "最終取引日 (YYYY-MM-DD)"
+          },
+          {
+            "name": "SQD",
+            "type": "String",
+            "description": "特別清算日 (YYYY-MM-DD)"
+          },
+          {
+            "name": "Settle",
+            "type": "Number",
+            "description": "清算値段"
+          },
+          {
+            "name": "CCMFlag",
+            "type": "String",
+            "description": "中心限月フラグ"
+          }
+        ]
+      },
+      "auth_required": true,
+      "response_data_key": "data",
+      "plan": [
+        "Premium"
+      ],
+      "data_update": {
+        "frequency": "日次",
+        "time": "27:00頃"
+      },
+      "pagination": {
+        "supported": true,
+        "param": "pagination_key"
+      },
+      "valid_request_patterns": [
+        {
+          "params": [
+            "date"
+          ],
+          "description": "指定した日付の全商品区分のデータ"
+        },
+        {
+          "params": [
+            "date",
+            "category"
+          ],
+          "description": "指定した日付かつ指定した商品区分のデータ"
+        },
+        {
+          "params": [
+            "date",
+            "contract_flag"
+          ],
+          "description": "指定した日付かつ指定した中心限月フラグのデータ"
+        },
+        {
+          "params": [
+            "date",
+            "category",
+            "contract_flag"
+          ],
+          "description": "指定した日付、指定した商品区分かつ指定した中心限月フラグのデータ"
+        }
+      ]
+    },
+    {
+      "name": "drv-bars-daily-opt",
+      "name_ja": "オプション四本値",
+      "name_en": "Options (OHLC)",
+      "path": "/derivatives/bars/daily/options",
+      "path_old": "/derivatives/options",
+      "method": "GET",
+      "description": "オプションに関する、四本値や清算値段、理論価格に関する情報を取得することができます。",
+      "parameters": [
+        {
+          "name": "category",
+          "type": "String",
+          "required": false,
+          "description": "商品区分を指定",
+          "location": "query"
+        },
+        {
+          "name": "code",
+          "type": "String",
+          "required": false,
+          "description": "対象有価証券コード(categoryで有価証券オプションを指定した場合に設定)",
+          "location": "query"
+        },
+        {
+          "name": "date",
+          "type": "String",
+          "required": true,
+          "description": "日付 (YYYYMMDD or YYYY-MM-DD)",
+          "location": "query"
+        },
+        {
+          "name": "contract_flag",
+          "type": "String",
+          "required": false,
+          "description": "中心限月フラグを指定",
+          "location": "query"
+        },
+        {
+          "name": "pagination_key",
+          "type": "String",
+          "required": false,
+          "description": "ページネーション発生時には常に付与可能、発生していない時は省略可能",
+          "location": "query"
+        }
+      ],
+      "response": {
+        "description": "オプションの取引データを返す。四本値・建玉・理論価格などを含む。",
+        "fields": [
+          {
+            "name": "Code",
+            "type": "String",
+            "description": "銘柄コード"
+          },
+          {
+            "name": "ProdCat",
+            "type": "String",
+            "description": "商品区分"
+          },
+          {
+            "name": "UndSSO",
+            "type": "String",
+            "description": "原資産コード"
+          },
+          {
+            "name": "Date",
+            "type": "String",
+            "description": "取引日 (YYYY-MM-DD)"
+          },
+          {
+            "name": "O",
+            "type": "Number",
+            "description": "全日始値"
+          },
+          {
+            "name": "H",
+            "type": "Number",
+            "description": "全日高値"
+          },
+          {
+            "name": "L",
+            "type": "Number",
+            "description": "全日安値"
+          },
+          {
+            "name": "C",
+            "type": "Number",
+            "description": "全日終値"
+          },
+          {
+            "name": "MO",
+            "type": "Number",
+            "description": "前場始値"
+          },
+          {
+            "name": "MH",
+            "type": "Number",
+            "description": "前場高値"
+          },
+          {
+            "name": "ML",
+            "type": "Number",
+            "description": "前場安値"
+          },
+          {
+            "name": "MC",
+            "type": "Number",
+            "description": "前場終値"
+          },
+          {
+            "name": "EO",
+            "type": "Number",
+            "description": "夜間始値"
+          },
+          {
+            "name": "EH",
+            "type": "Number",
+            "description": "夜間高値"
+          },
+          {
+            "name": "EL",
+            "type": "Number",
+            "description": "夜間安値"
+          },
+          {
+            "name": "EC",
+            "type": "Number",
+            "description": "夜間終値"
+          },
+          {
+            "name": "AO",
+            "type": "Number",
+            "description": "日中始値"
+          },
+          {
+            "name": "AH",
+            "type": "Number",
+            "description": "日中高値"
+          },
+          {
+            "name": "AL",
+            "type": "Number",
+            "description": "日中安値"
+          },
+          {
+            "name": "AC",
+            "type": "Number",
+            "description": "日中終値"
+          },
+          {
+            "name": "Vo",
+            "type": "Number",
+            "description": "出来高"
+          },
+          {
+            "name": "OI",
+            "type": "Number",
+            "description": "建玉"
+          },
+          {
+            "name": "Va",
+            "type": "Number",
+            "description": "売買代金"
+          },
+          {
+            "name": "CM",
+            "type": "String",
+            "description": "限月 (YYYY-MM)"
+          },
+          {
+            "name": "Strike",
+            "type": "Number",
+            "description": "権利行使価格"
+          },
+          {
+            "name": "VoOA",
+            "type": "Number",
+            "description": "競り落札高の出来高"
+          },
+          {
+            "name": "EmMrgnTrgDiv",
+            "type": "String",
+            "description": "緊急信用取引開始区分"
+          },
+          {
+            "name": "PCDiv",
+            "type": "String",
+            "description": "プット/コール区分 (1:プット, 2:コール)"
+          },
+          {
+            "name": "LTD",
+            "type": "String",
+            "description": "最終取引日 (YYYY-MM-DD)"
+          },
+          {
+            "name": "SQD",
+            "type": "String",
+            "description": "特別清算日 (YYYY-MM-DD)"
+          },
+          {
+            "name": "Settle",
+            "type": "Number",
+            "description": "清算値段"
+          },
+          {
+            "name": "Theo",
+            "type": "Number",
+            "description": "理論価格"
+          },
+          {
+            "name": "BaseVol",
+            "type": "Number",
+            "description": "基準変動率"
+          },
+          {
+            "name": "UnderPx",
+            "type": "Number",
+            "description": "原資産価格"
+          },
+          {
+            "name": "IV",
+            "type": "Number",
+            "description": "暗示的変動率"
+          },
+          {
+            "name": "IR",
+            "type": "Number",
+            "description": "金利"
+          },
+          {
+            "name": "CCMFlag",
+            "type": "String",
+            "description": "中心限月フラグ"
+          }
+        ]
+      },
+      "auth_required": true,
+      "response_data_key": "data",
+      "plan": [
+        "Premium"
+      ],
+      "data_update": {
+        "frequency": "日次",
+        "time": "27:00頃"
+      },
+      "pagination": {
+        "supported": true,
+        "param": "pagination_key"
+      },
+      "valid_request_patterns": [
+        {
+          "params": [
+            "date"
+          ],
+          "description": "指定した日付の全商品区分のデータ"
+        },
+        {
+          "params": [
+            "date",
+            "category"
+          ],
+          "description": "指定した日付かつ指定した商品区分のデータ"
+        },
+        {
+          "params": [
+            "date",
+            "category",
+            "code"
+          ],
+          "description": "指定した日付、指定した商品区分かつ指定した対象有価証券コードのデータ"
+        },
+        {
+          "params": [
+            "date",
+            "contract_flag"
+          ],
+          "description": "指定した日付かつ指定した中心限月フラグのデータ"
+        },
+        {
+          "params": [
+            "date",
+            "category",
+            "contract_flag"
+          ],
+          "description": "指定した日付、指定した商品区分かつ指定した中心限月フラグのデータ"
+        },
+        {
+          "params": [
+            "date",
+            "category",
+            "code",
+            "contract_flag"
+          ],
+          "description": "指定した日付、指定した商品区分、指定した対象有価証券コードかつ指定した中心限月フラグのデータ"
+        }
+      ]
+    }
+  ]
+}

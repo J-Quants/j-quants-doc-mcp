@@ -1,0 +1,25 @@
+{
+  "faqs": [
+    {
+      "category": "認証",
+      "question": "APIキーの有効期限はどれくらいですか？",
+      "answer": "APIキーは24時間有効です。",
+      "keywords": ["トークン", "有効期限", "期限"],
+      "related_endpoints": []
+    },
+    {
+      "category": "レート制限",
+      "question": "APIのレート制限はありますか？",
+      "answer": "はい、1秒あたり10リクエストまでです。",
+      "keywords": ["レート", "制限", "リクエスト"],
+      "related_endpoints": []
+    },
+    {
+      "category": "データ取得",
+      "question": "過去のデータはどこまで取得できますか？",
+      "answer": "プランによって異なりますが、最大10年分のデータを取得できます。",
+      "keywords": ["過去", "履歴", "データ", "期間"],
+      "related_endpoints": ["eq-bars-daily", "eq-master"]
+    }
+  ]
+}

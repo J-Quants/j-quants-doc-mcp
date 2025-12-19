@@ -1,0 +1,1227 @@
+{
+  "reference_data": [
+    {
+      "name": "market_codes",
+      "description": "市場区分コード一覧。市場区分コードと市場区分名の対応情報を定義する。",
+      "fields": [
+        {
+          "name": "MarketCode",
+          "type": "String",
+          "description": "市場区分コード"
+        },
+        {
+          "name": "MarketCodeName",
+          "type": "String",
+          "description": "市場区分名"
+        }
+      ],
+      "related_properties": [
+        {
+          "endpoint": "eq-master",
+          "property": "Mkt",
+          "direction": "response"
+        },
+        {
+          "endpoint": "eq-master",
+          "property": "MktNm",
+          "direction": "response"
+        }
+      ],
+      "reference_data": [
+        {
+          "MarketCode": "0101",
+          "MarketCodeName": "東証一部"
+        },
+        {
+          "MarketCode": "0102",
+          "MarketCodeName": "東証二部"
+        },
+        {
+          "MarketCode": "0104",
+          "MarketCodeName": "マザーズ"
+        },
+        {
+          "MarketCode": "0105",
+          "MarketCodeName": "TOKYO PRO MARKET"
+        },
+        {
+          "MarketCode": "0106",
+          "MarketCodeName": "JASDAQ スタンダード"
+        },
+        {
+          "MarketCode": "0107",
+          "MarketCodeName": "JASDAQ グロース"
+        },
+        {
+          "MarketCode": "0109",
+          "MarketCodeName": "その他"
+        },
+        {
+          "MarketCode": "0111",
+          "MarketCodeName": "プライム"
+        },
+        {
+          "MarketCode": "0112",
+          "MarketCodeName": "スタンダード"
+        },
+        {
+          "MarketCode": "0113",
+          "MarketCodeName": "グロース"
+        }
+      ]
+    },
+    {
+      "name": "market_names",
+      "description": "市場名一覧。投資部門別情報等で使用される市場名の対応情報を定義する。",
+      "fields": [
+        {
+          "name": "MarketName",
+          "type": "String",
+          "description": "市場名コード"
+        },
+        {
+          "name": "MarketNameJP",
+          "type": "String",
+          "description": "市場名（日本語）"
+        }
+      ],
+      "related_properties": [
+        {
+          "endpoint": "eq-investor-types",
+          "property": "section",
+          "direction": "request"
+        },
+        {
+          "endpoint": "eq-investor-types",
+          "property": "Section",
+          "direction": "response"
+        }
+      ],
+      "reference_data": [
+        {
+          "MarketName": "TSE1st",
+          "MarketNameJP": "市場一部"
+        },
+        {
+          "MarketName": "TSE2nd",
+          "MarketNameJP": "市場二部"
+        },
+        {
+          "MarketName": "TSEMothers",
+          "MarketNameJP": "マザーズ"
+        },
+        {
+          "MarketName": "TSEJASDAQ",
+          "MarketNameJP": "JASDAQ"
+        },
+        {
+          "MarketName": "TSEPrime",
+          "MarketNameJP": "プライム"
+        },
+        {
+          "MarketName": "TSEStandard",
+          "MarketNameJP": "スタンダード"
+        },
+        {
+          "MarketName": "TSEGrowth",
+          "MarketNameJP": "グロース"
+        },
+        {
+          "MarketName": "TokyoNagoya",
+          "MarketNameJP": "東証および名証"
+        }
+      ]
+    },
+    {
+      "name": "sector17_codes",
+      "description": "17業種コード一覧。17業種コードと業種名の対応情報を定義する。",
+      "fields": [
+        {
+          "name": "Sector17Code",
+          "type": "String",
+          "description": "17業種コード"
+        },
+        {
+          "name": "Sector17CodeName",
+          "type": "String",
+          "description": "17業種名"
+        }
+      ],
+      "related_properties": [
+        {
+          "endpoint": "eq-master",
+          "property": "S17",
+          "direction": "response"
+        },
+        {
+          "endpoint": "eq-master",
+          "property": "S17Nm",
+          "direction": "response"
+        }
+      ],
+      "reference_data": [
+        {
+          "Sector17Code": "1",
+          "Sector17CodeName": "食品"
+        },
+        {
+          "Sector17Code": "2",
+          "Sector17CodeName": "エネルギー資源"
+        },
+        {
+          "Sector17Code": "3",
+          "Sector17CodeName": "建設・資材"
+        },
+        {
+          "Sector17Code": "4",
+          "Sector17CodeName": "素材・化学"
+        },
+        {
+          "Sector17Code": "5",
+          "Sector17CodeName": "医薬品"
+        },
+        {
+          "Sector17Code": "6",
+          "Sector17CodeName": "自動車・輸送機"
+        },
+        {
+          "Sector17Code": "7",
+          "Sector17CodeName": "鉄鋼・非鉄"
+        },
+        {
+          "Sector17Code": "8",
+          "Sector17CodeName": "機械"
+        },
+        {
+          "Sector17Code": "9",
+          "Sector17CodeName": "電機・精密"
+        },
+        {
+          "Sector17Code": "10",
+          "Sector17CodeName": "情報通信・サービスその他"
+        },
+        {
+          "Sector17Code": "11",
+          "Sector17CodeName": "電気・ガス"
+        },
+        {
+          "Sector17Code": "12",
+          "Sector17CodeName": "運輸・物流"
+        },
+        {
+          "Sector17Code": "13",
+          "Sector17CodeName": "商社・卸売"
+        },
+        {
+          "Sector17Code": "14",
+          "Sector17CodeName": "小売"
+        },
+        {
+          "Sector17Code": "15",
+          "Sector17CodeName": "銀行"
+        },
+        {
+          "Sector17Code": "16",
+          "Sector17CodeName": "金融（除く銀行）"
+        },
+        {
+          "Sector17Code": "17",
+          "Sector17CodeName": "不動産"
+        },
+        {
+          "Sector17Code": "99",
+          "Sector17CodeName": "その他"
+        }
+      ]
+    },
+    {
+      "name": "sector33_codes",
+      "description": "33業種コード一覧。33業種コードと業種名の対応情報を定義する。",
+      "fields": [
+        {
+          "name": "Sector33Code",
+          "type": "String",
+          "description": "33業種コード"
+        },
+        {
+          "name": "Sector33CodeName",
+          "type": "String",
+          "description": "33業種名"
+        }
+      ],
+      "related_properties": [
+        {
+          "endpoint": "eq-master",
+          "property": "S33",
+          "direction": "response"
+        },
+        {
+          "endpoint": "eq-master",
+          "property": "S33Nm",
+          "direction": "response"
+        }
+      ],
+      "reference_data": [
+        {
+          "Sector33Code": "0050",
+          "Sector33CodeName": "水産・農林業"
+        },
+        {
+          "Sector33Code": "1050",
+          "Sector33CodeName": "鉱業"
+        },
+        {
+          "Sector33Code": "2050",
+          "Sector33CodeName": "建設業"
+        },
+        {
+          "Sector33Code": "3050",
+          "Sector33CodeName": "食料品"
+        },
+        {
+          "Sector33Code": "3100",
+          "Sector33CodeName": "繊維製品"
+        },
+        {
+          "Sector33Code": "3150",
+          "Sector33CodeName": "パルプ・紙"
+        },
+        {
+          "Sector33Code": "3200",
+          "Sector33CodeName": "化学"
+        },
+        {
+          "Sector33Code": "3250",
+          "Sector33CodeName": "医薬品"
+        },
+        {
+          "Sector33Code": "3300",
+          "Sector33CodeName": "石油･石炭製品"
+        },
+        {
+          "Sector33Code": "3350",
+          "Sector33CodeName": "ゴム製品"
+        },
+        {
+          "Sector33Code": "3400",
+          "Sector33CodeName": "ガラス･土石製品"
+        },
+        {
+          "Sector33Code": "3450",
+          "Sector33CodeName": "鉄鋼"
+        },
+        {
+          "Sector33Code": "3500",
+          "Sector33CodeName": "非鉄金属"
+        },
+        {
+          "Sector33Code": "3550",
+          "Sector33CodeName": "金属製品"
+        },
+        {
+          "Sector33Code": "3600",
+          "Sector33CodeName": "機械"
+        },
+        {
+          "Sector33Code": "3650",
+          "Sector33CodeName": "電気機器"
+        },
+        {
+          "Sector33Code": "3700",
+          "Sector33CodeName": "輸送用機器"
+        },
+        {
+          "Sector33Code": "3750",
+          "Sector33CodeName": "精密機器"
+        },
+        {
+          "Sector33Code": "3800",
+          "Sector33CodeName": "その他製品"
+        },
+        {
+          "Sector33Code": "4050",
+          "Sector33CodeName": "電気･ガス業"
+        },
+        {
+          "Sector33Code": "5050",
+          "Sector33CodeName": "陸運業"
+        },
+        {
+          "Sector33Code": "5100",
+          "Sector33CodeName": "海運業"
+        },
+        {
+          "Sector33Code": "5150",
+          "Sector33CodeName": "空運業"
+        },
+        {
+          "Sector33Code": "5200",
+          "Sector33CodeName": "倉庫･運輸関連業"
+        },
+        {
+          "Sector33Code": "5250",
+          "Sector33CodeName": "情報･通信業"
+        },
+        {
+          "Sector33Code": "6050",
+          "Sector33CodeName": "卸売業"
+        },
+        {
+          "Sector33Code": "6100",
+          "Sector33CodeName": "小売業"
+        },
+        {
+          "Sector33Code": "7050",
+          "Sector33CodeName": "銀行業"
+        },
+        {
+          "Sector33Code": "7100",
+          "Sector33CodeName": "証券･商品先物取引業"
+        },
+        {
+          "Sector33Code": "7150",
+          "Sector33CodeName": "保険業"
+        },
+        {
+          "Sector33Code": "7200",
+          "Sector33CodeName": "その他金融業"
+        },
+        {
+          "Sector33Code": "8050",
+          "Sector33CodeName": "不動産業"
+        },
+        {
+          "Sector33Code": "9050",
+          "Sector33CodeName": "サービス業"
+        },
+        {
+          "Sector33Code": "9999",
+          "Sector33CodeName": "その他"
+        }
+      ]
+    },
+    {
+      "name": "index_codes",
+      "description": "指数コード一覧。配信対象の指数コードと指数名の対応情報を定義する。",
+      "fields": [
+        {
+          "name": "Code",
+          "type": "String",
+          "description": "指数コード"
+        },
+        {
+          "name": "IndexName",
+          "type": "String",
+          "description": "指数名"
+        }
+      ],
+      "related_properties": [
+        {
+          "endpoint": "idx-bars-daily",
+          "property": "code",
+          "direction": "request"
+        },
+        {
+          "endpoint": "idx-bars-daily",
+          "property": "Code",
+          "direction": "response"
+        }
+      ],
+      "reference_data": [
+        {
+          "Code": "0000",
+          "IndexName": "TOPIX"
+        },
+        {
+          "Code": "0001",
+          "IndexName": "東証二部総合指数"
+        },
+        {
+          "Code": "0028",
+          "IndexName": "TOPIX Core30"
+        },
+        {
+          "Code": "0029",
+          "IndexName": "TOPIX Large 70"
+        },
+        {
+          "Code": "002A",
+          "IndexName": "TOPIX 100"
+        },
+        {
+          "Code": "002B",
+          "IndexName": "TOPIX Mid400"
+        },
+        {
+          "Code": "002C",
+          "IndexName": "TOPIX 500"
+        },
+        {
+          "Code": "002D",
+          "IndexName": "TOPIX Small"
+        },
+        {
+          "Code": "002E",
+          "IndexName": "TOPIX 1000"
+        },
+        {
+          "Code": "002F",
+          "IndexName": "TOPIX Small500"
+        },
+        {
+          "Code": "0040",
+          "IndexName": "東証業種別 水産・農林業"
+        },
+        {
+          "Code": "0041",
+          "IndexName": "東証業種別 鉱業"
+        },
+        {
+          "Code": "0042",
+          "IndexName": "東証業種別 建設業"
+        },
+        {
+          "Code": "0043",
+          "IndexName": "東証業種別 食料品"
+        },
+        {
+          "Code": "0044",
+          "IndexName": "東証業種別 繊維製品"
+        },
+        {
+          "Code": "0045",
+          "IndexName": "東証業種別 パルプ・紙"
+        },
+        {
+          "Code": "0046",
+          "IndexName": "東証業種別 化学"
+        },
+        {
+          "Code": "0047",
+          "IndexName": "東証業種別 医薬品"
+        },
+        {
+          "Code": "0048",
+          "IndexName": "東証業種別 石油・石炭製品"
+        },
+        {
+          "Code": "0049",
+          "IndexName": "東証業種別 ゴム製品"
+        },
+        {
+          "Code": "004A",
+          "IndexName": "東証業種別 ガラス・土石製品"
+        },
+        {
+          "Code": "004B",
+          "IndexName": "東証業種別 鉄鋼"
+        },
+        {
+          "Code": "004C",
+          "IndexName": "東証業種別 非鉄金属"
+        },
+        {
+          "Code": "004D",
+          "IndexName": "東証業種別 金属製品"
+        },
+        {
+          "Code": "004E",
+          "IndexName": "東証業種別 機械"
+        },
+        {
+          "Code": "004F",
+          "IndexName": "東証業種別 電気機器"
+        },
+        {
+          "Code": "0050",
+          "IndexName": "東証業種別 輸送用機器"
+        },
+        {
+          "Code": "0051",
+          "IndexName": "東証業種別 精密機器"
+        },
+        {
+          "Code": "0052",
+          "IndexName": "東証業種別 その他製品"
+        },
+        {
+          "Code": "0053",
+          "IndexName": "東証業種別 電気・ガス業"
+        },
+        {
+          "Code": "0054",
+          "IndexName": "東証業種別 陸運業"
+        },
+        {
+          "Code": "0055",
+          "IndexName": "東証業種別 海運業"
+        },
+        {
+          "Code": "0056",
+          "IndexName": "東証業種別 空運業"
+        },
+        {
+          "Code": "0057",
+          "IndexName": "東証業種別 倉庫・運輸関連業"
+        },
+        {
+          "Code": "0058",
+          "IndexName": "東証業種別 情報・通信業"
+        },
+        {
+          "Code": "0059",
+          "IndexName": "東証業種別 卸売業"
+        },
+        {
+          "Code": "005A",
+          "IndexName": "東証業種別 小売業"
+        },
+        {
+          "Code": "005B",
+          "IndexName": "東証業種別 銀行業"
+        },
+        {
+          "Code": "005C",
+          "IndexName": "東証業種別 証券・商品先物取引業"
+        },
+        {
+          "Code": "005D",
+          "IndexName": "東証業種別 保険業"
+        },
+        {
+          "Code": "005E",
+          "IndexName": "東証業種別 その他金融業"
+        },
+        {
+          "Code": "005F",
+          "IndexName": "東証業種別 不動産業"
+        },
+        {
+          "Code": "0060",
+          "IndexName": "東証業種別 サービス業"
+        },
+        {
+          "Code": "0070",
+          "IndexName": "東証グロース市場250指数"
+        },
+        {
+          "Code": "0075",
+          "IndexName": "REIT"
+        },
+        {
+          "Code": "0080",
+          "IndexName": "TOPIX-17 食品"
+        },
+        {
+          "Code": "0081",
+          "IndexName": "TOPIX-17 エネルギー資源"
+        },
+        {
+          "Code": "0082",
+          "IndexName": "TOPIX-17 建設・資材"
+        },
+        {
+          "Code": "0083",
+          "IndexName": "TOPIX-17 素材・化学"
+        },
+        {
+          "Code": "0084",
+          "IndexName": "TOPIX-17 医薬品"
+        },
+        {
+          "Code": "0085",
+          "IndexName": "TOPIX-17 自動車・輸送機"
+        },
+        {
+          "Code": "0086",
+          "IndexName": "TOPIX-17 鉄鋼・非鉄"
+        },
+        {
+          "Code": "0087",
+          "IndexName": "TOPIX-17 機械"
+        },
+        {
+          "Code": "0088",
+          "IndexName": "TOPIX-17 電機・精密"
+        },
+        {
+          "Code": "0089",
+          "IndexName": "TOPIX-17 情報通信・サービスその他"
+        },
+        {
+          "Code": "008A",
+          "IndexName": "TOPIX-17 電力・ガス"
+        },
+        {
+          "Code": "008B",
+          "IndexName": "TOPIX-17 運輸・物流"
+        },
+        {
+          "Code": "008C",
+          "IndexName": "TOPIX-17 商社・卸売"
+        },
+        {
+          "Code": "008D",
+          "IndexName": "TOPIX-17 小売"
+        },
+        {
+          "Code": "008E",
+          "IndexName": "TOPIX-17 銀行"
+        },
+        {
+          "Code": "008F",
+          "IndexName": "TOPIX-17 金融（除く銀行）"
+        },
+        {
+          "Code": "0090",
+          "IndexName": "TOPIX-17 不動産"
+        },
+        {
+          "Code": "0091",
+          "IndexName": "JASDAQ INDEX"
+        },
+        {
+          "Code": "0500",
+          "IndexName": "東証プライム市場指数"
+        },
+        {
+          "Code": "0501",
+          "IndexName": "東証スタンダード市場指数"
+        },
+        {
+          "Code": "0502",
+          "IndexName": "東証グロース市場指数"
+        },
+        {
+          "Code": "0503",
+          "IndexName": "JPXプライム150指数"
+        },
+        {
+          "Code": "8100",
+          "IndexName": "TOPIX バリュー"
+        },
+        {
+          "Code": "812C",
+          "IndexName": "TOPIX500 バリュー"
+        },
+        {
+          "Code": "812D",
+          "IndexName": "TOPIXSmall バリュー"
+        },
+        {
+          "Code": "8200",
+          "IndexName": "TOPIX グロース"
+        },
+        {
+          "Code": "822C",
+          "IndexName": "TOPIX500 グロース"
+        },
+        {
+          "Code": "822D",
+          "IndexName": "TOPIXSmall グロース"
+        },
+        {
+          "Code": "8501",
+          "IndexName": "東証REIT オフィス指数"
+        },
+        {
+          "Code": "8502",
+          "IndexName": "東証REIT 住宅指数"
+        },
+        {
+          "Code": "8503",
+          "IndexName": "東証REIT 商業・物流等指数"
+        }
+      ]
+    },
+    {
+      "name": "futures_product_codes",
+      "description": "先物商品区分コード一覧。先物取引で使用される商品区分コードと商品区分名称の対応情報を定義する。",
+      "fields": [
+        {
+          "name": "ProductCode",
+          "type": "String",
+          "description": "商品区分コード"
+        },
+        {
+          "name": "ProductName",
+          "type": "String",
+          "description": "商品区分名称"
+        }
+      ],
+      "related_properties": [
+        {
+          "endpoint": "drv-bars-daily-futures",
+          "property": "category",
+          "direction": "request"
+        },
+        {
+          "endpoint": "drv-bars-daily-futures",
+          "property": "ProdCat",
+          "direction": "response"
+        }
+      ],
+      "reference_data": [
+        {
+          "ProductCode": "TOPIXF",
+          "ProductName": "TOPIX先物"
+        },
+        {
+          "ProductCode": "TOPIXMF",
+          "ProductName": "ミニTOPIX先物"
+        },
+        {
+          "ProductCode": "MOTF",
+          "ProductName": "マザーズ先物"
+        },
+        {
+          "ProductCode": "NKVIF",
+          "ProductName": "日経平均VI先物"
+        },
+        {
+          "ProductCode": "NKYDF",
+          "ProductName": "日経平均・配当指数先物"
+        },
+        {
+          "ProductCode": "NK225F",
+          "ProductName": "日経225先物"
+        },
+        {
+          "ProductCode": "NK225MF",
+          "ProductName": "日経225mini先物"
+        },
+        {
+          "ProductCode": "JN400F",
+          "ProductName": "JPX日経インデックス400先物"
+        },
+        {
+          "ProductCode": "REITF",
+          "ProductName": "東証REIT指数先物"
+        },
+        {
+          "ProductCode": "DJIAF",
+          "ProductName": "NYダウ先物"
+        },
+        {
+          "ProductCode": "JGBLF",
+          "ProductName": "長期国債先物"
+        },
+        {
+          "ProductCode": "NK225MCF",
+          "ProductName": "日経225マイクロ先物"
+        },
+        {
+          "ProductCode": "TOA3MF",
+          "ProductName": "TONA3ヶ月金利先物"
+        }
+      ]
+    },
+    {
+      "name": "option_product_codes",
+      "description": "オプション商品区分コード一覧。オプション取引で使用される商品区分コードと商品区分名称の対応情報を定義する。",
+      "fields": [
+        {
+          "name": "ProductCode",
+          "type": "String",
+          "description": "商品区分コード"
+        },
+        {
+          "name": "ProductName",
+          "type": "String",
+          "description": "商品区分名称"
+        }
+      ],
+      "related_properties": [
+        {
+          "endpoint": "drv-bars-daily-opt",
+          "property": "category",
+          "direction": "request"
+        },
+        {
+          "endpoint": "drv-bars-daily-opt",
+          "property": "ProdCat",
+          "direction": "response"
+        }
+      ],
+      "reference_data": [
+        {
+          "ProductCode": "TOPIXE",
+          "ProductName": "TOPIXオプション"
+        },
+        {
+          "ProductCode": "NK225E",
+          "ProductName": "日経225オプション"
+        },
+        {
+          "ProductCode": "JGBLFE",
+          "ProductName": "長期国債先物オプション"
+        },
+        {
+          "ProductCode": "EQOP",
+          "ProductName": "有価証券オプション"
+        },
+        {
+          "ProductCode": "NK225MWE",
+          "ProductName": "日経225miniオプション"
+        }
+      ]
+    },
+    {
+      "name": "disclosure_document_types",
+      "description": "開示書類種別一覧。決算短信等の開示書類の種別コードと概要の対応情報を定義する。",
+      "fields": [
+        {
+          "name": "DocumentType",
+          "type": "String",
+          "description": "書類種別コード"
+        },
+        {
+          "name": "DocumentTypeJP",
+          "type": "String",
+          "description": "概要（日本語）"
+        }
+      ],
+      "related_properties": [
+        {
+          "endpoint": "fin-summary",
+          "property": "DocType",
+          "direction": "response"
+        }
+      ],
+      "reference_data": [
+        {
+          "DocumentType": "FYFinancialStatements_Consolidated_JP",
+          "DocumentTypeJP": "決算短信（連結・日本基準）"
+        },
+        {
+          "DocumentType": "FYFinancialStatements_Consolidated_US",
+          "DocumentTypeJP": "決算短信（連結・米国基準）"
+        },
+        {
+          "DocumentType": "FYFinancialStatements_NonConsolidated_JP",
+          "DocumentTypeJP": "決算短信（非連結・日本基準）"
+        },
+        {
+          "DocumentType": "1QFinancialStatements_Consolidated_JP",
+          "DocumentTypeJP": "第1四半期決算短信（連結・日本基準）"
+        },
+        {
+          "DocumentType": "1QFinancialStatements_Consolidated_US",
+          "DocumentTypeJP": "第1四半期決算短信（連結・米国基準）"
+        },
+        {
+          "DocumentType": "1QFinancialStatements_NonConsolidated_JP",
+          "DocumentTypeJP": "第1四半期決算短信（非連結・日本基準）"
+        },
+        {
+          "DocumentType": "2QFinancialStatements_Consolidated_JP",
+          "DocumentTypeJP": "第2四半期決算短信（連結・日本基準）"
+        },
+        {
+          "DocumentType": "2QFinancialStatements_Consolidated_US",
+          "DocumentTypeJP": "第2四半期決算短信（連結・米国基準）"
+        },
+        {
+          "DocumentType": "2QFinancialStatements_NonConsolidated_JP",
+          "DocumentTypeJP": "第2四半期決算短信（非連結・日本基準）"
+        },
+        {
+          "DocumentType": "3QFinancialStatements_Consolidated_JP",
+          "DocumentTypeJP": "第3四半期決算短信（連結・日本基準）"
+        },
+        {
+          "DocumentType": "3QFinancialStatements_Consolidated_US",
+          "DocumentTypeJP": "第3四半期決算短信（連結・米国基準）"
+        },
+        {
+          "DocumentType": "3QFinancialStatements_NonConsolidated_JP",
+          "DocumentTypeJP": "第3四半期決算短信（非連結・日本基準）"
+        },
+        {
+          "DocumentType": "OtherPeriodFinancialStatements_Consolidated_JP",
+          "DocumentTypeJP": "その他四半期決算短信（連結・日本基準）"
+        },
+        {
+          "DocumentType": "OtherPeriodFinancialStatements_Consolidated_US",
+          "DocumentTypeJP": "その他四半期決算短信（連結・米国基準）"
+        },
+        {
+          "DocumentType": "OtherPeriodFinancialStatements_NonConsolidated_JP",
+          "DocumentTypeJP": "その他四半期決算短信（非連結・日本基準）"
+        },
+        {
+          "DocumentType": "FYFinancialStatements_Consolidated_JMIS",
+          "DocumentTypeJP": "決算短信（連結・ＪＭＩＳ）"
+        },
+        {
+          "DocumentType": "1QFinancialStatements_Consolidated_JMIS",
+          "DocumentTypeJP": "第1四半期決算短信（連結・ＪＭＩＳ）"
+        },
+        {
+          "DocumentType": "2QFinancialStatements_Consolidated_JMIS",
+          "DocumentTypeJP": "第2四半期決算短信（連結・ＪＭＩＳ）"
+        },
+        {
+          "DocumentType": "3QFinancialStatements_Consolidated_JMIS",
+          "DocumentTypeJP": "第3四半期決算短信（連結・ＪＭＩＳ）"
+        },
+        {
+          "DocumentType": "OtherPeriodFinancialStatements_Consolidated_JMIS",
+          "DocumentTypeJP": "その他四半期決算短信（連結・ＪＭＩＳ）"
+        },
+        {
+          "DocumentType": "FYFinancialStatements_NonConsolidated_IFRS",
+          "DocumentTypeJP": "決算短信（非連結・ＩＦＲＳ）"
+        },
+        {
+          "DocumentType": "1QFinancialStatements_NonConsolidated_IFRS",
+          "DocumentTypeJP": "第1四半期決算短信（非連結・ＩＦＲＳ）"
+        },
+        {
+          "DocumentType": "2QFinancialStatements_NonConsolidated_IFRS",
+          "DocumentTypeJP": "第2四半期決算短信（非連結・ＩＦＲＳ）"
+        },
+        {
+          "DocumentType": "3QFinancialStatements_NonConsolidated_IFRS",
+          "DocumentTypeJP": "第3四半期決算短信（非連結・ＩＦＲＳ）"
+        },
+        {
+          "DocumentType": "OtherPeriodFinancialStatements_NonConsolidated_IFRS",
+          "DocumentTypeJP": "その他四半期決算短信（非連結・ＩＦＲＳ）"
+        },
+        {
+          "DocumentType": "FYFinancialStatements_Consolidated_IFRS",
+          "DocumentTypeJP": "決算短信（連結・ＩＦＲＳ）"
+        },
+        {
+          "DocumentType": "1QFinancialStatements_Consolidated_IFRS",
+          "DocumentTypeJP": "第1四半期決算短信（連結・ＩＦＲＳ）"
+        },
+        {
+          "DocumentType": "2QFinancialStatements_Consolidated_IFRS",
+          "DocumentTypeJP": "第2四半期決算短信（連結・ＩＦＲＳ）"
+        },
+        {
+          "DocumentType": "3QFinancialStatements_Consolidated_IFRS",
+          "DocumentTypeJP": "第3四半期決算短信（連結・ＩＦＲＳ）"
+        },
+        {
+          "DocumentType": "OtherPeriodFinancialStatements_Consolidated_IFRS",
+          "DocumentTypeJP": "その他四半期決算短信（連結・ＩＦＲＳ）"
+        },
+        {
+          "DocumentType": "FYFinancialStatements_NonConsolidated_Foreign",
+          "DocumentTypeJP": "決算短信（非連結・外国株）"
+        },
+        {
+          "DocumentType": "1QFinancialStatements_NonConsolidated_Foreign",
+          "DocumentTypeJP": "第1四半期決算短信（非連結・外国株）"
+        },
+        {
+          "DocumentType": "2QFinancialStatements_NonConsolidated_Foreign",
+          "DocumentTypeJP": "第2四半期決算短信（非連結・外国株）"
+        },
+        {
+          "DocumentType": "3QFinancialStatements_NonConsolidated_Foreign",
+          "DocumentTypeJP": "第3四半期決算短信（非連結・外国株）"
+        },
+        {
+          "DocumentType": "OtherPeriodFinancialStatements_NonConsolidated_Foreign",
+          "DocumentTypeJP": "その他四半期決算短信（非連結・外国株）"
+        },
+        {
+          "DocumentType": "FYFinancialStatements_Consolidated_Foreign",
+          "DocumentTypeJP": "決算短信（連結・外国株）"
+        },
+        {
+          "DocumentType": "1QFinancialStatements_Consolidated_Foreign",
+          "DocumentTypeJP": "第1四半期決算短信（連結・外国株）"
+        },
+        {
+          "DocumentType": "2QFinancialStatements_Consolidated_Foreign",
+          "DocumentTypeJP": "第2四半期決算短信（連結・外国株）"
+        },
+        {
+          "DocumentType": "3QFinancialStatements_Consolidated_Foreign",
+          "DocumentTypeJP": "第3四半期決算短信（連結・外国株）"
+        },
+        {
+          "DocumentType": "OtherPeriodFinancialStatements_Consolidated_Foreign",
+          "DocumentTypeJP": "その他四半期決算短信（連結・外国株）"
+        },
+        {
+          "DocumentType": "FYFinancialStatements_Consolidated_REIT",
+          "DocumentTypeJP": "決算短信（REIT）"
+        },
+        {
+          "DocumentType": "DividendForecastRevision",
+          "DocumentTypeJP": "配当予想の修正"
+        },
+        {
+          "DocumentType": "EarnForecastRevision",
+          "DocumentTypeJP": "業績予想の修正"
+        },
+        {
+          "DocumentType": "REITDividendForecastRevision",
+          "DocumentTypeJP": "分配予想の修正"
+        },
+        {
+          "DocumentType": "REITEarnForecastRevision",
+          "DocumentTypeJP": "利益予想の修正"
+        }
+      ]
+    },
+    {
+      "name": "holiday_division",
+      "description": "休日区分一覧。取引カレンダーにおける営業日・非営業日の区分を定義する。",
+      "fields": [
+        {
+          "name": "HolidayCode",
+          "type": "Number",
+          "description": "休日区分コード"
+        },
+        {
+          "name": "HolidayName",
+          "type": "String",
+          "description": "休日区分名"
+        }
+      ],
+      "related_properties": [
+        {
+          "endpoint": "mkt-cal",
+          "property": "hol_div",
+          "direction": "request"
+        },
+        {
+          "endpoint": "mkt-cal",
+          "property": "HolDiv",
+          "direction": "response"
+        }
+      ],
+      "reference_data": [
+        {
+          "HolidayCode": 0,
+          "HolidayName": "非営業日"
+        },
+        {
+          "HolidayCode": 1,
+          "HolidayName": "営業日"
+        },
+        {
+          "HolidayCode": 2,
+          "HolidayName": "東証半日立会日"
+        },
+        {
+          "HolidayCode": 3,
+          "HolidayName": "非営業日(祝日取引あり)"
+        }
+      ]
+    },
+    {
+      "name": "margin_regulation_codes",
+      "description": "東証信用貸借規制区分一覧。日々公表銘柄における信用取引の規制種別コードと説明の対応情報を定義する。",
+      "fields": [
+        {
+          "name": "RegulationCode",
+          "type": "String",
+          "description": "規制区分コード"
+        },
+        {
+          "name": "RegulationDescription",
+          "type": "String",
+          "description": "規制説明"
+        }
+      ],
+      "related_properties": [
+        {
+          "endpoint": "mkt-margin-alert",
+          "property": "TSEMrgnRegCls",
+          "direction": "response"
+        }
+      ],
+      "reference_data": [
+        {
+          "RegulationCode": "001",
+          "RegulationDescription": "日本証券金融が実施する貸株注意喚起銘柄および貸株申込制限措置銘柄"
+        },
+        {
+          "RegulationCode": "002",
+          "RegulationDescription": "東京証券取引所が定める日々公表銘柄"
+        },
+        {
+          "RegulationCode": "003",
+          "RegulationDescription": "東京証券取引所が定める規制銘柄"
+        },
+        {
+          "RegulationCode": "004",
+          "RegulationDescription": "東京証券取引所が定める規制銘柄（2次規制）"
+        },
+        {
+          "RegulationCode": "005",
+          "RegulationDescription": "東京証券取引所が定める規制銘柄（3次規制）"
+        },
+        {
+          "RegulationCode": "006",
+          "RegulationDescription": "東京証券取引所が定める規制銘柄（4次規制）"
+        },
+        {
+          "RegulationCode": "101",
+          "RegulationDescription": "東京証券取引所が定める規制解除銘柄"
+        },
+        {
+          "RegulationCode": "102",
+          "RegulationDescription": "東京証券取引所が定める監理銘柄"
+        }
+      ]
+    },
+    {
+      "name": "publication_reasons",
+      "description": "公表の理由一覧。日々公表銘柄に指定されている理由をフラグで示す項目の定義。",
+      "fields": [
+        {
+          "name": "FlagName",
+          "type": "String",
+          "description": "フラグ名"
+        },
+        {
+          "name": "FlagDescription",
+          "type": "String",
+          "description": "フラグの説明"
+        }
+      ],
+      "related_properties": [
+        {
+          "endpoint": "mkt-margin-alert",
+          "property": "PubReason",
+          "direction": "response"
+        }
+      ],
+      "reference_data": [
+        {
+          "FlagName": "Restricted",
+          "FlagDescription": "1の場合、東京証券取引所が定める信用取引の規制措置銘柄に選定されている。0の場合、非該当。"
+        },
+        {
+          "FlagName": "DailyPublication",
+          "FlagDescription": "1の場合、東京証券取引所が定める日々公表銘柄に選定されている。0の場合、非該当。"
+        },
+        {
+          "FlagName": "Monitoring",
+          "FlagDescription": "1の場合、東京証券取引所が定める特別注意銘柄に選定されている。0の場合、非該当。"
+        },
+        {
+          "FlagName": "RestrictedByJSF",
+          "FlagDescription": "1の場合、日本証券金融が定める貸株申込制限措置銘柄に選定されている。0の場合、非該当。"
+        },
+        {
+          "FlagName": "PrecautionByJSF",
+          "FlagDescription": "1の場合、日本証券金融が定める貸株注意喚起銘柄に選定されている。0の場合、非該当。"
+        },
+        {
+          "FlagName": "UnclearOrSecOnAlert",
+          "FlagDescription": "1の場合、東京証券取引所が定める不明確情報等により注意喚起の対象となった銘柄、特別注意銘柄等に選定されている。0の場合、非該当。"
+        }
+      ]
+    }
+  ]
+}

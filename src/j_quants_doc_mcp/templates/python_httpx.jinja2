@@ -1,0 +1,267 @@
+"""
+{{ endpoint_name }}{% if name_ja %} - {{ name_ja }}{% endif %}
+
+{{ description }}
+{{ method }} {{ path }}
+
+このコードは J-Quants API の {{ endpoint_name }}{% if name_ja %} ({{ name_ja }}){% endif %} エンドポイントを呼び出します。
+
+セットアップ:
+1. 必要なパッケージをインストール:
+   pip install httpx python-dotenv
+
+2. プロジェクトルートに .env ファイルを作成し、以下の環境変数を設定:
+{%- if has_sensitive_params %}
+{%- for param in required_params %}
+{%- if param.is_sensitive %}
+   {{ param.env_var_name }}=your_{{ param.name }}_here
+{%- endif %}
+{%- endfor %}
+{%- endif %}
+{%- if auth_required %}
+   JQUANTS_X_API_KEY=your_api_key
+{%- endif %}
+
+注意: .env ファイルは機密情報を含むため、.gitignore に追加してください。
+
+"""
+import httpx
+{%- if auth_required %}
+import os
+from dotenv import load_dotenv
+
+# .env ファイルから環境変数を読み込み
+load_dotenv()
+{%- elif has_sensitive_params %}
+import os
+from dotenv import load_dotenv
+
+# .env ファイルから環境変数を読み込み
+load_dotenv()
+{%- endif %}
+
+
+def {{ function_name }}(
+{%- if auth_required %}
+    api_key: str,
+{%- endif %}
+{%- for param in required_params %}
+    {{ param.name }}: {{ param.python_type }}{{ "," if not loop.last or optional_params or has_pagination else "" }}
+{%- endfor %}
+{%- if optional_params %}
+{%- for param in optional_params %}
+    {{ param.name }}: {{ param.python_type }} | None = None{{ "," if not loop.last or has_pagination else "" }}
+{%- endfor %}
+{%- endif %}
+{%- if has_pagination %}
+    pagination_key: str | None = None
+{%- endif %}
+) -> dict:
+    """{{ description }}
+
+    Args:
+{%- if auth_required %}
+        api_key: APIキー(x-api-key)
+{%- endif %}
+{%- for param in required_params %}
+        {{ param.name }}: {{ param.description }}
+{%- endfor %}
+{%- for param in optional_params %}
+        {{ param.name }}: {{ param.description }} (オプション)
+{%- endfor %}
+{%- if has_pagination %}
+        pagination_key: ページネーション継続キー (オプション)
+{%- endif %}
+
+    Returns:
+        APIレスポンス
+    """
+    url = "https://api.jquants.com/v2{{ path }}"
+
+{%- if query_params or has_pagination %}
+    # クエリパラメータの設定
+    params = {}
+{%- for param in query_params %}
+{%- if param.required %}
+    params["{{ param.original_name }}"] = {{ param.name }}
+{%- else %}
+    if {{ param.name }} is not None:
+        params["{{ param.original_name }}"] = {{ param.name }}
+{%- endif %}
+{%- endfor %}
+{%- if has_pagination %}
+    if pagination_key is not None:
+        params["pagination_key"] = pagination_key
+{%- endif %}
+{%- endif %}
+
+{%- if header_params or auth_required %}
+    # ヘッダーの設定
+    headers = {}
+{%- if auth_required %}
+    headers["x-api-key"] = api_key
+{%- endif %}
+{%- for param in header_params %}
+{%- if param.required %}
+    headers["{{ param.original_name }}"] = {{ param.name }}
+{%- else %}
+    if {{ param.name }} is not None:
+        headers["{{ param.original_name }}"] = {{ param.name }}
+{%- endif %}
+{%- endfor %}
+{%- endif %}
+
+{%- if body_params %}
+    # リクエストボディの設定
+    body = {}
+{%- for param in body_params %}
+{%- if param.required %}
+    body["{{ param.original_name }}"] = {{ param.name }}
+{%- else %}
+    if {{ param.name }} is not None:
+        body["{{ param.original_name }}"] = {{ param.name }}
+{%- endif %}
+{%- endfor %}
+{%- endif %}
+
+    # APIリクエストの送信
+    with httpx.Client() as client:
+        response = client.{{ method.lower() }}(
+            url,
+{%- if query_params or has_pagination %}
+            params=params,
+{%- endif %}
+{%- if header_params or auth_required %}
+            headers=headers,
+{%- endif %}
+{%- if body_params %}
+{%- if method == "POST" or method == "PUT" or method == "PATCH" %}
+            json=body,
+{%- endif %}
+{%- endif %}
+        )
+        response.raise_for_status()
+        return response.json()
+
+
+{%- if has_pagination %}
+
+def {{ function_name }}_all(
+{%- if auth_required %}
+    api_key: str,
+{%- endif %}
+{%- for param in required_params %}
+    {{ param.name }}: {{ param.python_type }}{{ "," if not loop.last or optional_params else "" }}
+{%- endfor %}
+{%- if optional_params %}
+{%- for param in optional_params %}
+    {{ param.name }}: {{ param.python_type }} | None = None{{ "," if not loop.last else "" }}
+{%- endfor %}
+{%- endif %}
+) -> list[dict]:
+    """{{ description }} - 全ページを自動取得
+
+    Args:
+{%- if auth_required %}
+        api_key: APIキー(x-api-key)
+{%- endif %}
+{%- for param in required_params %}
+        {{ param.name }}: {{ param.description }}
+{%- endfor %}
+{%- for param in optional_params %}
+        {{ param.name }}: {{ param.description }} (オプション)
+{%- endfor %}
+
+    Returns:
+        全ページのデータを結合したリスト
+    """
+    all_results = []
+    pagination_key = None
+
+    while True:
+        response = {{ function_name }}(
+{%- if auth_required %}
+            api_key=api_key,
+{%- endif %}
+{%- for param in required_params %}
+            {{ param.name }}={{ param.name }},
+{%- endfor %}
+{%- for param in optional_params %}
+            {{ param.name }}={{ param.name }},
+{%- endfor %}
+            pagination_key=pagination_key
+        )
+
+        # データを追加
+        if isinstance(response, dict):
+            # レスポンスがdictの場合、response_data_keyを使ってデータを取得
+            data = response.get("{{ response_data_key }}", [])
+            if isinstance(data, list):
+                all_results.extend(data)
+            else:
+                all_results.append(response)
+        elif isinstance(response, list):
+            all_results.extend(response)
+
+        # 次のページがあるか確認
+        pagination_key = response.get("pagination_key") if isinstance(response, dict) else None
+        if not pagination_key:
+            break
+
+    return all_results
+{%- endif %}
+
+
+if __name__ == "__main__":
+{%- if auth_required %}
+    # x-api-keyを環境変数から取得
+    api_key = os.getenv("JQUANTS_API_KEY")
+
+{%- endif %}
+{%- if has_sensitive_params %}
+    # 機密情報を環境変数から取得
+{%- for param in required_params %}
+{%- if param.is_sensitive %}
+    {{ param.name }} = os.getenv("{{ param.env_var_name }}")
+    if not {{ param.name }}:
+        raise ValueError("環境変数 {{ param.env_var_name }} が設定されていません。.env ファイルを確認してください。")
+{%- endif %}
+{%- endfor %}
+
+{%- endif %}
+{%- set has_api_key_params = required_params|selectattr('is_api_key')|list|length > 0 %}
+{%- if has_api_key_params %}
+    # APIキーの設定
+{%- for param in required_params %}
+{%- if param.is_api_key %}
+    {{ param.name }} = "your_{{ param.name }}_here"  # 認証フローから取得したトークンを設定
+{%- endif %}
+{%- endfor %}
+
+{%- endif %}
+{%- if non_sensitive_required_params %}
+    # その他のパラメータ設定例
+{%- for param in non_sensitive_required_params %}
+{%- if not param.is_api_key %}
+    {{ param.name }} = {{ param.example_value }}  # 必要に応じて変更してください
+{%- endif %}
+{%- endfor %}
+
+{%- endif %}
+    # API呼び出し
+    try:
+        result = {{ function_name }}(
+{%- if auth_required %}
+            api_key=api_key,
+{%- endif %}
+{%- for param in required_params %}
+            {{ param.name }}={{ param.name }}{{ "," if not loop.last else "" }}
+{%- endfor %}
+        )
+        print("✅ API呼び出し成功:")
+        print(result)
+    except httpx.HTTPStatusError as e:
+        print(f"❌ HTTPエラー: {e.response.status_code}")
+        print(f"レスポンス: {e.response.text}")
+    except Exception as e:
+        print(f"❌ エラーが発生しました: {e}")
