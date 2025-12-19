@@ -60,6 +60,18 @@ j-quants-doc-mcp
 }
 ```
 
+pipでインストールした場合は、`j-quants-doc-mcp` コマンドを直接指定します:
+```json
+{
+  "mcpServers": {
+    "j-quants-doc-mcp": {
+      "command": "j-quants-doc-mcp",
+      "args": []
+    }
+  }
+}
+```
+
 設定ファイルの場所:
 - macOS: `~/Library/Application Support/Claude/claude_desktop_config.json`
 - Windows: `%APPDATA%\Claude\claude_desktop_config.json`
@@ -81,19 +93,21 @@ j-quants-doc-mcp
 }
 ```
 
+pipでインストールした場合は、`j-quants-doc-mcp` コマンドを直接指定します:
+```json
+{
+  "mcpServers": {
+    "j-quants-doc-mcp": {
+      "command": "j-quants-doc-mcp",
+      "args": []
+    }
+  }
+}
+```
+
 以上の設定で、AIクライアントにてMCPサーバーを利用する準備が完了しました。
 
 ## トラブルシューティング
-
-### サーバーが起動しない
-
-```bash
-# バージョン確認
-j-quants-doc-mcp --version
-
-# ヘルプ表示
-j-quants-doc-mcp --help
-```
 
 ### Claude Desktopで認識されない
 
