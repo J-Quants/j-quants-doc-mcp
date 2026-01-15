@@ -64,6 +64,7 @@ class Endpoint(BaseModel):
     )
     method: str = Field(..., description="HTTPメソッド (GET, POST, etc.)")
     description: str = Field(..., description="エンドポイントの説明")
+    bulk_available: bool = Field(..., description="Bulk APIでデータ取得が可能かどうか")
     parameters: list[Parameter] = Field(
         default_factory=list, description="パラメータリスト"
     )

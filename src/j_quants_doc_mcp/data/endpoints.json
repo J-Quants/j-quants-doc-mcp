@@ -8,6 +8,7 @@
       "path_old": "/listed/info",
       "method": "GET",
       "description": "上場銘柄一覧を取得するエンドポイント。銘柄コードや基準日を指定して上場銘柄の情報を取得できる。",
+      "bulk_available": true,
       "parameters": [
         {
           "name": "code",
@@ -152,6 +153,7 @@
       "path_old": "/prices/daily_quotes",
       "method": "GET",
       "description": "株価四本値データを取得するエンドポイント。銘柄コードまたは日付を指定して株価データを取得できる。",
+      "bulk_available": true,
       "parameters": [
         {
           "name": "code",
@@ -457,6 +459,7 @@
       "path": "/equities/bars/minute",
       "method": "GET",
       "description": "分足の株価データを取得するエンドポイント。1分単位の四本値（始値・高値・安値・終値）、出来高、売買代金のデータを取得できる。",
+      "bulk_available": true,
       "parameters": [
         {
           "name": "code",
@@ -598,6 +601,7 @@
       "path_old": "/fins/statements",
       "method": "GET",
       "description": "財務情報を取得するエンドポイント。銘柄コードまたは日付を指定して四半期決算情報を取得できる。",
+      "bulk_available": true,
       "parameters": [
         {
           "name": "code",
@@ -1202,6 +1206,7 @@
       "path_old": "/prices/prices_am",
       "method": "GET",
       "description": "前場の株価情報を取得するエンドポイント。当日の前場四本値（始値・高値・安値・終値）と出来高を取得できる。",
+      "bulk_available": false,
       "parameters": [
         {
           "name": "code",
@@ -1298,6 +1303,7 @@
       "path_old": "/markets/trades_spec",
       "method": "GET",
       "description": "投資部門別の売買情報を取得するエンドポイント。自己・委託・海外投資家などの投資部門別に売買代金を取得できる。",
+      "bulk_available": true,
       "parameters": [
         {
           "name": "section",
@@ -1665,6 +1671,7 @@
       "path_old": "/markets/weekly_margin_interest",
       "method": "GET",
       "description": "週末時点での各銘柄の信用取引残高（株数）を取得するエンドポイント。制度信用・一般信用の買残・売残を取得できる。",
+      "bulk_available": true,
       "parameters": [
         {
           "name": "code",
@@ -1805,6 +1812,7 @@
       "path_old": "/markets/short_selling",
       "method": "GET",
       "description": "日々の業種（セクター）別の空売り比率に関する売買代金を取得するエンドポイント。33業種別の空売り情報を取得できる。",
+      "bulk_available": true,
       "parameters": [
         {
           "name": "s33",
@@ -1924,6 +1932,7 @@
       "path_old": "/markets/short_selling_positions",
       "method": "GET",
       "description": "空売り残高報告データを取得するエンドポイント。大量保有者の空売りポジション情報を取得できる。",
+      "bulk_available": true,
       "parameters": [
         {
           "name": "code",
@@ -2108,6 +2117,7 @@
       "path_old": "/markets/daily_margin_interest",
       "method": "GET",
       "description": "日々公表銘柄に指定された個別銘柄の日々の信用取引残高を取得するエンドポイント。日々の信用買残・売残の推移を取得できる。",
+      "bulk_available": true,
       "parameters": [
         {
           "name": "code",
@@ -2302,6 +2312,7 @@
       "path_old": "/markets/breakdown",
       "method": "GET",
       "description": "売買内訳データを取得するエンドポイント。現物売買・信用新規・信用返済などの内訳を取得できる。",
+      "bulk_available": true,
       "parameters": [
         {
           "name": "code",
@@ -2475,6 +2486,7 @@
       "path_old": "/markets/trading_calendar",
       "method": "GET",
       "description": "東証およびOSEにおける営業日・休業日・祝日取引の有無の情報を取得するエンドポイント。取引カレンダー情報を取得できる。",
+      "bulk_available": false,
       "parameters": [
         {
           "name": "hol_div",
@@ -2562,6 +2574,7 @@
       "path_old": "/indices",
       "method": "GET",
       "description": "指数四本値データを取得するエンドポイント。TOPIX Core30・TOPIX Large70・東証グロース市場250指数などの指数データを取得できる。",
+      "bulk_available": true,
       "parameters": [
         {
           "name": "code",
@@ -2686,6 +2699,7 @@
       "path_old": "/indices/topix",
       "method": "GET",
       "description": "TOPIX指数情報を取得するエンドポイント。TOPIX指数の四本値データを取得できる。",
+      "bulk_available": true,
       "parameters": [
         {
           "name": "from",
@@ -2788,6 +2802,7 @@
       "path_old": "/fins/fs_details",
       "method": "GET",
       "description": "四半期の財務諸表情報を取得するエンドポイント。貸借対照表（BS）・損益計算書（PL）の詳細項目を取得できる。",
+      "bulk_available": true,
       "parameters": [
         {
           "name": "code",
@@ -2889,6 +2904,7 @@
       "path_old": "/fins/dividend",
       "method": "GET",
       "description": "配当金データを取得するエンドポイント。配当日・予想配当額・実績配当額などの配当情報を取得できる。",
+      "bulk_available": true,
       "parameters": [
         {
           "name": "code",
@@ -3098,6 +3114,7 @@
       "path_old": "/fins/announcement",
       "method": "GET",
       "description": "翌日発表予定の決算情報を取得するエンドポイント。決算発表予定日・企業名・決算期などの情報を取得できる。",
+      "bulk_available": false,
       "parameters": [
         {
           "name": "pagination_key",
@@ -3174,6 +3191,7 @@
       "path_old": "/option/index_option",
       "method": "GET",
       "description": "日経225オプションデータを取得するエンドポイント。四本値・清算値段・建玉などのオプション取引データを取得できる。",
+      "bulk_available": true,
       "parameters": [
         {
           "name": "date",
@@ -3376,6 +3394,7 @@
       "path_old": "/derivatives/futures",
       "method": "GET",
       "description": "先物データを取得するエンドポイント。四本値・清算値段・建玉などの先物取引データを取得できる。",
+      "bulk_available": true,
       "parameters": [
         {
           "name": "category",
@@ -3608,6 +3627,7 @@
       "path_old": "/derivatives/options",
       "method": "GET",
       "description": "オプションに関する、四本値や清算値段、理論価格に関する情報を取得することができます。",
+      "bulk_available": true,
       "parameters": [
         {
           "name": "category",
@@ -3903,6 +3923,7 @@
       "path": "/bulk/list",
       "method": "GET",
       "description": "CSV形式でダウンロード可能なファイルの一覧を取得するエンドポイント。endpoint パラメータでデータセットを指定する。",
+      "bulk_available": false,
       "parameters": [
         {
           "name": "endpoint",
@@ -3961,6 +3982,7 @@
       "path": "/bulk/get",
       "method": "GET",
       "description": "ダウンロード可能ファイル一覧で取得した Key を指定し、CSVファイルダウンロード用の署名付きURLを取得するエンドポイント。",
+      "bulk_available": false,
       "parameters": [
         {
           "name": "key",
