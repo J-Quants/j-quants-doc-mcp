@@ -1222,6 +1222,103 @@
           "FlagDescription": "1の場合、東京証券取引所が定める不明確情報等により注意喚起の対象となった銘柄、特別注意銘柄等に選定されている。0の場合、非該当。"
         }
       ]
+    },
+    {
+      "name": "bulk_endpoints",
+      "description": "/bulk/list エンドポイントの endpoint パラメータに指定可能な値の一覧。バルクダウンロード可能なデータセットを定義する。",
+      "fields": [
+        {
+          "name": "Endpoint",
+          "type": "String",
+          "description": "バルク取得で指定するエンドポイント文字列"
+        },
+        {
+          "name": "DataName",
+          "type": "String",
+          "description": "データ名"
+        }
+      ],
+      "related_properties": [
+        {
+          "endpoint": "bulk-list",
+          "property": "endpoint",
+          "direction": "request"
+        }
+      ],
+      "reference_data": [
+        {
+          "Endpoint": "/equities/master",
+          "DataName": "上場銘柄一覧"
+        },
+        {
+          "Endpoint": "/equities/bars/daily",
+          "DataName": "株価四本値"
+        },
+        {
+          "Endpoint": "/fin/summary",
+          "DataName": "財務情報"
+        },
+        {
+          "Endpoint": "/equities/investor-types",
+          "DataName": "投資部門別情報"
+        },
+        {
+          "Endpoint": "/idx/bars/daily/topix",
+          "DataName": "TOPIX四本値"
+        },
+        {
+          "Endpoint": "/idx/bars/daily",
+          "DataName": "指数四本値"
+        },
+        {
+          "Endpoint": "/drv/bars/daily/opt-225",
+          "DataName": "日経225オプション四本値"
+        },
+        {
+          "Endpoint": "/drv/bars/daily/fut",
+          "DataName": "先物四本値"
+        },
+        {
+          "Endpoint": "/drv/bars/daily/opt",
+          "DataName": "オプション四本値"
+        },
+        {
+          "Endpoint": "/mkt/margin/int",
+          "DataName": "信用取引週末残高"
+        },
+        {
+          "Endpoint": "/mkt/short/ratio",
+          "DataName": "業種別空売り比率"
+        },
+        {
+          "Endpoint": "/mkt/short/sale",
+          "DataName": "空売り残高報告"
+        },
+        {
+          "Endpoint": "/mkt/margin/alert",
+          "DataName": "日々公表信用取引残高"
+        },
+        {
+          "Endpoint": "/mkt/breakdown",
+          "DataName": "売買内訳データ"
+        },
+        {
+          "Endpoint": "/fin/dividend",
+          "DataName": "配当金情報"
+        },
+        {
+          "Endpoint": "/fin/details",
+          "DataName": "財務諸表(BS/PL/CF)"
+        },
+        {
+          "Endpoint": "/equities/bars/minute",
+          "DataName": "株価分足"
+        },
+        {
+          "Endpoint": "/equities/trades",
+          "DataName": "株価ティック"
+        }
+      ]
     }
   ]
 }

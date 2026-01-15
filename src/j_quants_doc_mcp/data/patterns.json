@@ -90,6 +90,27 @@
         "処理時間とメモリ使用量に注意"
       ],
       "sample_code_path": "patterns/market_daily_data.py"
+    },
+    {
+      "pattern_name": "全銘柄データのバルク取得（CSV）",
+      "description": "全銘柄の過去データや当月分の日次データを効率的に取得するパターン。個別銘柄の取得には通常のAPIを、全銘柄取得にはBulk APIの使用を推奨。CSV形式のバルクファイル一覧取得と署名付きURL取得を組み合わせて、ヒストリカルデータを一括ダウンロードする。",
+      "related_endpoints": [
+        "/bulk/list",
+        "/bulk/get"
+      ],
+      "notes": [
+        "全銘柄データの取得にはBulk APIの使用を強く推奨",
+        "通常のAPIで全銘柄を取得するとレート制限に抵触する可能性が高い",
+        "Bulk機能はLight、Standard、Premiumプランのユーザーのみ利用可能",
+        "バルクファイルはAPIの他にJ-QuantsのHPのダッシュボードからも取得可能",
+        "Bulk APIの対象：全銘柄の過去データ(月次)の一括取得、全銘柄の当月分の日次データ取得",
+        "通常のAPIの対象：特定銘柄のデータ取得、リアルタイムに近いデータ取得",
+        "endpointパラメータには/bulk/listの仕様で定められた値のみ指定可能",
+        "バルクファイルはgzip形式で圧縮されている",
+        "取得したURLの有効期限は5分程度のため、すぐにダウンロードする",
+        "大量ダウンロード時はレートリミットとストレージ容量に注意"
+      ],
+      "sample_code_path": "patterns/bulk_download.py"
     }
   ]
 }

@@ -75,7 +75,6 @@ def describe_endpoint(endpoint_name: str) -> dict[str, Any] | None:
                 "name_ja": endpoint["name_ja"],
                 "name_en": endpoint["name_en"],
                 "path": endpoint["path"],
-                "path_old": endpoint["path_old"],
                 "method": endpoint["method"],
                 "description": endpoint["description"],
                 "parameters": {
@@ -83,12 +82,21 @@ def describe_endpoint(endpoint_name: str) -> dict[str, Any] | None:
                     "optional": optional_params,
                 },
                 "response": response_summary,
-                "auth_required": endpoint["auth_required"],
-                "response_data_key": endpoint["response_data_key"],
+                "auth_required": endpoint.get("auth_required", True),
                 "plan": endpoint["plan"],
                 "data_update": data_update_info,
-                "valid_request_patterns": endpoint["valid_request_patterns"],
+                "valid_request_patterns": endpoint.get(
+                    "valid_request_patterns", []
+                ),
             }
+
+            # 旧パスが定義されている場合のみ含める
+            if endpoint.get("path_old"):
+                result["path_old"] = endpoint["path_old"]
+
+            # response_data_key が定義されている場合のみ含める
+            if "response_data_key" in endpoint:
+                result["response_data_key"] = endpoint["response_data_key"]
 
             # ページネーション情報が存在する場合のみ追加（オプション）
             pagination = endpoint.get("pagination")

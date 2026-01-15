@@ -451,6 +451,146 @@
       ]
     },
     {
+      "name": "eq-bars-minute",
+      "name_ja": "株価分足",
+      "name_en": "Minute Stock Prices (OHLC)",
+      "path": "/equities/bars/minute",
+      "method": "GET",
+      "description": "分足の株価データを取得するエンドポイント。1分単位の四本値（始値・高値・安値・終値）、出来高、売買代金のデータを取得できる。",
+      "parameters": [
+        {
+          "name": "code",
+          "type": "String",
+          "required": false,
+          "description": "銘柄コード（e.g. 27800 or 2780）。4桁指定時は普通株式のみ取得。code または date のいずれか一つの指定が必須。",
+          "location": "query"
+        },
+        {
+          "name": "date",
+          "type": "String",
+          "required": false,
+          "description": "日付 (YYYYMMDD or YYYY-MM-DD)。code または date のいずれか一つの指定が必須。",
+          "location": "query"
+        },
+        {
+          "name": "from",
+          "type": "String",
+          "required": false,
+          "description": "期間指定の開始日 (YYYYMMDD or YYYY-MM-DD)",
+          "location": "query"
+        },
+        {
+          "name": "to",
+          "type": "String",
+          "required": false,
+          "description": "期間指定の終了日 (YYYYMMDD or YYYY-MM-DD)",
+          "location": "query"
+        },
+        {
+          "name": "pagination_key",
+          "type": "String",
+          "required": false,
+          "description": "ページネーション発生時には常に付与可能、発生していない時は省略可能",
+          "location": "query"
+        }
+      ],
+      "response": {
+        "description": "1分単位の株価四本値データを返す。各レコードには日付・時刻・四本値・出来高・売買代金が含まれる。",
+        "fields": [
+          {
+            "name": "Date",
+            "type": "String",
+            "description": "日付（YYYY-MM-DD）"
+          },
+          {
+            "name": "Time",
+            "type": "String",
+            "description": "時刻（HH:mm）"
+          },
+          {
+            "name": "Code",
+            "type": "String",
+            "description": "銘柄コード"
+          },
+          {
+            "name": "O",
+            "type": "Number",
+            "description": "始値"
+          },
+          {
+            "name": "H",
+            "type": "Number",
+            "description": "高値"
+          },
+          {
+            "name": "L",
+            "type": "Number",
+            "description": "安値"
+          },
+          {
+            "name": "C",
+            "type": "Number",
+            "description": "終値"
+          },
+          {
+            "name": "Vo",
+            "type": "Number",
+            "description": "出来高"
+          },
+          {
+            "name": "Va",
+            "type": "Number",
+            "description": "売買代金"
+          }
+        ]
+      },
+      "auth_required": true,
+      "response_data_key": "data",
+      "plan": [
+        "Light",
+        "Standard",
+        "Premium"
+      ],
+      "data_update": {
+        "frequency": "日次",
+        "time": "16:30頃",
+        "notes": "株価 分足・ティック アドオンの契約が必要です。データ取得可能期間は過去2年間です。"
+      },
+      "pagination": {
+        "supported": true,
+        "param": "pagination_key"
+      },
+      "valid_request_patterns": [
+        {
+          "params": [
+            "code"
+          ],
+          "description": "指定された銘柄について全期間分の分足データ"
+        },
+        {
+          "params": [
+            "code",
+            "date"
+          ],
+          "description": "指定された銘柄について指定された日付の分足データ"
+        },
+        {
+          "params": [
+            "code",
+            "from",
+            "to"
+          ],
+          "description": "指定された銘柄について指定された期間分の分足データ"
+        },
+        {
+          "params": [
+            "date"
+          ],
+          "description": "全上場銘柄について指定された日付の分足データ"
+        }
+      ]
+    },
+    {
       "name": "fin-summary",
       "name_ja": "財務情報",
       "name_en": "Financial Data",
@@ -3753,6 +3893,111 @@
             "contract_flag"
           ],
           "description": "指定した日付、指定した商品区分、指定した対象有価証券コードかつ指定した中心限月フラグのデータ"
+        }
+      ]
+    },
+    {
+      "name": "bulk-list",
+      "name_ja": "ダウンロード可能ファイル一覧",
+      "name_en": "List of Downloadable Files",
+      "path": "/bulk/list",
+      "method": "GET",
+      "description": "CSV形式でダウンロード可能なファイルの一覧を取得するエンドポイント。endpoint パラメータでデータセットを指定する。",
+      "parameters": [
+        {
+          "name": "endpoint",
+          "type": "String",
+          "required": true,
+          "description": "取得するデータのエンドポイント名（e.g. /equities/bars/daily）。/bulk/list の仕様で定められた値のみ指定可能。",
+          "location": "query"
+        }
+      ],
+      "response": {
+        "description": "指定されたデータセットについて、ダウンロード可能なCSVファイルの一覧を返す。",
+        "fields": [
+          {
+            "name": "Key",
+            "type": "String",
+            "description": "ファイルのキー（/bulk/getからダウンロードURLを取得する際に使用）"
+          },
+          {
+            "name": "LastModified",
+            "type": "String",
+            "description": "最終更新日時（ISO 8601形式）"
+          },
+          {
+            "name": "Size",
+            "type": "Number",
+            "description": "ファイルサイズ（バイト）"
+          }
+        ]
+      },
+      "auth_required": true,
+      "response_data_key": "data",
+      "plan": [
+        "Light",
+        "Standard",
+        "Premium"
+      ],
+      "data_update": {
+        "frequency": "データセットに依存",
+        "time": "対象データの更新タイミングに準拠",
+        "notes": "FreeプランではCSVバルク取得は利用できません。"
+      },
+      "pagination": null,
+      "valid_request_patterns": [
+        {
+          "params": [
+            "endpoint"
+          ],
+          "description": "指定されたデータセットの全てのダウンロード可能ファイル一覧"
+        }
+      ]
+    },
+    {
+      "name": "bulk-get",
+      "name_ja": "ファイルダウンロード用URL取得",
+      "name_en": "Get File Download URL",
+      "path": "/bulk/get",
+      "method": "GET",
+      "description": "ダウンロード可能ファイル一覧で取得した Key を指定し、CSVファイルダウンロード用の署名付きURLを取得するエンドポイント。",
+      "parameters": [
+        {
+          "name": "key",
+          "type": "String",
+          "required": true,
+          "description": "ファイルのキー（/bulk/list で取得した Key）",
+          "location": "query"
+        }
+      ],
+      "response": {
+        "description": "指定されたファイルをダウンロードするための一時的な署名付きURLを返す。",
+        "fields": [
+          {
+            "name": "url",
+            "type": "String",
+            "description": "ファイルダウンロード用の署名付きURL（有効期限は約5分）"
+          }
+        ]
+      },
+      "auth_required": true,
+      "plan": [
+        "Light",
+        "Standard",
+        "Premium"
+      ],
+      "data_update": {
+        "frequency": "オンデマンド",
+        "time": "リクエスト時点",
+        "notes": "返却されるURLの有効期限は5分です。期限内にダウンロードを完了してください。"
+      },
+      "pagination": null,
+      "valid_request_patterns": [
+        {
+          "params": [
+            "key"
+          ],
+          "description": "/bulk/list で取得した特定ファイルのダウンロードURL"
         }
       ]
     }
