@@ -1,6 +1,5 @@
 """MCP Server implementation for J-Quants documentation."""
 
-import json
 import logging
 from typing import Any
 
@@ -12,11 +11,7 @@ from .exceptions import (
     format_not_found_error,
     format_validation_error,
 )
-from .resources.specifications import (
-    load_endpoints,
-    load_patterns,
-    load_sample_code,
-)
+from .resources.specifications import load_patterns, load_sample_code
 from .schemas import (
     AnswerQuestionInput,
     DescribeEndpointInput,
@@ -169,56 +164,66 @@ def generate_sample_code(
         return format_internal_error("サンプルコード生成", e)
 
 
-@mcp.resource("jquants://api_specification")
-def get_api_specification() -> str:
-    """J-Quants API の全エンドポイント仕様を取得する。
+
+
+@mcp.tool()
+def get_pattern(pattern_name: str | None = None) -> dict[str, Any]:
+    """実装パターン情報を取得する。
+
+    Args:
+        pattern_name: パターン名（指定しない場合は全パターンの一覧を返す）
 
     Returns:
-        JSON形式の文字列(全エンドポイントの詳細仕様)
+        パターン情報を含む辞書
     """
-    logger.info("get_api_specification resource accessed")
-
-    try:
-        endpoint_collection = load_endpoints()
-        return endpoint_collection.model_dump_json(indent=2, exclude_none=True)
-    except Exception as e:
-        logger.error(f"Failed to load API specification: {e}")
-        return json.dumps({"error": str(e)})
-
-
-@mcp.resource("jquants://common_patterns")
-def get_common_patterns() -> str:
-    """J-Quants API の共通実装パターンを取得する。
-
-    Returns:
-        JSON形式の文字列(認証、ページネーション、レート制限等の実装パターン)
-    """
-    logger.info("get_common_patterns resource accessed")
+    logger.info(f"get_pattern called with pattern_name='{pattern_name}'")
 
     try:
         pattern_collection = load_patterns()
 
-        # パターンをdict化し、sample_code_pathからsample_codeを読み込んで追加
-        patterns_data = []
+        # パターン名が指定されていない場合は一覧のみ返す
+        if pattern_name is None:
+            pattern_list = [
+                {
+                    "pattern_name": p.pattern_name,
+                    "description": p.description,
+                    "related_endpoints": p.related_endpoints,
+                }
+                for p in pattern_collection.patterns
+            ]
+            return {
+                "count": len(pattern_list),
+                "patterns": pattern_list,
+                "hint": "詳細を取得するには pattern_name を指定してください",
+            }
+
+        # 指定されたパターンを検索
         for pattern in pattern_collection.patterns:
-            pattern_dict = pattern.model_dump(exclude_none=True)
+            if pattern.pattern_name == pattern_name:
+                pattern_dict = pattern.model_dump(exclude_none=True)
 
-            # sample_code_pathがあれば、ファイルから読み込んでsample_codeとして追加
-            if pattern.sample_code_path:
-                try:
-                    sample_code = load_sample_code(pattern.sample_code_path)
-                    pattern_dict["sample_code"] = sample_code
-                except Exception as e:
-                    logger.warning(
-                        f"Failed to load sample code for {pattern.pattern_name}: {e}"
-                    )
+                # サンプルコードを読み込む
+                if pattern.sample_code_path:
+                    try:
+                        sample_code = load_sample_code(pattern.sample_code_path)
+                        pattern_dict["sample_code"] = sample_code
+                    except Exception as e:
+                        logger.warning(
+                            f"Failed to load sample code for {pattern.pattern_name}: {e}"
+                        )
 
-            patterns_data.append(pattern_dict)
+                return pattern_dict
 
-        return json.dumps({"patterns": patterns_data}, indent=2, ensure_ascii=False)
+        # パターンが見つからない場合
+        return format_not_found_error(
+            resource_type="パターン",
+            identifier=pattern_name,
+            suggestion="get_pattern() を引数なしで呼び出して、利用可能なパターン一覧を確認してください。",
+        )
+
     except Exception as e:
-        logger.error(f"Failed to load common patterns: {e}")
-        return json.dumps({"error": str(e)})
+        logger.error(f"Error in get_pattern: {e}")
+        return format_internal_error("パターン取得", e)
 
 
 @mcp.tool()
