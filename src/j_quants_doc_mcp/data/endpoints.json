@@ -594,6 +594,70 @@
       ]
     },
     {
+      "name": "eq-trades",
+      "name_ja": "株価ティック",
+      "name_en": "Equity Trades (Tick Data)",
+      "path": "/equities/trades",
+      "method": "GET",
+      "description": "ティックごとの約定データを取得するエンドポイント。個別の取引（約定）の価格、出来高、タイムスタンプなどの詳細なデータを取得できる。CSV形式でのみ提供しており、API経由での取得はできない。",
+      "api_available": false,
+      "bulk_available": true,
+      "parameters": [],
+      "response": {
+        "description": "ティックごとの約定データを返す。各約定の日付、銘柄コード、時刻、取引区分、約定価格、約定数量、トランザクションIDを含む。",
+        "fields": [
+          {
+            "name": "Date",
+            "type": "String",
+            "description": "日付（YYYY-MM-DD）"
+          },
+          {
+            "name": "Code",
+            "type": "String",
+            "description": "銘柄コード"
+          },
+          {
+            "name": "Time",
+            "type": "String",
+            "description": "約定時刻（HH:MM:SS.ffffff）"
+          },
+          {
+            "name": "SessionDistinction",
+            "type": "String",
+            "description": "取引区分（01: 前場, 02: 後場）"
+          },
+          {
+            "name": "Price",
+            "type": "Number",
+            "description": "約定価格（円）"
+          },
+          {
+            "name": "TradingVolume",
+            "type": "Number",
+            "description": "約定数量（株）"
+          },
+          {
+            "name": "TransactionId",
+            "type": "String",
+            "description": "トランザクションID（各約定を一意に識別）"
+          }
+        ]
+      },
+      "auth_required": true,
+      "plan": [
+        "Light",
+        "Standard",
+        "Premium"
+      ],
+      "data_update": {
+        "frequency": "日次",
+        "time": "16:30頃",
+        "notes": "株価 分足・ティック アドオンの契約が必要です。データ取得可能期間は過去2年間です。東証上場銘柄でない銘柄（地方取引所単独上場銘柄）についてはデータの収録対象外となっております。"
+      },
+      "pagination": null,
+      "valid_request_patterns": []
+    },
+    {
       "name": "fin-summary",
       "name_ja": "財務情報",
       "name_en": "Financial Data",

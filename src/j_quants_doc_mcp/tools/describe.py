@@ -77,6 +77,7 @@ def describe_endpoint(endpoint_name: str) -> dict[str, Any] | None:
                 "path": endpoint["path"],
                 "method": endpoint["method"],
                 "description": endpoint["description"],
+                "api_available": endpoint.get("api_available", True),
                 "bulk_available": endpoint.get("bulk_available", False),
                 "parameters": {
                     "required": required_params,

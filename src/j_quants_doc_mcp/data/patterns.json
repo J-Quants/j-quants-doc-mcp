@@ -92,25 +92,57 @@
       "sample_code_path": "patterns/market_daily_data.py"
     },
     {
-      "pattern_name": "全銘柄データのバルク取得（CSV）",
-      "description": "全銘柄の過去データや当月分の日次データを効率的に取得するパターン。個別銘柄の取得には通常のAPIを、全銘柄取得にはBulk APIの使用を推奨。CSV形式のバルクファイル一覧取得と署名付きURL取得を組み合わせて、ヒストリカルデータを一括ダウンロードする。",
+      "pattern_name": "過去データの一括取得（Bulk・historical）",
+      "description": "全銘柄の過去データを月次単位で一括取得するパターン。historicalファイルは前月以前の過去データが月単位でまとめられており、大量の過去データを効率的にダウンロードできる。",
       "related_endpoints": [
         "/bulk/list",
         "/bulk/get"
       ],
       "notes": [
-        "全銘柄データの取得にはBulk APIの使用を強く推奨",
-        "通常のAPIで全銘柄を取得するとレート制限に抵触する可能性が高い",
-        "Bulk機能はLight、Standard、Premiumプランのユーザーのみ利用可能",
-        "バルクファイルはAPIの他にJ-QuantsのHPのダッシュボードからも取得可能",
-        "Bulk APIの対象：全銘柄の過去データ(月次)の一括取得、全銘柄の当月分の日次データ取得",
-        "通常のAPIの対象：特定銘柄のデータ取得、リアルタイムに近いデータ取得",
-        "endpointパラメータには/bulk/listの仕様で定められた値のみ指定可能",
+        "過去の全データを一括でダウンロードする場合に使用",
+        "historicalファイルは月単位でまとめられた大容量ファイル",
+        "Keyに'historical'が含まれるファイルをフィルタリング",
+        "bulk-listは昇順（古い順）で返されるため、最新から取得したい場合はreversed()を使用",
+        "Bulk機能はLight、Standard、Premiumプランのみ利用可能",
         "バルクファイルはgzip形式で圧縮されている",
         "取得したURLの有効期限は5分程度のため、すぐにダウンロードする",
-        "大量ダウンロード時はレートリミットとストレージ容量に注意"
+        "大量ダウンロード時はストレージ容量に注意"
       ],
-      "sample_code_path": "patterns/bulk_download.py"
+      "sample_code_path": "patterns/bulk_download_historical.py"
+    },
+    {
+      "pattern_name": "当月データの取得（Bulk・live）",
+      "description": "全銘柄の当月分データを日次単位で取得するパターン。liveファイルは当月分の日次データで、月の上旬には先月分も含まれる。1日単位で最新データを取得できる。",
+      "related_endpoints": [
+        "/bulk/list",
+        "/bulk/get"
+      ],
+      "notes": [
+        "当月分の日次データを取得する場合に使用（月の上旬には先月分も取得可能）",
+        "liveファイルは1日単位の小さなファイル",
+        "Keyに'live'が含まれるファイルをフィルタリング",
+        "bulk-listは昇順（古い順）で返されるため、最新から取得したい場合はreversed()を使用",
+        "Bulk機能はLight、Standard、Premiumプランのみ利用可能",
+        "バルクファイルはgzip形式で圧縮されている",
+        "取得したURLの有効期限は5分程度のため、すぐにダウンロードする"
+      ],
+      "sample_code_path": "patterns/bulk_download_live.py"
+    },
+    {
+      "pattern_name": "最新バルクファイルの取得",
+      "description": "最新のバルクファイル1件のみを取得するパターン。historical/liveを問わず、最も新しいファイルを取得したい場合に使用する。",
+      "related_endpoints": [
+        "/bulk/list",
+        "/bulk/get"
+      ],
+      "notes": [
+        "とにかく最新のデータが欲しい場合に使用",
+        "bulk-listは昇順（古い順）で返されるため、末尾要素（files[-1]）が最新ファイル",
+        "Bulk機能はLight、Standard、Premiumプランのみ利用可能",
+        "バルクファイルはgzip形式で圧縮されている",
+        "取得したURLの有効期限は5分程度のため、すぐにダウンロードする"
+      ],
+      "sample_code_path": "patterns/bulk_download_latest.py"
     }
   ]
 }
