@@ -92,6 +92,39 @@ def describe_endpoint(endpoint_name: str) -> dict[str, Any] | None:
                 ),
             }
 
+            # Bulk API利用の提案を追加
+            api_available = endpoint.get("api_available", True)
+            bulk_available = endpoint.get("bulk_available", False)
+
+            if bulk_available:
+                recommendations = []
+
+                if not api_available:
+                    # Bulkのみ利用可能な場合
+                    recommendations.append(
+                        "このエンドポイントのデータはBulk API経由でのみ取得可能です。"
+                        "通常のAPI経由での取得はできません。"
+                    )
+                else:
+                    # 両方利用可能な場合
+                    recommendations.append(
+                        "全銘柄のデータを一括取得する場合は、Bulk APIの使用を強く推奨します。"
+                        "通常のAPIで全銘柄を取得するとレート制限に抵触する可能性が高いため、"
+                        "効率的なデータ取得にはBulk APIが適しています。"
+                    )
+
+                recommendations.append(
+                    "Bulk APIにはhistorical（月次の過去データ）とlive（当月分の日次データ、"
+                    "月の上旬には先月分も含む）の2種類があります。用途に応じて使い分けてください。"
+                )
+                recommendations.append(
+                    "詳細は`generate_sample_code`ツールで'bulk-list'または'bulk-get'の"
+                    "サンプルコードを生成するか、`answer_question`ツールで"
+                    "「Bulk APIの使い方」を質問してください。"
+                )
+
+                result["recommendations"] = recommendations
+
             # 旧パスが定義されている場合のみ含める
             if endpoint.get("path_old"):
                 result["path_old"] = endpoint["path_old"]
