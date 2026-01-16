@@ -107,6 +107,36 @@ pipでインストールした場合は、`j-quants-doc-mcp` コマンドを直�
 
 以上の設定で、AIクライアントにてMCPサーバーを利用する準備が完了しました。
 
+## アップデート
+
+既にインストール済みの場合、最新版へのアップデートは以下の方法で行えます。
+
+### uv toolを使用している場合
+
+```bash
+# GitHubから直接インストールした場合
+uv tool upgrade j-quants-doc-mcp
+
+# ローカルクローンからインストールした場合
+cd j-quants-doc-mcp
+git pull
+uv tool upgrade j-quants-doc-mcp
+```
+
+### pipを使用している場合
+
+```bash
+# GitHubから直接インストールした場合
+pip install --upgrade git+https://github.com/J-Quants/j-quants-doc-mcp.git
+
+# ローカルクローンからインストールした場合
+cd j-quants-doc-mcp
+git pull
+pip install --upgrade .
+```
+
+アップデート後、Claude DesktopやCursorを再起動することで新しいバージョンが反映されます。
+
 ## トラブルシューティング
 
 ### Claude Desktopで認識されない
