@@ -153,7 +153,7 @@ pip install --upgrade .
 
 ## 関連リンク
 
-- [J-Quants API公式ドキュメント](https://jpx.gitbook.io/j-quants-api)
+- [J-Quants API公式ドキュメント](https://jpx-jquants.com/spec)
 - [Model Context Protocol (MCP)](https://modelcontextprotocol.io/)
 - [Claude Desktop](https://claude.ai/download)
 - [Cursor](https://cursor.com/ja)
