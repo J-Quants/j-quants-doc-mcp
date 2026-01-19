@@ -59,15 +59,23 @@ class Endpoint(BaseModel):
     name_ja: str = Field(..., description="エンドポイントの日本語名")
     name_en: str = Field(..., description="エンドポイントの英語名")
     path: str = Field(..., description="エンドポイントのパス")
-    path_old: str = Field(..., description="旧エンドポイントのパス（移行情報用）")
+    path_old: str | None = Field(
+        default=None, description="旧エンドポイントのパス（移行情報用）"
+    )
     method: str = Field(..., description="HTTPメソッド (GET, POST, etc.)")
     description: str = Field(..., description="エンドポイントの説明")
+    api_available: bool = Field(
+        default=True, description="API経由でのデータ取得が可能かどうか"
+    )
+    bulk_available: bool = Field(..., description="Bulk APIでデータ取得が可能かどうか")
     parameters: list[Parameter] = Field(
         default_factory=list, description="パラメータリスト"
     )
     response: ResponseSummary = Field(..., description="レスポンス要旨")
     auth_required: bool = Field(default=True, description="認証が必要かどうか")
-    response_data_key: str = Field(..., description="レスポンスデータのキー")
+    response_data_key: str | None = Field(
+        default=None, description="レスポンスデータのキー"
+    )
     plan: list[str] = Field(..., description="利用可能なプランのリスト")
     data_update: DataUpdate = Field(..., description="データ更新情報")
     valid_request_patterns: list[ValidRequestPattern] = Field(

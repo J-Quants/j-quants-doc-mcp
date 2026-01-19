@@ -8,7 +8,7 @@ def test_load_reference_data():
     data = load_reference_data()
 
     assert "reference_data" in data
-    assert len(data["reference_data"]) == 11
+    assert len(data["reference_data"]) == 12
 
     names = [cm["name"] for cm in data["reference_data"]]
     # 基本参照データ
@@ -25,6 +25,34 @@ def test_load_reference_data():
     assert "holiday_division" in names
     assert "margin_regulation_codes" in names
     assert "publication_reasons" in names
+    # バルク関連
+    assert "bulk_endpoints" in names
+
+
+def test_bulk_endpoints_structure():
+    """バルクエンドポイント一覧の構造を確認"""
+    data = load_reference_data()
+    bulk_endpoints = next(
+        cm for cm in data["reference_data"] if cm["name"] == "bulk_endpoints"
+    )
+
+    assert bulk_endpoints["name"] == "bulk_endpoints"
+    assert "description" in bulk_endpoints
+
+    # フィールドの確認
+    field_names = [f["name"] for f in bulk_endpoints["fields"]]
+    assert "Endpoint" in field_names
+    assert "DataName" in field_names
+
+    # 関連プロパティの確認
+    endpoints = [rp["endpoint"] for rp in bulk_endpoints["related_properties"]]
+    assert "bulk-list" in endpoints
+
+    # 参照データの確認
+    assert len(bulk_endpoints["reference_data"]) > 0
+    endpoints_values = [item["Endpoint"] for item in bulk_endpoints["reference_data"]]
+    assert "/equities/master" in endpoints_values
+    assert "/equities/bars/daily" in endpoints_values
 
 
 def test_market_codes_structure():

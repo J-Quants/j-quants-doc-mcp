@@ -63,6 +63,8 @@ class TestDataLoader:
                     "path_old": "/old/test",
                     "method": "GET",
                     "description": "Test endpoint",
+                    "api_available": True,
+                    "bulk_available": False,
                     "parameters": [],
                     "response": {
                         "description": "Test response",

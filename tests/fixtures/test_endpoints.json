@@ -8,6 +8,8 @@
       "path_old": "/listed/info",
       "method": "GET",
       "description": "上場銘柄一覧を取得",
+      "api_available": true,
+      "bulk_available": true,
       "parameters": [
         {
           "name": "code",
@@ -128,6 +130,8 @@
       "path_old": "/prices/daily_quotes",
       "method": "GET",
       "description": "株価四本値データを取得",
+      "api_available": true,
+      "bulk_available": true,
       "parameters": [
         {
           "name": "code",
