@@ -1255,7 +1255,7 @@
           "DataName": "株価四本値"
         },
         {
-          "Endpoint": "/fin/summary",
+          "Endpoint": "/fins/summary",
           "DataName": "財務情報"
         },
         {
@@ -1263,51 +1263,51 @@
           "DataName": "投資部門別情報"
         },
         {
-          "Endpoint": "/idx/bars/daily/topix",
+          "Endpoint": "/indices/bars/daily/topix",
           "DataName": "TOPIX四本値"
         },
         {
-          "Endpoint": "/idx/bars/daily",
+          "Endpoint": "/indices/bars/daily",
           "DataName": "指数四本値"
         },
         {
-          "Endpoint": "/drv/bars/daily/opt-225",
+          "Endpoint": "/derivatives/bars/daily/options/225",
           "DataName": "日経225オプション四本値"
         },
         {
-          "Endpoint": "/drv/bars/daily/fut",
+          "Endpoint": "/derivatives/bars/daily/futures",
           "DataName": "先物四本値"
         },
         {
-          "Endpoint": "/drv/bars/daily/opt",
+          "Endpoint": "/derivatives/bars/daily/options",
           "DataName": "オプション四本値"
         },
         {
-          "Endpoint": "/mkt/margin/int",
+          "Endpoint": "/markets/margin-interest",
           "DataName": "信用取引週末残高"
         },
         {
-          "Endpoint": "/mkt/short/ratio",
+          "Endpoint": "/markets/short-ratio",
           "DataName": "業種別空売り比率"
         },
         {
-          "Endpoint": "/mkt/short/sale",
+          "Endpoint": "/markets/short-sale-report",
           "DataName": "空売り残高報告"
         },
         {
-          "Endpoint": "/mkt/margin/alert",
+          "Endpoint": "/markets/margin-alert",
           "DataName": "日々公表信用取引残高"
         },
         {
-          "Endpoint": "/mkt/breakdown",
+          "Endpoint": "/markets/breakdown",
           "DataName": "売買内訳データ"
         },
         {
-          "Endpoint": "/fin/dividend",
+          "Endpoint": "/fins/dividend",
           "DataName": "配当金情報"
         },
         {
-          "Endpoint": "/fin/details",
+          "Endpoint": "/fins/details",
           "DataName": "財務諸表(BS/PL/CF)"
         },
         {
