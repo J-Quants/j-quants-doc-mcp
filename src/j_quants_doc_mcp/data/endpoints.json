@@ -226,13 +226,13 @@
           },
           {
             "name": "UL",
-            "type": "Number",
-            "description": "上限値"
+            "type": "String",
+            "description": "日通ストップ高フラグ (0 or 1)"
           },
           {
             "name": "LL",
-            "type": "Number",
-            "description": "下限値"
+            "type": "String",
+            "description": "日通ストップ安フラグ (0 or 1)"
           },
           {
             "name": "Vo",
@@ -296,13 +296,13 @@
           },
           {
             "name": "MUL",
-            "type": "Number",
-            "description": "前場上限値"
+            "type": "String",
+            "description": "前場ストップ高フラグ (0 or 1)"
           },
           {
             "name": "MLL",
-            "type": "Number",
-            "description": "前場下限値"
+            "type": "String",
+            "description": "前場ストップ安フラグ (0 or 1)"
           },
           {
             "name": "MVo",
@@ -361,13 +361,13 @@
           },
           {
             "name": "AUL",
-            "type": "Number",
-            "description": "後場上限値"
+            "type": "String",
+            "description": "後場ストップ高フラグ (0 or 1)"
           },
           {
             "name": "ALL",
-            "type": "Number",
-            "description": "後場下限値"
+            "type": "String",
+            "description": "後場ストップ安フラグ (0 or 1)"
           },
           {
             "name": "AVo",
@@ -780,7 +780,7 @@
           {
             "name": "DEPS",
             "type": "Number",
-            "description": "1株当たり利益(EPS)"
+            "description": "潜在株式調整後一株あたり当期純利益"
           },
           {
             "name": "TA",
@@ -795,7 +795,7 @@
           {
             "name": "EqAR",
             "type": "Number",
-            "description": "純資産比率"
+            "description": "自己資本比率"
           },
           {
             "name": "BPS",
@@ -820,7 +820,7 @@
           {
             "name": "CashEq",
             "type": "Number",
-            "description": "現金及び当座預金"
+            "description": "現金及び現金同等物期末残高"
           },
           {
             "name": "Div1Q",
@@ -990,76 +990,81 @@
           {
             "name": "FSales",
             "type": "Number",
-            "description": "第2四半期の売上高"
+            "description": "売上高_予想_期末"
           },
           {
             "name": "FOP",
             "type": "Number",
-            "description": "第2四半期の営業利益"
+            "description": "営業利益_予想_期末"
           },
           {
             "name": "FOdP",
             "type": "Number",
-            "description": "第2四半期の経常利益"
+            "description": "経常利益_予想_期末"
           },
           {
             "name": "FNP",
             "type": "Number",
-            "description": "第2四半期の当期純利益"
+            "description": "当期純利益_予想_期末"
           },
           {
             "name": "FEPS",
             "type": "Number",
-            "description": "第2四半期の1株当たり利益(EPS)"
+            "description": "一株あたり当期純利益_予想_期末"
           },
           {
             "name": "NxFSales",
             "type": "Number",
-            "description": "次年の第2四半期の売上高"
+            "description": "翌事業年度_売上高_予想_期末"
           },
           {
             "name": "NxFOP",
             "type": "Number",
-            "description": "次年の第2四半期の営業利益"
+            "description": "翌事業年度_営業利益_予想_期末"
           },
           {
             "name": "NxFOdP",
             "type": "Number",
-            "description": "次年の第2四半期の経常利益"
+            "description": "翌事業年度_経常利益_予想_期末"
           },
           {
             "name": "NxFNp",
             "type": "Number",
-            "description": "次年の第2四半期の当期純利益"
+            "description": "翌事業年度_当期純利益_予想_期末"
           },
           {
             "name": "NxFEPS",
             "type": "Number",
-            "description": "次年の第2四半期の1株当たり利益(EPS)"
+            "description": "翌事業年度_一株あたり当期純利益_予想_期末"
           },
           {
             "name": "MatChgSub",
-            "type": "Boolean",
+            "type": "String",
             "description": "子会社の重要な変更"
           },
           {
+            "name": "SigChgInC",
+            "type": "String",
+            "description": "期中における連結範囲の重要な変更"
+          },
+          {
             "name": "ChgByASRev",
-            "type": "Boolean",
+            "type": "String",
             "description": "会計基準の改訂に基づく変更"
           },
           {
             "name": "ChgNoASRev",
-            "type": "Boolean",
+            "type": "String",
             "description": "会計基準の改訂に基づかない変更"
           },
           {
             "name": "ChgAcEst",
-            "type": "Boolean",
+            "type": "String",
             "description": "会計見積もりの変更"
           },
           {
             "name": "RetroRst",
-            "type": "Boolean",
+            "type": "String",
             "description": "遡及再表示"
           },
           {
@@ -1175,52 +1180,52 @@
           {
             "name": "FNCSales",
             "type": "Number",
-            "description": "第2四半期の非連結の売上高"
+            "description": "非連結_売上高_予想_期末"
           },
           {
             "name": "FNCOP",
             "type": "Number",
-            "description": "第2四半期の非連結の営業利益"
+            "description": "非連結_営業利益_予想_期末"
           },
           {
             "name": "FNCOdP",
             "type": "Number",
-            "description": "第2四半期の非連結の経常利益"
+            "description": "非連結_経常利益_予想_期末"
           },
           {
             "name": "FNCNP",
             "type": "Number",
-            "description": "第2四半期の非連結の当期純利益"
+            "description": "非連結_当期純利益_予想_期末"
           },
           {
             "name": "FNCEPS",
             "type": "Number",
-            "description": "第2四半期の非連結の1株当たり利益(EPS)"
+            "description": "非連結_一株あたり当期純利益_予想_期末"
           },
           {
             "name": "NxFNCSales",
             "type": "Number",
-            "description": "次年の第2四半期の非連結の売上高"
+            "description": "翌事業年度_非連結_売上高_予想_期末"
           },
           {
             "name": "NxFNCOP",
             "type": "Number",
-            "description": "次年の第2四半期の非連結の営業利益"
+            "description": "翌事業年度_非連結_営業利益_予想_期末"
           },
           {
             "name": "NxFNCOdP",
             "type": "Number",
-            "description": "次年の第2四半期の非連結の経常利益"
+            "description": "翌事業年度_非連結_経常利益_予想_期末"
           },
           {
             "name": "NxFNCNP",
             "type": "Number",
-            "description": "次年の第2四半期の非連結の当期純利益"
+            "description": "翌事業年度_非連結_当期純利益_予想_期末"
           },
           {
             "name": "NxFNCEPS",
             "type": "Number",
-            "description": "次年の第2四半期の非連結の1株当たり利益(EPS)"
+            "description": "翌事業年度_非連結_一株あたり当期純利益_予想_期末"
           }
         ]
       },
@@ -1614,12 +1619,12 @@
           {
             "name": "InsCoTot",
             "type": "Number",
-            "description": "保陽銀行売買代金（千円）"
+            "description": "保険会社売買代金（千円）"
           },
           {
             "name": "InsCoBal",
             "type": "Number",
-            "description": "保陽銀行売買代金の残高（千円）"
+            "description": "保険会社売買代金の残高（千円）"
           },
           {
             "name": "BankSell",
@@ -2249,13 +2254,13 @@
           },
           {
             "name": "ShrtOutChg",
-            "type": "Number",
-            "description": "信用売り残高合計の前日比"
+            "type": "String",
+            "description": "信用売り残高合計の前日比（非公表時は\"-\"）"
           },
           {
             "name": "ShrtOutRatio",
             "type": "String",
-            "description": "信用売り残高合計の発行済株式総数に対する比率"
+            "description": "上場比（%）。ETF時は\"*\""
           },
           {
             "name": "LongOut",
@@ -2264,18 +2269,18 @@
           },
           {
             "name": "LongOutChg",
-            "type": "Number",
-            "description": "信用買い残高合計の前日比"
+            "type": "String",
+            "description": "信用買い残高合計の前日比（非公表時は\"-\"）"
           },
           {
             "name": "LongOutRatio",
             "type": "String",
-            "description": "信用買い残高合計の発行済株式総数に対する比率"
+            "description": "上場比（%）。ETF時は\"*\""
           },
           {
             "name": "SLRatio",
             "type": "Number",
-            "description": "信用倍率（買残÷売残）"
+            "description": "取組比率（%） = 売残高 ÷ 買残高 x 100"
           },
           {
             "name": "ShrtNegOut",
@@ -2284,8 +2289,8 @@
           },
           {
             "name": "ShrtNegOutChg",
-            "type": "Number",
-            "description": "一般信用取引売残高の前日比"
+            "type": "String",
+            "description": "一般信用取引売残高の前日比（非公表時は\"-\"）"
           },
           {
             "name": "ShrtStdOut",
@@ -2294,8 +2299,8 @@
           },
           {
             "name": "ShrtStdOutChg",
-            "type": "Number",
-            "description": "制度信用取引売残高の前日比"
+            "type": "String",
+            "description": "制度信用取引売残高の前日比（非公表時は\"-\"）"
           },
           {
             "name": "LongNegOut",
@@ -2304,8 +2309,8 @@
           },
           {
             "name": "LongNegOutChg",
-            "type": "Number",
-            "description": "一般信用取引買残高の前日比"
+            "type": "String",
+            "description": "一般信用取引買残高の前日比（非公表時は\"-\"）"
           },
           {
             "name": "LongStdOut",
@@ -2314,8 +2319,8 @@
           },
           {
             "name": "LongStdOutChg",
-            "type": "Number",
-            "description": "制度信用取引買残高の前日比"
+            "type": "String",
+            "description": "制度信用取引買残高の前日比（非公表時は\"-\"）"
           },
           {
             "name": "TSEMrgnRegCls",
@@ -3047,7 +3052,7 @@
           {
             "name": "FRCode",
             "type": "String",
-            "description": "配当種類 (1:中間, 2:期末)"
+            "description": "予想/決定 (1:決定, 2:予想)"
           },
           {
             "name": "IFTerm",
