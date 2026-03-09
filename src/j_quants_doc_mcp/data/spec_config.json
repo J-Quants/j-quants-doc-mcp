@@ -1,0 +1,19 @@
+{
+  "base_url": "https://jpx-jquants.com",
+  "default_language": "ja",
+  "endpoints": {
+    "list_page": "/spec/data-spec"
+  },
+  "cache_ttl_seconds": 300,
+  "external_links": {
+    "spec_docs": "/spec",
+    "help": "/help",
+    "migration_v1_v2": "/spec/migration-v1-v2"
+  },
+  "v1": {
+    "base_url": "https://jpx.gitbook.io/j-quants-ja",
+    "endpoints": {
+      "list_page": "/api-reference"
+    }
+  }
+}

@@ -1,8 +1,14 @@
 """Pydantic schemas for tool input validation."""
 
-from typing import Any
+from typing import Literal
 
 from pydantic import BaseModel, Field, field_validator
+
+API_VERSION_DESCRIPTION = (
+    "APIバージョン。会話の文脈からV1かV2かを判断して指定する。"
+    "V1のエンドポイントパス(/v1/...)やV1特有の名前(daily_quotes等)が含まれる場合は'v1'を指定。"
+    "デフォルトは'v2'。"
+)
 
 
 class SearchEndpointsInput(BaseModel):
@@ -16,6 +22,10 @@ class SearchEndpointsInput(BaseModel):
     category: str | None = Field(
         None,
         description="オプションのカテゴリフィルタ(auth, listed, prices, fins等)",
+    )
+    api_version: Literal["v1", "v2"] = Field(
+        "v2",
+        description=API_VERSION_DESCRIPTION,
     )
 
     @field_validator("keyword")
@@ -41,7 +51,11 @@ class DescribeEndpointInput(BaseModel):
     endpoint_name: str = Field(
         ...,
         min_length=1,
-        description="エンドポイント名(例: eq-master, eq-bars-daily等)",
+        description="エンドポイント名(V2例: eq-master, eq-bars-daily / V1例: daily_quotes, listed_info等)",
+    )
+    api_version: Literal["v1", "v2"] = Field(
+        "v2",
+        description=API_VERSION_DESCRIPTION,
     )
 
     @field_validator("endpoint_name")
@@ -53,88 +67,36 @@ class DescribeEndpointInput(BaseModel):
         return v.strip()
 
 
-class GenerateSampleCodeInput(BaseModel):
-    """generate_sample_code ツールの入力スキーマ。"""
+class FetchSpecPageInput(BaseModel):
+    """fetch_spec_page ツールの入力スキーマ。"""
 
-    endpoint_name: str = Field(
+    path: str = Field(
         ...,
         min_length=1,
-        description="エンドポイント名(例: eq-master, eq-bars-daily)",
+        description="Specificationページのパス(例: /spec/mkt-cal/holiday-division)",
     )
-    language: str = Field(
-        default="python",
-        description="生成する言語(現在は'python'のみ対応)",
-    )
-    params: dict[str, Any] | None = Field(
+
+    @field_validator("path")
+    @classmethod
+    def path_must_not_be_whitespace(cls, v: str) -> str:
+        """パスが空白のみでないことを検証。"""
+        if not v.strip():
+            raise ValueError("パスは空白のみにはできません")
+        return v.strip()
+
+
+class MigrateV1ToV2Input(BaseModel):
+    """migrate_v1_to_v2 ツールの入力スキーマ。"""
+
+    v1_endpoint: str | None = Field(
         None,
-        description="追加パラメータ(将来の拡張用、現在は未使用)",
+        description="V1 APIのエンドポイントパスまたはキーワード(例: /v1/prices/daily_quotes, 株価四本値等)。指定しない場合は移行ガイド全体を返す。",
     )
 
-    @field_validator("endpoint_name")
+    @field_validator("v1_endpoint")
     @classmethod
-    def endpoint_name_must_not_be_whitespace(cls, v: str) -> str:
-        """エンドポイント名が空白のみでないことを検証。"""
-        if not v.strip():
-            raise ValueError("エンドポイント名は空白のみにはできません")
-        return v.strip()
-
-    @field_validator("language")
-    @classmethod
-    def language_must_be_supported(cls, v: str) -> str:
-        """サポートされている言語であることを検証。"""
-        supported = ["python"]
-        v_lower = v.lower().strip()
-        if v_lower not in supported:
-            raise ValueError(
-                f"言語 '{v}' はサポートされていません。"
-                f"現在は {', '.join(supported)} のみ対応しています。"
-            )
-        return v_lower
-
-
-class AnswerQuestionInput(BaseModel):
-    """answer_question ツールの入力スキーマ。"""
-
-    question: str = Field(
-        ...,
-        min_length=1,
-        description="ユーザーからの質問(例: '認証方法は?', 'レート制限について教えて')",
-    )
-
-    @field_validator("question")
-    @classmethod
-    def question_must_not_be_whitespace(cls, v: str) -> str:
-        """質問が空白のみでないことを検証。"""
-        if not v.strip():
-            raise ValueError("質問は空白のみにはできません")
-        return v.strip()
-
-
-class LookupPropertyInput(BaseModel):
-    """lookup_property ツールの入力スキーマ。"""
-
-    property_name: str = Field(
-        ...,
-        min_length=1,
-        description="プロパティ名(例: Mkt, S17, ProdCat, HolDiv等)",
-    )
-    endpoint_name: str | None = Field(
-        None,
-        description="エンドポイント名(例: eq-master)。指定した場合、そのエンドポイント内にプロパティが存在するかも検証する。",
-    )
-
-    @field_validator("property_name")
-    @classmethod
-    def property_name_must_not_be_whitespace(cls, v: str) -> str:
-        """プロパティ名が空白のみでないことを検証。"""
-        if not v.strip():
-            raise ValueError("プロパティ名は空白のみにはできません")
-        return v.strip()
-
-    @field_validator("endpoint_name")
-    @classmethod
-    def endpoint_name_must_not_be_whitespace(cls, v: str | None) -> str | None:
-        """エンドポイント名が指定されている場合、空白のみでないことを検証。"""
+    def v1_endpoint_must_not_be_whitespace(cls, v: str | None) -> str | None:
+        """V1エンドポイントが指定されている場合、空白のみでないことを検証。"""
         if v is not None and not v.strip():
-            raise ValueError("エンドポイント名は空白のみにはできません")
+            raise ValueError("V1エンドポイントは空白のみにはできません")
         return v.strip() if v else None
