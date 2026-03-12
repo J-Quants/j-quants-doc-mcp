@@ -4,6 +4,7 @@ from __future__ import annotations
 
 import sys
 
+from j_quants_doc_mcp import __version__
 
 def main(argv: list[str] | None = None) -> int:
     """Entry point for j-quants-doc-mcp CLI.
@@ -28,7 +29,7 @@ def main(argv: list[str] | None = None) -> int:
         return 0
 
     if "--version" in argv:
-        print("j-quants-doc-mcp version 0.1.0")
+        print(f"j-quants-doc-mcp version {__version__}")
         return 0
 
     # Start the MCP server

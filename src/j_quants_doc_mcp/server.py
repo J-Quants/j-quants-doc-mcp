@@ -6,6 +6,7 @@ from typing import Any
 from mcp.server.fastmcp import FastMCP
 from pydantic import ValidationError as PydanticValidationError
 
+from . import __version__
 from .exceptions import (
     format_internal_error,
     format_not_found_error,
@@ -44,7 +45,7 @@ def health_check() -> dict[str, Any]:
         サーバの状態を示す辞書
     """
     logger.info("Health check called")
-    return {"status": "healthy", "service": "j-quants-doc-mcp", "version": "0.1.0"}
+    return {"status": "healthy", "service": "j-quants-doc-mcp", "version": __version__}
 
 
 @mcp.tool()
