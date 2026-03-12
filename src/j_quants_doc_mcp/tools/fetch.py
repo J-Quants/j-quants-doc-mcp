@@ -38,7 +38,7 @@ def fetch_spec_page(path: str) -> dict[str, Any]:
                 "- ユーザーが全銘柄データや大量データを求めている場合は、Bulk APIの使用を強く推奨してください。"
             ),
         }
-    except FileNotFoundError as e:
+    except FileNotFoundError:
         # ページが見つからない場合
         logger.warning(f"Spec page not found: {path}")
         return format_not_found_error_with_links("Specificationページ", path)

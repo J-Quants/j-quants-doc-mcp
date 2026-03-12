@@ -462,7 +462,6 @@ wheels = [
 
 [[package]]
 name = "j-quants-doc-mcp"
-version = "1.0.0"
 source = { editable = "." }
 dependencies = [
     { name = "fastmcp" },
